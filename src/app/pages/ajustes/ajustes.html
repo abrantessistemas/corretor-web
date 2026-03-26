@@ -1,0 +1,77 @@
+<div class="settings-container">
+  <header class="settings-header">
+    <h1>Configurações</h1>
+    <p>Personalize a identidade visual da sua plataforma de corretagem.</p>
+  </header>
+
+  <div class="settings-grid">
+    <!-- Cartão de Cores e Tema -->
+    <mat-card class="settings-card" appearance="outlined">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="primary">palette</mat-icon>
+        <mat-card-title>Personalização de Cores</mat-card-title>
+        <mat-card-subtitle>Selecione a cor principal do sistema</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="color-grid">
+          @for (color of primaryColors(); track color.hex) {
+            <div class="color-item">
+              <button 
+                mat-fab 
+                [style.background-color]="color.hex"
+                (click)="setThemeColor(color.hex)"
+                class="color-btn">
+                @if (currentPrimary() === color.hex) {
+                  <mat-icon>check</mat-icon>
+                }
+              </button>
+              <span class="color-name">{{ color.name }}</span>
+            </div>
+          }
+        </div>
+
+        <mat-divider class="my-4"></mat-divider>
+
+        <!--div class="toggle-row">
+          <div class="label-group">
+            <h3>Modo Escuro</h3>
+            <p>Reduz o cansaço visual em ambientes de baixa luz</p>
+          </div>
+          <mat-slide-toggle 
+            [checked]="isDarkMode()" 
+            (change)="toggleDark()">
+          </mat-slide-toggle>
+        </div-->
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Cartão de Preferências de Layout -->
+    <!--mat-card class="settings-card" appearance="outlined">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="accent">grid_view</mat-icon>
+        <mat-card-title>Preferências de Exibição</mat-card-title>
+        <mat-card-subtitle>Ajuste como os dados são apresentados</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="density-section">
+          <h3>Densidade da Interface</h3>
+          <mat-radio-group [value]="density()" (change)="density.set($event.value)" class="vertical-radio">
+            <mat-radio-button value="compact">
+              <strong>Compacto</strong> - Mais itens por tela
+            </mat-radio-button>
+            <mat-radio-button value="comfortable">
+              <strong>Confortável</strong> - Maior espaçamento (Padrão)
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button (click)="resetSettings()">RESTAURAR</button>
+        <button mat-flat-button color="primary">SALVAR ALTERAÇÕES</button>
+      </mat-card-actions>
+    </mat-card-->
+  </div>
+</div>

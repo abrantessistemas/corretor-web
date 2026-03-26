@@ -1,0 +1,133 @@
+<div class="form-container">
+  <header class="form-header">
+    <div class="header-content">
+      <!-- Botão para voltar à listagem -->
+      <button mat-icon-button (click)="router.navigate(['/imoveis'])" matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1>Novo Empreendimento</h1>
+        <p>Preencha os dados e adicione fotos reais do empreendimento.</p>
+      </div>
+    </div>
+  </header>
+
+  <mat-card class="stepper-card">
+    <mat-stepper #stepper [linear]="true">
+      
+      <!-- Passo 1: Informações Básicas -->
+      <mat-step [stepControl]="infoForm">
+        <form [formGroup]="infoForm" class="step-content">
+          <ng-template matStepLabel>Informações</ng-template>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Título do Anúncio</mat-label>
+            <input matInput formControlName="title" placeholder="Ex: Cobertura Duplex no Leblon">
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="type">
+                <mat-option value="Venda">Venda</mat-option>
+                <mat-option value="Aluguel">Aluguel</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Preço</mat-label>
+              <input matInput type="number" formControlName="price">
+              <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição detalhada</mat-label>
+            <textarea matInput formControlName="description" rows="4"></textarea>
+          </mat-form-field>
+
+          <div class="actions">
+            <button mat-flat-button color="primary" matStepperNext>CONTINUAR</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Passo 2: Localização (Pode ser adicionado aqui) -->
+      
+      <!-- Passo 3: Detalhes e Galeria de Fotos -->
+      <mat-step [stepControl]="detailsForm">
+        <form [formGroup]="detailsForm" class="step-content">
+          <ng-template matStepLabel>Detalhes & Fotos</ng-template>
+
+          <div class="grid-specs">
+            <mat-form-field appearance="outline">
+              <mat-label>Quartos</mat-label>
+              <input matInput type="number" formControlName="bedrooms">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Banheiros</mat-label>
+              <input matInput type="number" formControlName="bathrooms">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Área (m²)</mat-label>
+              <input matInput type="number" formControlName="area">
+            </mat-form-field>
+          </div>
+
+          <!-- Secção de Upload de Imagens -->
+          <div class="upload-section">
+            <div class="drop-zone" (click)="fileInput.click()" matRipple>
+              <input 
+                type="file" 
+                #fileInput 
+                (change)="onFileSelected($event)" 
+                hidden 
+                multiple 
+                accept="image/*">
+              <mat-icon>cloud_upload</mat-icon>
+              <div class="upload-text">
+                <h3>Fotos do Imóvel</h3>
+                <p>Clique aqui ou arraste as imagens (Formatos: JPG, PNG)</p>
+              </div>
+            </div>
+
+            <!-- Preview das Fotos usando o novo fluxo de controlo @if do Angular 21 -->
+            @if (images().length > 0) {
+              <div class="preview-grid">
+                @for (img of images(); track img; let i = $index) {
+                  <div class="preview-item shadow-sm">
+                    <img [src]="img" alt="Preview da Foto do Imóvel">
+                    <button 
+                      mat-icon-button 
+                      class="remove-btn" 
+                      color="warn" 
+                      (click)="removeImage(i)" 
+                      matTooltip="Remover Foto">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="actions">
+            <button mat-button matStepperPrevious>VOLTAR</button>
+            <button 
+              mat-raised-button 
+              color="accent" 
+              (click)="onSubmit()"
+              [disabled]="isSubmitting() || images().length === 0">
+              @if (isSubmitting()) {
+                A GUARDAR...
+              } @else {
+                PUBLICAR ANÚNCIO
+              }
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+    </mat-stepper>
+  </mat-card>
+</div>

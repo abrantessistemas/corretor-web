@@ -1,0 +1,108 @@
+<div class="container">
+  <app-property-slide></app-property-slide>
+  <!-- Cabeçalho da Página -->
+  <header class="list-header">
+    <div class="header-main">
+      <div class="title-group">
+        <h1>Catálogo de Imóveis</h1>
+        <p>Consulte e gira as propriedades disponíveis no sistema.</p>
+      </div>
+
+      <!-- Botão de Cadastro (Visível apenas em Desktop) -->
+      <button mat-flat-button color="primary" class="desktop-add-btn" (click)="irParaCadastro()">
+        <mat-icon>add</mat-icon>
+        NOVO IMÓVEL
+      </button>
+    </div>
+  </header>
+
+  <!-- Grelha de Imóveis -->
+  <div class="property-grid">
+    @for (item of propertyService.properties(); track item.id) {
+    <mat-card class="property-card" appearance="outlined">
+      <!-- Imagem e Badge de Estado -->
+      <div class="card-image-wrapper">
+        <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
+        <span class="status-badge"
+          [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento'?'':'rent2'">
+          {{ item.status }}
+        </span>
+        @if (item.isPromo) {
+        <div class="promo-ribbon">
+          <span>PREÇO PROMOCIONAL</span>
+        </div>
+        }
+      </div>
+
+      <!-- Conteúdo do Cartão -->
+      <mat-card-content>
+        <div class="price-row">
+          <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+          <div class="spec-item">
+            <span class="category">
+              {{ item.category }}
+            </span>
+          </div>
+          <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
+            (click)="item.favorite = !item.favorite" aria-label="Favorito"
+            [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
+
+            <mat-icon>
+              {{ item.favorite ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+
+          </button>
+        </div>
+
+        <h3 class="title">{{ item.title }}</h3>
+
+        <p class="location">
+          <mat-icon>place</mat-icon>
+          {{ item.location }}
+        </p>
+
+        <!-- Especificações Técnicas -->
+        <div class="specs">
+          <div class="spec-item">
+            <mat-icon>bed</mat-icon>
+            <span>{{ item.bedrooms }}</span>
+          </div>
+          <div class="spec-item">
+            <mat-icon>bathtub</mat-icon>
+            <span>{{ item.bathrooms }}</span>
+          </div>
+          <div class="spec-item">
+            <mat-icon>square_foot</mat-icon>
+            <span>{{ item.area }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <!-- Ações do Cartão -->
+      <mat-card-actions align="end">
+        <button mat-button (click)="verDetalhes(item.id)">DETALHES</button>
+        <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
+          TENHO INTERESSE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    } @empty {
+    <!-- Estado Vazio Amigável -->
+    <div class="empty-state shadow-sm">
+      <div class="empty-icon-container">
+        <mat-icon>home_work</mat-icon>
+      </div>
+      <h2>Ainda não existem imóveis registados</h2>
+      <p>Comece a sua jornada adicionando o seu primeiro imóvel ao catálogo.</p>
+      <button mat-raised-button color="primary" (click)="irParaCadastro()">
+        CADASTRAR MEU PRIMEIRO IMÓVEL
+      </button>
+    </div>
+    }
+  </div>
+
+  <!-- Botão Flutuante (FAB) - Apenas para Mobile -->
+  <button mat-fab color="primary" class="mobile-fab" (click)="irParaCadastro()" matTooltip="Cadastrar Novo Imóvel">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

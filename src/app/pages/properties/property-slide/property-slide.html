@@ -1,0 +1,70 @@
+<div class="gallery-wrapper">
+    <div class="header">
+        <button matMiniFab color="primary" (click)="fileInput.click()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <input type="file" #fileInput (change)="onFileSelected($event)" hidden accept="image/*">
+    </div>
+
+    <div class="slider-container">
+        <button class="nav-btn left" (click)="moveLeft()"><mat-icon>chevron_left</mat-icon></button>
+
+        <div class="image-track" #slider>
+            @for (img of db.images(); track img.id) {
+            <!-- @for (img of slidesImagesService.images(); track img.id) { -->
+            <div class="card">
+                <img [src]="img.url" (click)="openImage(img.url)" loading="lazy">
+                <button class="del-btn" (click)="remove(img.id, $event)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            } @empty {
+            <p>Nenhuma imagem salva no navegador.</p>
+            }
+        </div>
+
+        <button class="nav-btn right" (click)="moveRight()"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+</div>
+
+<!--div class="actions">
+    <button mat-raised-button color="primary" (click)="addImage()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<div class="slider-wrapper">
+    <button mat-mini-fab color="accent" class="nav-btn left" (click)="moveLeft()">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="image-track" #slider>
+        <div *ngFor="let img of images" class="image-card">
+            <img [src]="img" (click)="openImage(img)" class="slider-img">
+        </div>
+    </div>
+
+    <button mat-mini-fab color="accent" class="nav-btn right" (click)="moveRight()">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+</div-->
+
+<!--div class="slider-container">
+    <div class="header">
+        <h2>Galeria de Fotos</h2>
+        <button mat-fab extended color="primary" (click)="addImage()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    <div class="image-track">
+        <div *ngFor="let img of images" class="image-card">
+            <img [src]="img" (click)="openImage(img)" alt="Imagem da Galeria" class="slider-img">
+        </div>
+    </div>
+</div-->
+
+<!--img src="../../../../assets/Abytá Santo Amaro - 8.png" style="width: 18vh;border-radius: 15px;margin-bottom: 1vh;margin-right: 1vw;cursor: pointer;">
+<img src="../../../../assets/Brooklin Sky - Torre 105m².png" style="width: 150px;border-radius: 15px;margin-bottom: 1vh;margin-right: 1vw;">
+<img src="../../../../assets/Riva SPC [ News ] - 011 Brooklin - Régua de Lançamento - Tema 8 - v4_Whatsapp.png" 
+style="width: 150px;border-radius: 15px;margin-bottom: 1vh;margin-right: 1vw;"-->

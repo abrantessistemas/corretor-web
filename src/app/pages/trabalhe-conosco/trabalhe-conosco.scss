@@ -1,0 +1,48 @@
+// corretor-form.component.scss
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+    mat-card {
+        max-width: 800px;
+        width: 100%;
+    }
+}
+
+.responsive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+
+    .full-width {
+        width: 100%;
+    }
+
+    .row,
+    .row-three {
+        display: grid;
+        gap: 15px;
+        grid-template-columns: 1fr; // Mobile first: uma coluna
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+}
+
+// Tablets e Desktops
+@media (min-width: 600px) {
+    .responsive-grid {
+        .row {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .row-three {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}

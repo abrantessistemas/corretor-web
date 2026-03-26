@@ -1,0 +1,315 @@
+.container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.list-header {
+  margin-bottom: 32px;
+
+  .header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1a237e;
+    margin: 0;
+  }
+
+  p {
+    color: #546e7a;
+    margin: 4px 0 0;
+    font-size: 1.1rem;
+  }
+}
+
+/* Botão de Cadastro Desktop */
+.desktop-add-btn {
+  height: 48px;
+  padding: 0 24px;
+  font-weight: 600;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  /* Visível por padrão no desktop */
+}
+
+/* Grelha Responsiva */
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+/* Cartão do Imóvel */
+.property-card {
+  border-radius: 16px !important;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e2e8f0 !important;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+.card-image-wrapper {
+  position: relative;
+  height: 220px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .status-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 14px;
+    border-radius: 30px;
+    background: #3f51b5;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &.rent {
+      background: #10b981;
+    }
+
+    &.rent2 {
+      background: #e5f506;
+      color: black;
+    }
+  }
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+
+  .price {
+    color: #1a237e;
+    font-weight: 900;
+    font-size: 1.6rem;
+    margin: 0;
+  }
+}
+
+.title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 12px 0 8px;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #94a3b8;
+  }
+}
+
+.category {
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 10px;
+  color: white;
+  background-color: var(--mat-sys-primary);
+}
+
+.specs {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+
+  .spec-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: var(--mat-sys-primary);
+    }
+  }
+}
+
+/* Estado Vazio */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 40px;
+  background: #f8fafc;
+  border-radius: 24px;
+  border: 2px dashed #cbd5e1;
+
+  .empty-icon-container {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #94a3b8;
+    }
+  }
+
+  h2 {
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+  }
+}
+
+/* Floating Action Button (Mobile) */
+.mobile-fab {
+  position: fixed;
+  bottom: 85px;
+  /* Ajustado para ficar acima da barra de navegação inferior se houver */
+  right: 24px;
+  z-index: 1000;
+  display: none;
+  /* Escondido por padrão (Desktop) */
+  box-shadow: 0 10px 15px -3px rgba(63, 81, 181, 0.4);
+}
+
+/* Media Queries para Alternância de Visibilidade */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  /* Esconde o botão de topo e mostra o FAB no Mobile */
+  .desktop-add-btn {
+    display: none !important;
+  }
+
+  .mobile-fab {
+    display: flex !important;
+  }
+
+  .list-header {
+    text-align: center;
+
+    .header-main {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  .property-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+
+  /* Garante que o FAB nunca apareça no Desktop */
+  .mobile-fab {
+    display: none !important;
+  }
+
+  .desktop-add-btn {
+    display: inline-flex !important;
+  }
+}
+
+/* Adicione estes estilos ao seu arquivo SCSS existente */
+
+.card-image-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  /* IMPORTANTE: para cortar as pontas da tarja que saírem do card */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Estilo da Tarja Diagonal */
+  .promo-ribbon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    pointer-events: none;
+    /* Garante que a tarja não atrapalhe cliques na imagem */
+    z-index: 10;
+
+    span {
+      position: absolute;
+      display: block;
+      width: 225px;
+      padding: 8px 0;
+      background-color: #ffd600;
+      /* Amarelo Vibrante */
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      color: #000;
+      font-size: 12px;
+      font-weight: 800;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+      text-transform: uppercase;
+      text-align: center;
+
+      /* A mágica da diagonal */
+      left: -50px;
+      top: 30px;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+/* Reajuste do status-badge para não sobrepor a tarja se ambos existirem */
+.status-badge {
+  z-index: 5;
+  /* ... restante dos estilos que já tínhamos ... */
+}
