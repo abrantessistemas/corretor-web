@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { PropertyDetailsComponent } from './pages/properties/property-details/property-details';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,11 @@ export const routes: Routes = [
     path: 'imoveis/novo',
     loadComponent: () => import('./pages/properties/property-form/property-form').then(m => m.PropertyFormComponent),
     data: { animation: 'Form' }
+  },
+  {
+    path: 'imoveis/:id',
+    component: PropertyDetailsComponent,
+    data: { animation: 'DetailsPage' }
   },
   {
     path: 'ajustes',

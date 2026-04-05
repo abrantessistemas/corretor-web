@@ -35,7 +35,8 @@
   font-weight: 600;
   border-radius: 12px;
   letter-spacing: 0.5px;
-  display: inline-flex;
+  // display: inline-flex;
+  display: none;
   /* Visível por padrão no desktop */
 }
 
@@ -255,7 +256,7 @@
   }
 
   .desktop-add-btn {
-    display: inline-flex !important;
+    // display: inline-flex !important;
   }
 }
 
@@ -312,4 +313,8 @@
 .status-badge {
   z-index: 5;
   /* ... restante dos estilos que já tínhamos ... */
+}
+
+.progress-bar-details-load{
+  margin-bottom: 15px;
 }

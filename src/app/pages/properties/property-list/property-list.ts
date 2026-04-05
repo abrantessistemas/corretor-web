@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 
 // O caminho foi ajustado para garantir que o Angular encontre o serviço corretamente
@@ -13,6 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { PropertySlide } from "../property-slide/property-slide";
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-property-list',
@@ -25,13 +26,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatChipsModule,
     CurrencyPipe,
     PropertySlide,
-    MatTooltipModule
-],
+    MatTooltipModule,
+    MatProgressBarModule
+  ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PropertyListComponent {
+export class PropertyListComponent implements OnInit {
+  ngOnInit(): void {
+    this.propertyService.properties().map(property => {
+      if (property.specs.area.length > 1) {
+        property.specs.area = [property.specs.area[0], property.specs.area[property.specs.area.length - 1]];
+      }
+    });
+  }
   // Utilizando a injeção de dependências moderna do Angular
   private router = inject(Router);
   /**
@@ -47,14 +56,14 @@ export class PropertyListComponent {
   irParaCadastro(): void {
     this.router.navigate(['/imoveis/novo']);
   }
-
+  loadDetails = false;
   /**
    * Método para visualizar os detalhes de um imóvel específico.
    * @param id Identificador único do imóvel.
    */
   verDetalhes(id: number): void {
-    console.log('Navegar para os detalhes do imóvel:', id);
-    // Futuramente aqui teremos a navegação via Router para a página de detalhes
+    this.loadDetails = true;
+    this.router.navigate(['/imoveis/' + id])
   }
 
   /**

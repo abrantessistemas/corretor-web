@@ -8,13 +8,40 @@
             <form [formGroup]="corretorForm" (ngSubmit)="onSubmit()" class="responsive-grid">
 
                 <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Nome Completo</mat-label>
+                    <mat-label>Nome</mat-label>
                     <input matInput formControlName="nome" placeholder="Ex: João Silva">
                     @if (corretorForm.get('nome')?.invalid) {
                     <mat-error>Nome é obrigatório</mat-error>
                     }
                 </mat-form-field>
 
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Sobrenome</mat-label>
+                    <input matInput formControlName="sobrenome" placeholder="Ex: Silva">
+                    @if (corretorForm.get('sobrenome')?.invalid) {
+                    <mat-error>Sobrenome é obrigatório</mat-error>
+                    }
+                </mat-form-field>
+                <div class="row-three">
+                    <mat-form-field appearance="outline">
+                        <mat-label>RG</mat-label>
+                        <input matInput formControlName="rg" placeholder="00.000.000-0">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>CPF</mat-label>
+                        <input matInput formControlName="cpf" placeholder="000.000.000-00">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Data de Nascimento</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
                 <div class="row">
                     <mat-form-field appearance="outline">
                         <mat-label>E-mail</mat-label>
@@ -23,7 +50,7 @@
 
                     <mat-form-field appearance="outline">
                         <mat-label>Telefone / Celular</mat-label>
-                        <input matInput formControlName="telefone" placeholder="(11) 99999-9999" mask="(00) 00000-0000"
+                        <input matInput formControlName="celular" placeholder="(11) 99999-9999" mask="(00) 00000-0000"
                             [dropSpecialCharacters]="false">
                     </mat-form-field>
                 </div>

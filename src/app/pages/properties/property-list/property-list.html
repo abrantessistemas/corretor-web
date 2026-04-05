@@ -17,12 +17,16 @@
   </header>
 
   <!-- Grelha de Imóveis -->
+  @if(loadDetails){
+  <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
+  }
+
   <div class="property-grid">
     @for (item of propertyService.properties(); track item.id) {
     <mat-card class="property-card" appearance="outlined">
       <!-- Imagem e Badge de Estado -->
       <div class="card-image-wrapper">
-        <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
+        <img mat-card-image [src]="item.imagesUrl[0]" [alt]="item.title">
         <span class="status-badge"
           [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento'?'':'rent2'">
           {{ item.status }}
@@ -38,11 +42,13 @@
       <mat-card-content>
         <div class="price-row">
           <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+          @for (category of item.category; track category) {
           <div class="spec-item">
             <span class="category">
-              {{ item.category }}
+              {{ category }}
             </span>
           </div>
+          }
           <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
             (click)="item.favorite = !item.favorite" aria-label="Favorito"
             [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
@@ -63,18 +69,43 @@
 
         <!-- Especificações Técnicas -->
         <div class="specs">
+          @if(item?.specs?.bedrooms){
           <div class="spec-item">
             <mat-icon>bed</mat-icon>
-            <span>{{ item.bedrooms }}</span>
+            <span>{{ item?.specs?.bedrooms }}</span>
           </div>
+          }
+          @if(item?.specs?.suits){
           <div class="spec-item">
             <mat-icon>bathtub</mat-icon>
-            <span>{{ item.bathrooms }}</span>
           </div>
+          }
+          @if(item?.specs?.bathrooms){
+          <div class="spec-item">
+            <mat-icon>shower</mat-icon>
+          </div>
+          }
+          @if(item?.specs?.garden){
+          <div class="spec-item">
+            <mat-icon>grass</mat-icon>
+          </div>
+          }
+          @if(item?.specs?.balcony){
+          <div class="spec-item">
+            <mat-icon>balcony</mat-icon>
+          </div>
+          }
+          @if(item?.specs?.parking){
+          <div class="spec-item">
+            <mat-icon>directions_car</mat-icon>
+          </div>
+          }
+          @if( item?.specs?.area ){
           <div class="spec-item">
             <mat-icon>square_foot</mat-icon>
-            <span>{{ item.area }}</span>
+            <span>{{ item?.specs?.area }}m²</span>
           </div>
+          }
         </div>
       </mat-card-content>
 

@@ -36,8 +36,13 @@ export class PropertySlide {
   }
 
   images: string[] = [
-    '../../../../assets/Abytá Santo Amaro - 8.png',
-    // Adicione mais caminhos iniciais aqui
+    '../../../../assets/promo/Abytá Santo Amaro - 8.png',
+    '../../../../assets/promo/BrooklinSky.png',
+    '../../../../assets/promo/Holistic Residence.png',
+    '../../../../assets/promo/patio.png',
+    '../../../../assets/promo/Concept Barra Funda.png',
+    '../../../../assets/promo/011Brooklin.jpeg',
+    '../../../../assets/promo/Signature Barra Funda.png'
   ];
 
   constructor() { }
@@ -54,7 +59,7 @@ export class PropertySlide {
 @Component({
   selector: 'image-detail-dialog',
   standalone: true,
-  template: `<img [src]="data.url" style="width: 100%; height: auto; border-radius: 8px;">`,
+  template: `<img [src]="data.url" style="width: 100%; height: 80%; border-radius: 8px;">`,
   imports: [MatDialogModule],
 })
 export class ImageDetailDialog {
