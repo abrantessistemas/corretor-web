@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { PropertyDetailsComponent } from './pages/properties/property-details/property-details';
 
 export const routes: Routes = [
   {
