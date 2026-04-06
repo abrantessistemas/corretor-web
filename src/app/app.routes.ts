@@ -29,7 +29,7 @@ export const routes: Routes = [
   },
   {
     path: 'imoveis/:id',
-    component: PropertyDetailsComponent,
+    loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
     data: { animation: 'DetailsPage' }
   },
   {
