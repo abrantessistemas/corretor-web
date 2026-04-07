@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+
 .app-shell {
   display: flex;
   flex-direction: column;
@@ -12,7 +14,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-weight: bold;
   letter-spacing: 1px;
 }
 
@@ -50,10 +51,10 @@
 .property-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  
+
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1) !important;
   }
 
   .property-image {
@@ -89,7 +90,7 @@
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .mobile-nav-item {
@@ -124,7 +125,8 @@
   }
 
   .main-content {
-    padding-bottom: 70px; /* Evita que o menu cubra o conteúdo */
+    padding-bottom: 70px;
+    /* Evita que o menu cubra o conteúdo */
   }
 
   .property-grid {
@@ -132,10 +134,14 @@
     padding: 16px;
   }
 }
+
 .brand {
   display: flex;
-  align-items: center; /* Alinha o logo e o texto verticalmente */
-  gap: 10px;           /* Espaço entre a imagem e o texto */
+  align-items: center;
+  color: white;
+  /* Alinha o logo e o texto verticalmente */
+  gap: 10px;
+  /* Espaço entre a imagem e o texto */
 }
 
 .logo-img {
@@ -144,8 +150,21 @@
 }
 
 .logo-text {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: bold;   /* Como você pediu antes, o texto em bold */
-  font-size: 3.5rem;
-  color: #ffffff;         /* Cor do seu texto */
+  font-family: 'Saira Stencil', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  color: #ffffff;
+  // text-transform: uppercase;
+  /* Opcional: logos costumam ficar bem em caixa alta */
+  letter-spacing: -1px;
+  /* Deixa o logo com aspecto mais profissional e "compacto" */
+
+  /* AJUSTE DINÂMICO:
+     clamp(tamanho_mínimo, tamanho_ideal, tamanho_máximo)
+     O 8vw faz o texto crescer conforme a largura da tela. */
+  font-size: clamp(1.8rem, 8vw, 4.5rem);
+
+  /* Garante que o texto não quebre linha se o espaço for curto */
+  white-space: nowrap;
 }
