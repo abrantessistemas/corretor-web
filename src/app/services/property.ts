@@ -7,10 +7,12 @@ export interface Property {
   id: number;
   title: string;
   subtitle: string;
+  description: string;
+  location: string;
   price: number;
   price_promo: number;
-  location: string;
-  description: string;
+  towers: number;
+  units_available: number;
   date?: Date;
   specs: {
     bedrooms: number,
@@ -23,13 +25,37 @@ export interface Property {
   },
   features: string[],
   amenities: string[],
-  type: 'Lançamento' | '100% Vendido';
-  status: 'Pronto' | 'Lançamento' | 'Em obras';
+  type: 'Estudio' | 'Apartamento' | 'Casa' | 'Cobertura';
+  status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido';
   category: string[];
   imagesUrl: string[];
-  imagesPlantsUrl: string[];
+  planta: Planta[];
   isPromo?: boolean;
   favorite: boolean;
+}
+
+export interface Planta {
+  id: number;
+  description: string;
+  location: {
+    towers: any[],
+    floor: number[]
+  };
+  price: number;
+  price_promo: number;
+  specs: {
+    bedrooms: number,
+    bathrooms?: number,
+    suits?: number,
+    balcony?: boolean,
+    area: number[],
+    garden?: boolean,
+    parking?: number
+  },
+  features: string[],
+  status: 'Disponivel' | 'Espelho' | 'Reservada' | 'Vendida' | 'Bloqueada',
+  imagesUrl: string,
+  category: 'HIS-1' | 'HIS-2' | 'R2V' | 'HMP'
 }
 
 @Injectable({
@@ -44,10 +70,12 @@ export class PropertyService {
       id: 1,
       title: 'Brooklin Sky Home Tower',
       subtitle: '',
+      description: '',
+      location: 'Rua Princesa Isabel, 400 - Brooklin SP',
       price: 383636,
       price_promo: 0,
-      location: 'Rua Princesa Isabel, 400 - Brooklin SP',
-      description: '',
+      towers: 1,
+      units_available: 370,
       date: new Date('2029-08-31'),
       specs: {
         bedrooms: 1,
@@ -60,22 +88,12 @@ export class PropertyService {
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico'],
       amenities: ['Piscina com dack molhado', 'Salão de Festas', 'Churrasqueira', 'Coworking', 'Academia 24h', 'Lavanderia Coletiva', 'Pet Place', 'lavanderia 24h', 'Bicicletário', 'Gerador', 'Mini-Mercado'],
-      type: 'Lançamento',
+      type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2', 'R2V'],
 
       imagesUrl: ['https://lh3.googleusercontent.com/d/1lNaLTg6NkiDcJ-AabwYT4LD8RxaaDEsU=s1000'],
-      imagesPlantsUrl: [
-        '../../assets/sky-plantas/Brooklin Sky Planta 2.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 4.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 6.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 8.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 10.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 12.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 14.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 16.png',
-        '../../assets/sky-plantas/Brooklin Sky Planta 18.png'
-      ],
+      planta: [],
       isPromo: false,
       favorite: true
     },
@@ -83,30 +101,85 @@ export class PropertyService {
       id: 2,
       title: 'Abytá Santo Amaro',
       subtitle: '',
+      description: '',
+      location: 'Rua Herbert Alfred Landsberg, 27 - Santo Amaro SP',
       price: 279000,
       price_promo: 245000,
-      location: 'Rua Herbert Alfred Landsberg, 27 - Santo Amaro SP',
-      description: '',
+      towers: 3,
+      units_available: 308,
       date: new Date('2028-12-31'),
       specs: {
         bedrooms: 2,
         bathrooms: 1,
         suits: 0,
         balcony: true,
-        area: [35],
+        area: [34, 35],
         garden: false,
         parking: 0
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
       amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
-      type: 'Lançamento',
+      type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2'],
       imagesUrl: ['https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'],
-      imagesPlantsUrl: [
-        '../../assets/abyta-plantas/Abyta Santo Amaro 1.PNG',
-        '../../assets/abyta-plantas/Abyta Santo Amaro 2.PNG',
-        '../../assets/abyta-plantas/Abyta Santo Amaro 3.PNG'
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 279000,
+          price_promo: 245000,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [34, 35],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IA0WCYAZlc3A_kofwYLSLR_yMqHtDWpA=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 264000,
+          price_promo: 245000,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 2,
+            balcony: true,
+            area: [34, 35],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1qZY65Kbc3VqIQHQghKWTiPbgR5BJ1sQp=s1000',
+          category: 'HIS-2'
+        }
       ],
       isPromo: true,
       favorite: false
@@ -115,10 +188,12 @@ export class PropertyService {
       id: 3,
       title: '011 Brooklin Residence',
       subtitle: '',
+      description: '',
+      location: 'Rua Caetano José Batista, 149 - Brooklin - SP',
       price: 574690,
       price_promo: 0,
-      location: 'Rua Caetano José Batista, 149 - Brooklin - SP',
-      description: '',
+      towers: 3,
+      units_available: 751,
       date: new Date('2028-12-31'),
       specs: {
         bedrooms: 2,
@@ -178,18 +253,11 @@ export class PropertyService {
         'SPA E SALA DE MASSAGEM',
         'PISTA DE CAMINHADA'
       ],
-      type: 'Lançamento',
+      type: 'Apartamento',
       status: 'Em obras',
       category: ['HIS-2'],
       imagesUrl: ['https://lh3.googleusercontent.com/d/19RMbpAtLn34a7IgNT9Un0RBlweKgw14t=s1000'],
-      imagesPlantsUrl: [
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 1.jpg',
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 2.jpg',
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 3.jpg',
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 4.jpg',
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 5.jpg',
-        '../../assets/011brooklin-plantas/011 Brooklin Planta 6.jpg',
-      ],
+      planta: [],
       isPromo: false,
       favorite: false
     },
@@ -197,10 +265,12 @@ export class PropertyService {
       id: 4,
       title: 'Pátio Central',
       subtitle: '',
+      description: '',
+      location: 'Rua Junqueira Freire, no 263 - Liberdade - SP',
       price: 340090,
       price_promo: 0,
-      location: 'Rua Junqueira Freire, no 263 - Liberdade - SP',
-      description: '',
+      towers: 3,
+      units_available: 846,
       date: new Date('2028-06-30'),
       specs: {
         bedrooms: 2,
@@ -235,18 +305,11 @@ export class PropertyService {
         'Pet Place',
         'Redário'
       ],
-      type: 'Lançamento',
+      type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2'],
       imagesUrl: ['../../assets/patio-plantas/patiofachada.jpeg'],
-      imagesPlantsUrl: [
-        '../../assets/patio-plantas/380.7_PLANTAS COM DIFERENCIAIS SEM TEXTO LEGAL_V14F.jpg',
-        '../../assets/patio-plantas/380.7_PLANTAS COM DIFERENCIAIS SEM TEXTO LEGAL_V14F2.jpg',
-        '../../assets/patio-plantas/380.7_PLANTAS COM DIFERENCIAIS SEM TEXTO LEGAL_V14F3.jpg',
-        '../../assets/patio-plantas/380.7_PLANTAS COM DIFERENCIAIS SEM TEXTO LEGAL_V14F4.jpg',
-        '../../assets/patio-plantas/380.7_PLANTAS COM DIFERENCIAIS SEM TEXTO LEGAL_V14F5.jpg',
-        
-      ],
+      planta: [],
       isPromo: false,
       favorite: false
     }
