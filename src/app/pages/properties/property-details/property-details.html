@@ -1,137 +1,173 @@
+@if (property(); as p) {
 <div class="details-container">
-    <!-- Botão Voltar -->
-    <button mat-icon-button (click)="voltar()" class="back-btn">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
+    <!-- Topo com Navegação e Título Mobile -->
+    <div class="top-nav">
+        <button mat-icon-button (click)="voltar()" class="back-btn">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="project-header-mobile">
+            <span class="status-tag">{{ p.status }}</span>
+            <h2>{{ p.title }}</h2>
+        </div>
+    </div>
 
     <div class="content-grid">
-        <!-- Coluna Esquerda: Galeria Principal -->
-        <section class="gallery-section">
-            <div class="main-image-container shadow-lg" (click)="openImage()">
-                <img [src]="selectedImage()" alt="Imagem principal do imóvel" loading="eager" fetchpriority="high"
-                    decoding="async">
-            </div>
-
-            <div class="thumbnails">
-                @for (img of property()?.imagesPlantsUrl; track img) {
-                <div class="thumb" [class.active]="selectedImage() === img" (click)="changeImage(img)">
-                    <img [src]="img" alt="Thumbnail">
+        <!-- Coluna Esquerda: Visualizador de Plantas -->
+        <section class="gallery-column">
+            <div class="main-viewer shadow-lg" (click)="openImage()">
+                <img [src]="currentImageUrl()" [alt]="selectedPlanta()?.description || p.title" loading="eager">
+                @if (selectedPlanta(); as sp) {
+                <div class="planta-label">
+                    <mat-icon>straighten</mat-icon>
+                    {{ sp.description }}
                 </div>
                 }
+            </div>
+
+            <div class="planta-selector-wrapper">
+                <h3>Opções de Plantas Disponíveis</h3>
+                <div class="planta-thumbnails">
+                    @for (planta of p.planta; track planta.id) {
+                    <div class="planta-thumb-card" [class.active]="selectedPlanta()?.id === planta.id"
+                        (click)="selectPlanta(planta)">
+                        <div class="img-box">
+                            <img [src]="planta.imagesUrl" alt="Thumbnail">
+                        </div>
+                        <div class="thumb-info">
+                            <span class="area">{{ planta.specs.area[0] }}m²</span>
+                            <span class="type">{{ planta.category }}</span>
+                        </div>
+                    </div>
+                    } @empty {
+                    <p class="no-data">Imagens de plantas em breve.</p>
+                    }
+                </div>
             </div>
         </section>
 
-        <!-- Coluna Direita: Informações e Compra -->
-        <section class="info-section">
-            <div class="header">
+        <!-- Coluna Direita: Informações Financeiras e Técnicas -->
+        <section class="info-column">
+            <div class="desktop-header">
                 <mat-chip-set>
-                    @for(category of property()?.category; track category) {
-                    <mat-chip class="type-chip">{{category}}</mat-chip>
+                    @for(cat of p.category; track cat) {
+                    <mat-chip class="custom-chip">{{ cat }}</mat-chip>
                     }
-                    <mat-chip class="location-chip">
-                        {{ property()?.date | date: 'MM' }}/{{ property()?.date | date: 'yyyy' }}
-                    </mat-chip>
+                    <mat-chip class="date-chip">Entrega: {{ p.date | date: 'MM/yyyy' }}</mat-chip>
                 </mat-chip-set>
-                <h1>{{ property()?.title }}</h1>
-                <p class="subtitle">{{ property()?.subtitle }}</p>
-                <p class="address"><mat-icon>place</mat-icon> {{ property()?.location }}</p>
+                <h1>{{ p.title }}</h1>
+                <p class="subtitle">{{ p.subtitle || 'O endereço da sua nova conquista' }}</p>
+                <p class="location"><mat-icon>place</mat-icon> {{ p.location }}</p>
             </div>
 
-            <div class="price-box shadow-sm">
-                <div class="main-price">
-                    <span class="label">Valor de Venda</span>
-                    <h2>{{ property()?.price | currency:'BRL' }}</h2>
-                </div>
-                <div class="fees">
-                    @if(property()?.isPromo){
-                    <p>Valor Promocional: <strong>{{ property()?.price_promo | currency:'BRL' }}</strong></p>
+            <!-- Card de Preço Dinâmico (Reage à Planta Selecionada) -->
+            @let currentData = selectedPlanta() || p;
+            <div class="pricing-card">
+                <div class="price-header">
+                    <span class="label">Investimento</span>
+                    <h2 class="main-price">{{ (currentData.price_promo > 0 ? currentData.price_promo :
+                        currentData.price) | currency:'BRL' }}</h2>
+                    @if (currentData.price_promo > 0) {
+                    <span class="old-price">De {{ currentData.price | currency:'BRL' }}</span>
                     }
-                    <!-- <p>IPTU: <strong>{{ property().iptu | currency:'BRL' }}</strong></p> -->
+                </div>
+
+                <div class="unit-status" [attr.data-status]="selectedPlanta()?.status">
+                    <mat-icon>info</mat-icon>
+                    Status: {{ selectedPlanta()?.status || p.status }}
                 </div>
             </div>
 
-            <div class="quick-specs">
-                @if( property()?.specs?.area ){
-                <div class="spec">
+            <!-- Especificações Técnicas -->
+            <div class="specs-grid">
+                <div class="spec-tile">
                     <mat-icon>square_foot</mat-icon>
-                    <span>{{ property()?.specs?.area }}m²</span>
+                    <strong>{{ selectedPlanta()?.specs?.area }}m²</strong>
+                    <span>Área Privativa</span>
                 </div>
-                }
-                @if(property()?.specs?.bedrooms){
-                <div class="spec">
+                @if(selectedPlanta()?.specs?.bedrooms){
+                <div class="spec-tile">
                     <mat-icon>bed</mat-icon>
-                    <span>{{ property()?.specs?.bedrooms }} Dorm.</span>
+                    <strong>{{ (selectedPlanta()?.specs?.bedrooms || p.specs.bedrooms) }}</strong>
+                    <span>Dormitórios</span>
                 </div>
                 }
-                @if(property()?.specs?.suits){
-                <div class="spec">
-                    <mat-icon>bathtub</mat-icon>
-                    <span>{{ property()?.specs?.suits }} Suite</span>
-                </div>
-                }
-                @if(property()?.specs?.bathrooms){
-                <div class="spec">
+                @if(selectedPlanta()?.specs?.bathrooms){
+                <div class="spec-tile">
                     <mat-icon>shower</mat-icon>
-                    <span>{{ property()?.specs?.bathrooms }} Banheiro</span>
+                    <strong>{{ (selectedPlanta()?.specs?.bathrooms || p.specs.bathrooms) }}</strong>
+                    <span>Banheiros</span>
                 </div>
                 }
-                @if(property()?.specs?.garden){
-                <div class="spec">
+                @if(selectedPlanta()?.specs?.suits){
+                <div class="spec-tile">
+                    <mat-icon>bathtub</mat-icon>
+                    <span>{{selectedPlanta()?.specs?.suits}} Suites</span>
+                </div>
+                }
+                @if(selectedPlanta()?.specs?.garden){
+                <div class="spec-tile">
                     <mat-icon>grass</mat-icon>
                     <span>Garden</span>
                 </div>
                 }
-                @if(property()?.specs?.balcony){
-                <div class="spec">
+                @if(selectedPlanta()?.specs?.balcony){
+                <div class="spec-tile">
                     <mat-icon>balcony</mat-icon>
                     <span>Varanda</span>
                 </div>
                 }
-                @if(property()?.specs?.parking){
-                <div class="spec">
+                @if(selectedPlanta()?.specs?.parking || p.specs.parking) {
+                <div class="spec-tile">
                     <mat-icon>directions_car</mat-icon>
-                    <span>{{ property()?.specs?.parking }} Vaga</span>
+                    <strong>{{ (selectedPlanta()?.specs?.parking || p.specs.parking) }}</strong>
+                    <span>Vagas</span>
                 </div>
                 }
             </div>
 
-            <mat-divider></mat-divider>
-
-            <div class="description">
-                <h3>Sobre o imóvel</h3>
-                <p>{{ property()?.description }}</p>
+            <div class="actions-group">
+                <button mat-flat-button color="primary" class="main-cta">
+                    <mat-icon>whatsapp</mat-icon> FALAR COM CONSULTOR
+                </button>
+                <button mat-stroked-button class="secondary-cta">
+                    <mat-icon>download</mat-icon> BAIXAR BOOK COMPLETO
+                </button>
             </div>
 
-            <div class="actions-group">
-                <button mat-flat-button color="primary" class="cta-btn">
-                    <mat-icon>paid</mat-icon> COMPRE AGORA
-                </button>
-                <button mat-stroked-button color="primary" class="cta-btn">
-                    <mat-icon>calendar_month</mat-icon> AGENDAR VISITA
-                </button>
+            <mat-divider class="my-4"></mat-divider>
+
+            <div class="description-box">
+                <h3>Sobre o Empreendimento</h3>
+                <p>{{ p.description || 'Um projeto pensado nos mínimos detalhes para oferecer conforto, sofisticação e
+                    uma localização estratégica no coração da cidade.' }}</p>
             </div>
         </section>
     </div>
 
-    <!-- Abas Inferiores: Lazer e Diferenciais -->
-    <section class="extra-info">
-        <mat-tab-group dynamicHeight>
-            <mat-tab label="Diferenciais">
+    <!-- Abas de Detalhes Adicionais -->
+    <section class="extra-tabs">
+        <mat-tab-group animationDuration="300ms">
+            <mat-tab label="Diferenciais da Unidade">
                 <div class="tab-content">
-                    <ul class="feature-list">
-                        @for (f of property()?.features; track f) {
-                        <li><mat-icon color="primary">check_circle</mat-icon> {{ f }}</li>
+                    <div class="feature-grid">
+                        @for (feature of (selectedPlanta()?.features?.length ? selectedPlanta()?.features : p.features);
+                        track feature) {
+                        <div class="feature-item">
+                            <mat-icon>verified</mat-icon>
+                            {{ feature }}
+                        </div>
                         }
-                    </ul>
+                    </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Lazer e Áreas Comuns">
+
+            <mat-tab label="Lazer e Comodidades">
                 <div class="tab-content">
-                    <div class="amenities-grid">
-                        @for (a of property()?.amenities; track a) {
-                        <div class="amenity-item">
-                            <mat-icon>star_border</mat-icon>
-                            <span>{{ a }}</span>
+                    <div class="amenities-list">
+                        @for (amenity of p.amenities; track amenity) {
+                        <div class="amenity-card">
+                            <mat-icon>star</mat-icon>
+                            <span>{{ amenity }}</span>
                         </div>
                         }
                     </div>
@@ -140,3 +176,4 @@
         </mat-tab-group>
     </section>
 </div>
+}
