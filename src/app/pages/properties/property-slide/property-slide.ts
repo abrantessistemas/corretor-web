@@ -50,17 +50,54 @@ export class PropertySlide {
   openImage(imgUrl: string) {
     this.dialog.open(ImageDetailDialog, {
       data: { url: imgUrl },
-      panelClass: 'custom-dialog-container'
+      panelClass: 'full-screen-dialog',
+      maxHeight: '100vh',
+      maxWidth: '100vw',
+      width: '100%',
+      height: '85%'
     });
   }
 
 }
 
 @Component({
-  selector: 'image-detail-dialog',
   standalone: true,
-  template: `<img [src]="data.url" style="width: 100%; height: 80%; border-radius: 8px;">`,
   imports: [MatDialogModule],
+  template: `
+    <div class="dialog-container" mat-dialog-close>
+      <img [src]="data.url" alt="Imagem expandida">
+      <button class="close-float-btn">FECHAR</button>
+    </div>
+  `,
+  styles: [`
+    .dialog-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.95);
+      width: 100vw;
+      height: 100vh;
+      cursor: zoom-out;
+      position: relative;
+    }
+    img {
+      max-width: 100%;
+      max-height: 90%;
+      border-radius: 30px;
+      object-fit: contain;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+    }
+    .close-float-btn {
+      margin-top: 20px;
+      background: white;
+      border-radius: 30px;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  `]
 })
 export class ImageDetailDialog {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { url: string }) { }
