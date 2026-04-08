@@ -58,9 +58,10 @@ export class App {
   menuItems = signal([
     { path: '/home', label: 'Home', icon: 'dashboard' },
     { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent' },
+    { path: '/payment', label: 'Pagamento', icon: 'payment' },
     { path: '/trabalhe-conosco', label: 'Trabalhe Conosco', icon: 'group' },
+    { path: '/ajustes', label: 'Ajustes', icon: 'settings' }
     // { path: '/perfil', label: 'Perfil', icon: 'person' },
-    { path: '/ajustes', label: 'Ajustes', icon: 'settings' },
 
   ]);
 

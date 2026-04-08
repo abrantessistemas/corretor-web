@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
 // O caminho foi ajustado para garantir que o Angular encontre o serviço corretamente
 // Certifique-se de que o arquivo existe em: src/app/services/property.service.ts
@@ -25,9 +25,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatIconModule,
     MatChipsModule,
     CurrencyPipe,
+    DatePipe,
     PropertySlide,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatChipsModule,
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
@@ -35,6 +37,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class PropertyListComponent implements OnInit {
   ngOnInit(): void {
+
     this.propertyService.properties().map(property => {
       if (property.specs.area.length > 1) {
         property.specs.area = [property.specs.area[0], property.specs.area[property.specs.area.length - 1]];
@@ -73,5 +76,10 @@ export class PropertyListComponent implements OnInit {
   registrarInteresse(title: string): void {
     console.log('Interesse registrado para:', title);
     // Aqui poderíamos abrir um formulário de contato ou enviar um lead
+  }
+  saveFavorite(id: number, favorite: boolean): void {
+    if (favorite) {
+      localStorage.setItem('favoriteProperties', id.toString());
+    }
   }
 }

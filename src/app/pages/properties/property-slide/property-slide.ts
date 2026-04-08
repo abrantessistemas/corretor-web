@@ -3,7 +3,6 @@ import { Component, ElementRef, inject, Inject, ViewChild } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ImageService } from '../../../services/image-server';
 
 @Component({
   selector: 'app-property-slide',
@@ -15,13 +14,13 @@ import { ImageService } from '../../../services/image-server';
 export class PropertySlide {
   @ViewChild('slider', { static: false }) slider!: ElementRef;
   // Injetando o serviço de banco simulado
-  public db = inject(ImageService);
+  // public db = inject(ImageService);
   private dialog = inject(MatDialog);
 
   async onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      await this.db.saveImage(file);
+      // await this.db.saveImage(file);
       // Scroll automático para o final após adicionar
       setTimeout(() => this.moveRight(), 100);
     }
@@ -32,7 +31,7 @@ export class PropertySlide {
 
   remove(id: number, event: Event) {
     event.stopPropagation(); // Impede de abrir o zoom ao clicar em excluir
-    this.db.deleteImage(id);
+    // this.db.deleteImage(id);
   }
 
   images: string[] = [

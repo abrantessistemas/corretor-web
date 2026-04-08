@@ -50,7 +50,7 @@
           </div>
           }
           <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
-            (click)="item.favorite = !item.favorite" aria-label="Favorito"
+            (click)="item.favorite = !item.favorite" (click)="saveFavorite(item.id,item.favorite)" aria-label="Favorito"
             [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
 
             <mat-icon>
@@ -60,8 +60,11 @@
           </button>
         </div>
 
-        <h3 class="title">{{ item.title }}</h3>
-
+        <h3 class="title">{{ item.title }}
+          <mat-chip-set>
+            <mat-chip class="date-chip">Entrega: {{ item.date | date: 'MM/yyyy' }}</mat-chip>
+          </mat-chip-set>
+        </h3>
         <p class="location">
           <mat-icon>place</mat-icon>
           {{ item.location }}
