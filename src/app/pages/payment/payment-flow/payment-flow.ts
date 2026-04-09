@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
+import { PdfGenerationComponent } from '../../../shared/pdf-generation/pdf-generation';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-payment-flow',
@@ -41,6 +43,8 @@ import { MatSliderModule } from '@angular/material/slider';
   styleUrl: './payment-flow.scss'
 })
 export class PaymentFlowComponent implements OnInit {
+  constructor(private dialog: MatDialog) { }
+
   private fb = inject(FormBuilder);
 
   paymentForm!: FormGroup;
@@ -48,6 +52,7 @@ export class PaymentFlowComponent implements OnInit {
 
   // Sinal para os dados calculados em tempo real
   readonly calculation = signal<any>({});
+
 
   ngOnInit() {
     this.initForm();
@@ -57,21 +62,20 @@ export class PaymentFlowComponent implements OnInit {
 
   private initForm() {
     this.paymentForm = this.fb.group({
+      nomeCliente: ['', [Validators.required]],
+      nomeCorretor: ['', [Validators.required]],
       salario: [0, [Validators.required, Validators.min(1)]],
       valorVenda: [0, [Validators.required]],
       valorAvaliacao: [0],
       valorMorando: [0, [Validators.required]],
+      prazoMensaisMorando: [0, [Validators.required]],
       // Regra 1: Mínimo de 500 para o Ato
       valorAto: [0, [Validators.required, Validators.min(500)]],
       valorFinanciamento: [0],
-
       possuiFgts: ['nao'],
       valorFgts: [0],
 
-      possuiEntrada: ['nao'],
-      valorEntradaAdicional: [0],
-
-      desejaAnuais: [true],
+      desejaAnuais: [false],
       qtdAnuais: [0],
       // Regra 2: O valor de cada anual será validado no cálculo em relação ao salário
       valorCadaAnual: [0, [Validators.required, Validators.min(0)]],
@@ -91,7 +95,11 @@ export class PaymentFlowComponent implements OnInit {
 
   // Cálculo derivado reativo
   valorProporcional = computed(() => {
-    return (this.valorMorando() * this.progress()) / 100;
+    return (this.paymentForm.value.valorMorando * (this.progress() / 100)) + this.calculation().valorMensal;
+  });
+
+  valorProgressao = computed(() => {
+    return (this.paymentForm.value.valorMorando * (this.progress() / 100));
   });
 
   updateProgress(event: Event) {
@@ -118,8 +126,8 @@ export class PaymentFlowComponent implements OnInit {
 
     const anosReforcos: number[] = [];
     const anoInicio = this.today.getFullYear();
-    
-    for (let i = 1; i <= f.qtdAnuais; i++) {
+
+    for (let i = 0; i <= (f.qtdAnuais - 1); i++) {
       anosReforcos.push(anoInicio + i);
     }
 
@@ -141,5 +149,10 @@ export class PaymentFlowComponent implements OnInit {
       reforcoExcedido,
       parcelaAcimaSalario
     });
+  }
+  imprimirResumo() {
+    const relatorio = this.paymentForm.value;
+    this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
+
   }
 }

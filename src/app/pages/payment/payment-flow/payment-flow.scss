@@ -19,6 +19,10 @@
     border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 
+    .full-width {
+        width: 100%;
+    }
+
     .form-header {
         display: flex;
         align-items: center;
@@ -172,6 +176,10 @@
 
             .cyan {
                 color: #38bdf8;
+            }
+
+            .green {
+                color: lime;
             }
 
             .magenta {
@@ -392,3 +400,124 @@
         }
     }
 }
+
+/* Configurações de Impressão */
+@media print {
+    body {
+        background: white !important;
+        padding: 0 !important;
+    }
+
+    .no-print,
+    .mat-icon,
+    .print-trigger {
+        display: none !important;
+    }
+
+    .main-layout {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .display-panel {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 20px !important;
+    }
+
+    .print-header-only {
+        display: block !important;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+
+        h2 {
+            margin: 0;
+            color: #000;
+        }
+    }
+
+    .data-block .item {
+        border-bottom: 1px solid #eee;
+        padding: 8px 0;
+
+        .label {
+            color: #333 !important;
+        }
+
+        .value {
+            color: #000 !important;
+            font-weight: bold;
+        }
+    }
+
+    .result-card {
+        background: #f8fafc !important;
+        border: 2px solid #000 !important;
+        color: black !important;
+
+        .neon-text-green {
+            color: #166534 !important;
+            text-shadow: none !important;
+        }
+    }
+
+    .sub-item {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        color: black !important;
+
+        .sub-value span {
+            color: black !important;
+        }
+    }
+
+    .white {
+        color: black !important;
+    }
+
+    .cyan,
+    .magenta {
+        color: black !important;
+        font-weight: bold;
+    }
+}
+
+/* Esconder cabeçalho de impressão no ecrã */
+.print-header-only {
+    display: none;
+}
+
+.print-trigger {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px !important;
+    font-weight: 800 !important;
+}
+
+/* Estilos base (mantidos do anterior) */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.display-panel {
+    background: #020617;
+    color: white;
+    border-radius: 24px;
+    padding: 30px;
+    position: sticky;
+    top: 20px;
+}
+
+// ... resto dos estilos anteriores
