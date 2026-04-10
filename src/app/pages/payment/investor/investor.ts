@@ -1,22 +1,22 @@
-import { Component, OnInit, signal, computed, inject, input } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Material
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { PdfGenerationComponent } from '../../../shared/pdf-generation/pdf-generation';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-payment-flow',
+  selector: 'app-investor',
   standalone: true,
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
@@ -39,15 +39,15 @@ import { MatDialog } from '@angular/material/dialog';
     PercentPipe,
     MatSliderModule
   ],
-  templateUrl: './payment-flow.html',
-  styleUrl: './payment-flow.scss'
+  templateUrl: './investor.html',
+  styleUrl: './investor.scss'
 })
-export class PaymentFlowComponent implements OnInit {
+export class InvestorComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   private fb = inject(FormBuilder);
 
-  paymentForm!: FormGroup;
+  investorForm!: FormGroup;
   today = new Date();
 
   // Sinal para os dados calculados em tempo real
@@ -56,12 +56,12 @@ export class PaymentFlowComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.paymentForm.valueChanges.subscribe(() => this.runCalculations());
+    this.investorForm.valueChanges.subscribe(() => this.runCalculations());
     this.runCalculations();
   }
 
   private initForm() {
-    this.paymentForm = this.fb.group({
+    this.investorForm = this.fb.group({
       nomeCliente: ['', [Validators.required]],
       nomeCorretor: ['', [Validators.required]],
       salario: [0, [Validators.required, Validators.min(1)]],
@@ -84,9 +84,6 @@ export class PaymentFlowComponent implements OnInit {
     });
   }
 
-  // Input reativo (Signal)
-  valorMorando = input.required<number>();
-
   // Estado interno
   progress = signal<number>(10);
 
@@ -95,11 +92,11 @@ export class PaymentFlowComponent implements OnInit {
 
   // Cálculo derivado reativo
   valorProporcional = computed(() => {
-    return (this.paymentForm.value.valorMorando * (this.progress() / 100)) + this.calculation().valorMensal;
+    return (this.investorForm.value.valorMorando * (this.progress() / 100)) + this.calculation().valorMensal;
   });
 
   valorProgressao = computed(() => {
-    return (this.paymentForm.value.valorMorando * (this.progress() / 100));
+    return (this.investorForm.value.valorMorando * (this.progress() / 100));
   });
 
   updateProgress(event: Event) {
@@ -113,7 +110,7 @@ export class PaymentFlowComponent implements OnInit {
   }
 
   runCalculations() {
-    const f = this.paymentForm.getRawValue();
+    const f = this.investorForm.getRawValue();
 
     const entradaTotalCaixa = f.valorVenda - f.valorFinanciamento;
     const fgts = f.possuiFgts === 'sim' ? f.valorFgts : 0;
@@ -151,7 +148,7 @@ export class PaymentFlowComponent implements OnInit {
     });
   }
   imprimirResumo() {
-    const relatorio = this.paymentForm.value;
+    const relatorio = this.investorForm.value;
     this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
 
   }

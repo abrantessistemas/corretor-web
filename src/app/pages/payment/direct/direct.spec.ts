@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DirectComponent } from './direct';
 
-import { PaymentFlow } from './payment-flow';
 
-describe('PaymentFlow', () => {
-  let component: PaymentFlow;
-  let fixture: ComponentFixture<PaymentFlow>;
+describe('Direct', () => {
+  let component: DirectComponent;
+  let fixture: ComponentFixture<DirectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaymentFlow],
+      imports: [DirectComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PaymentFlow);
+    fixture = TestBed.createComponent(DirectComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

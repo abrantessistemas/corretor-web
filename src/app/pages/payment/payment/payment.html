@@ -1,0 +1,24 @@
+<section class="form-container">
+    <header class="form-header">
+        <mat-icon>calculate</mat-icon>
+        <div>
+            <h1>Simulador Fluxo de pagamento</h1>
+            <p>Escolha um dos nossos planos de pagamento</p>
+        </div>
+    </header>
+</section>
+
+<!-- Abas de Simulado de financiamento construtora -->
+<section class="extra-tabs">
+    <mat-tab-group animationDuration="300ms">
+        <mat-tab label="Financiamento Associativo (Caixa Econômica Federal)">
+            <app-associative></app-associative>
+        </mat-tab>
+        <mat-tab label="Financiamento Tabela direta construtora">
+            <app-direct></app-direct>
+        </mat-tab>
+        <mat-tab label="Financiamento Tabela Investidor">
+            <app-investor></app-investor>
+        </mat-tab>
+    </mat-tab-group>
+</section>

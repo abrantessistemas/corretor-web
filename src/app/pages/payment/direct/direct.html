@@ -1,0 +1,245 @@
+<div class="main-layout" [formGroup]="directForm">
+
+    <section class="form-container">
+        <header class="form-header">
+            <mat-icon>calculate</mat-icon>
+            <div>
+                <h1>Tabela Direta</h1>
+                <p>Preencha os campos para ajustar as parcelas</p>
+            </div>
+        </header>
+
+        <div class="grid-inputs">
+            <mat-form-field>
+                <mat-label>Cliente</mat-label>
+                <input matInput type="text" formControlName="nomeCliente" (focus)="selectAll($event)">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Corretor</mat-label>
+                <input matInput type="text" formControlName="nomeCorretor" (focus)="selectAll($event)">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Salário Bruto</mat-label>
+                <input matInput type="number" formControlName="salario" (focus)="selectAll($event)">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Sinal / Ato</mat-label>
+                <input matInput type="number" formControlName="valorAto" (focus)="selectAll($event)">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+        </div>
+
+        <div class="grid-inputs">
+            <mat-form-field appearance="outline">
+                <mat-label>Valor de Avaliação</mat-label>
+                <input matInput type="number" formControlName="valorAvaliacao" (focus)="selectAll($event)">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor de Venda</mat-label>
+                <input matInput type="number" formControlName="valorVenda" (focus)="selectAll($event)">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <div class="row-toggle full">
+                <mat-form-field appearance="outline">
+                    <mat-label>Financiamento (CAIXA)</mat-label>
+                    <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
+                    <span matPrefix>R$&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Valor Parcela Morando </mat-label>
+                    <input matInput type="number" formControlName="valorMorando" (focus)="selectAll($event)">
+                    <span matPrefix>R$&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Prazo máximo (Meses)</mat-label>
+                    <input matInput formControlName="prazoMensaisMorando" (focus)="selectAll($event)">
+                </mat-form-field>
+            </div>
+
+            <div class="row-toggle full">
+                <div class="label-group">
+                    <mat-icon>account_balance_wallet</mat-icon>
+                    <span>Utilizar FGTS?</span>
+                </div>
+                <mat-radio-group formControlName="possuiFgts">
+                    <mat-radio-button value="sim">Sim</mat-radio-button>
+                    <mat-radio-button value="nao">Não</mat-radio-button>
+                </mat-radio-group>
+                @if(directForm.get('possuiFgts')?.value === 'sim') {
+                <input class="inline-input" type="number" formControlName="valorFgts" (focus)="selectAll($event)"
+                    placeholder="0.00">
+                }
+            </div>
+
+            <div class="annual-box full">
+                <mat-checkbox formControlName="desejaAnuais">Parcelas Anuais</mat-checkbox>
+
+                @if(directForm.get('desejaAnuais')?.value) {
+                <div class="annual-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Qtd. de Parcelas</mat-label>
+                        <input matInput type="text" maxlength="1" formControlName="qtdAnuais"
+                            (focus)="selectAll($event)">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Valor da parcela anual</mat-label>
+                        <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
+                        <span matPrefix>R$&nbsp;</span>
+                    </mat-form-field>
+                </div>
+                }
+            </div>
+
+            <mat-form-field appearance="outline" class="full highlight-field">
+                <mat-label>Prazo para pagar a entrada (Meses)</mat-label>
+                <input matInput type="number" formControlName="prazoMensais" (focus)="selectAll($event)">
+                <mat-icon matSuffix>calendar_today</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="progress-card">
+            <div class="header">
+                <div class="title-group">
+                    <mat-icon>engineering</mat-icon>
+                    <span>Evolução de Obras</span>
+                </div>
+                <div class="badge">Mensalidade {{ valorProporcional() | currency:'BRL' }}</div>
+            </div>
+
+            <div class="slider-container">
+                <mat-slider min="10" max="100" step="10" discrete showTickMarks>
+                    <input matSliderThumb [value]="progress()" (input)="updateProgress($event)">
+                </mat-slider>
+
+                <div class="ruler">
+                    @for (tick of ticks; track tick) {
+                    <span [class.active]="tick === progress()">{{ tick }}%</span>
+                    }
+                </div>
+            </div>
+
+            <div class="summary">
+                <div class="row">
+                    <span class="label">Parcela morando:</span>
+                    <span class="val">{{ directForm.get('valorMorando')?.value | currency:'BRL' }}</span>
+                </div>
+                <div class="row highlight">
+                    <span class="label">PROGRESSO DA OBRA ({{ progress() }}%):</span>
+                    <span class="val">{{ valorProgressao() | currency:'BRL' }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="display-panel">
+        <div class="panel-header">
+            <span class="status-dot"></span>
+            <span class="title">RESUMO DO FLUXO TABELA DIRETA</span>
+            @if(directForm.get('valorVenda')?.value > 0 && calculation().saldoParaMensais === 0){
+            <span hidden style="padding: 5px;background-color: red;border-radius: 6px;color: white;">Reprovado</span>
+            <span style="padding: 5px;background-color: lime;border-radius: 6px;color: black;">Aprovado</span>
+
+            }
+            <span class="date">{{ today | date:'dd/MM/yyyy' }}</span>
+        </div>
+
+        <div class="scroll-content">
+            <div class="data-block">
+                <div class="item">
+                    <span class="label">Avaliação Imóvel</span>
+                    <span style="background-color: yellow;color: black;padding: 0px 5px; border-radius: 6px;">{{
+                        directForm.get('valorAvaliacao')?.value | currency:'BRL' }}</span>
+                </div>
+                <div class="item">
+                    <span class="label">Venda Imóvel</span>
+                    <span class="value cyan">{{ directForm.get('valorVenda')?.value | currency:'BRL' }}</span>
+                </div>
+                <div class="item">
+                    <span class="label">Financiamento ({{ (directForm.get('valorVenda')?.value) | percent:'1.1-1'
+                        }})</span>
+                    <span class="value cyan">{{ directForm.get('valorFinanciamento')?.value | currency:'BRL' }}</span>
+                </div>
+
+                <div class="item">
+                    <span class="label">Parcela Morando ({{ directForm.get('prazoMensaisMorando')?.value}}
+                        meses)</span>
+                    <span class="value green">{{ directForm.get('valorMorando')?.value | currency:'BRL' }}</span>
+                </div>
+
+                <div class="item highlight">
+                    <span class="label">ENTRADA TOTAL</span>
+                    <span class="value white">{{ calculation().entradaTotalCaixa | currency:'BRL' }}</span>
+                </div>
+            </div>
+
+            <div class="neon-divider"></div>
+
+            <div class="data-block">
+                <div class="item">
+                    <span class="label">Ato Pago</span>
+                    <span class="value magenta">- {{ directForm.get('valorAto')?.value | currency:'BRL' }}</span>
+                </div>
+                @if(calculation().fgts > 0) {
+                <div class="item">
+                    <span class="label">FGTS Aplicado</span>
+                    <span class="value magenta">- {{ calculation().fgts | currency:'BRL' }}</span>
+                </div>
+                }
+                @if(calculation().valorTotalReforcos > 0) {
+                <div class="item">
+                    <span class="label">Parcelas Anuais ({{ directForm.get('qtdAnuais')?.value }}x)</span>
+                    <span class="value magenta">- {{ calculation().valorTotalReforcos | currency:'BRL' }}</span>
+                </div>
+                }
+            </div>
+
+            <div class="result-card">
+                <div class="main-price">
+                    <span class="label">SALDO ENTRADA</span>
+                    <h2 class="neon-text-green">{{ calculation().saldoParaMensais | currency:'BRL' }}</h2>
+                </div>
+
+                <div class="breakdown">
+                    <div class="sub-item">
+                        <div class="sub-label">MENSAIS</div>
+                        <div class="sub-value">{{ directForm.get('prazoMensais')?.value }}x de <span>{{
+                                calculation().valorMensal | currency:'BRL' }}</span></div>
+                        @if(calculation().parcelaAcimaSalario) {
+                        <small class="warning">⚠️ Acima de 30% da renda</small>
+                        }
+                    </div>
+
+                    @if(directForm.get('desejaAnuais')?.value) {
+                    <div class="sub-item orange">
+                        <div class="sub-label">PARCELAS ANUAIS</div>
+                        <div class="sub-value">{{ directForm.get('qtdAnuais')?.value }}x de <span>{{
+                                calculation().valorCadaAnual | currency:'BRL' }}</span></div>
+                        <div class="years-list">
+                            @for(ano of calculation().anosReforcos; track ano) {
+                            <span class="year-tag">DEZ/{{ ano }}</span>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <footer class="panel-footer">
+            Gerado por Simulador Pro v1.0
+        </footer>
+    </aside>
+    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()"
+        disabled="{{directForm.invalid}}">
+        <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
+    </button>
+</div>

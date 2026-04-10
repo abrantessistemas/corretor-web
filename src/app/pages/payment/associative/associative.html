@@ -1,14 +1,13 @@
-<div class="main-layout" [formGroup]="paymentForm">
+<div class="main-layout" [formGroup]="associativeForm">
 
     <section class="form-container">
         <header class="form-header">
             <mat-icon>calculate</mat-icon>
             <div>
-                <h1>Simulador de Fluxo</h1>
+                <h1>Associativo</h1>
                 <p>Preencha os campos para ajustar as parcelas</p>
             </div>
         </header>
-
 
         <div class="grid-inputs">
             <mat-form-field>
@@ -75,7 +74,7 @@
                     <mat-radio-button value="sim">Sim</mat-radio-button>
                     <mat-radio-button value="nao">Não</mat-radio-button>
                 </mat-radio-group>
-                @if(paymentForm.get('possuiFgts')?.value === 'sim') {
+                @if(associativeForm.get('possuiFgts')?.value === 'sim') {
                 <input class="inline-input" type="number" formControlName="valorFgts" (focus)="selectAll($event)"
                     placeholder="0.00">
                 }
@@ -84,7 +83,7 @@
             <div class="annual-box full">
                 <mat-checkbox formControlName="desejaAnuais">Parcelas Anuais</mat-checkbox>
 
-                @if(paymentForm.get('desejaAnuais')?.value) {
+                @if(associativeForm.get('desejaAnuais')?.value) {
                 <div class="annual-fields">
                     <mat-form-field appearance="fill">
                         <mat-label>Qtd. de Parcelas</mat-label>
@@ -113,8 +112,9 @@
                     <mat-icon>engineering</mat-icon>
                     <span>Evolução de Obras</span>
                 </div>
-                <div class="badge">Mensalidade {{ valorProporcional() | currency:'BRL' }}</div>
+                <div class="badge">Valor Evolução: {{ valorProgressao() | currency:'BRL' }}</div>
             </div>
+            <span class="label">PROGRESSO DA OBRA ({{ progress() }}%):</span>
 
             <div class="slider-container">
                 <mat-slider min="10" max="100" step="10" discrete showTickMarks>
@@ -131,11 +131,11 @@
             <div class="summary">
                 <div class="row">
                     <span class="label">Parcela morando:</span>
-                    <span class="val">{{ paymentForm.get('valorMorando')?.value | currency:'BRL' }}</span>
+                    <span class="val">{{ associativeForm.get('valorMorando')?.value | currency:'BRL' }}</span>
                 </div>
                 <div class="row highlight">
-                    <span class="label">PROGRESSO DA OBRA ({{ progress() }}%):</span>
-                    <span class="val">{{ valorProgressao() | currency:'BRL' }}</span>
+                    <span class="label">Mensalidade durante a obra:</span>
+                    <span class="val">{{ valorProporcional() | currency:'BRL' }}</span>
                 </div>
             </div>
         </div>
@@ -144,8 +144,8 @@
     <aside class="display-panel">
         <div class="panel-header">
             <span class="status-dot"></span>
-            <span class="title">RESUMO DO FLUXO</span>
-            @if(paymentForm.get('valorVenda')?.value > 0 && calculation().saldoParaMensais === 0){
+            <span class="title">RESUMO DO FLUXO ASSOCIATIVO</span>
+            @if(associativeForm.get('valorVenda')?.value > 0 && calculation().saldoParaMensais === 0){
             <span hidden style="padding: 5px;background-color: red;border-radius: 6px;color: white;">Reprovado</span>
             <span style="padding: 5px;background-color: lime;border-radius: 6px;color: black;">Aprovado</span>
 
@@ -158,22 +158,23 @@
                 <div class="item">
                     <span class="label">Avaliação Imóvel</span>
                     <span style="background-color: yellow;color: black;padding: 0px 5px; border-radius: 6px;">{{
-                        paymentForm.get('valorAvaliacao')?.value | currency:'BRL' }}</span>
+                        associativeForm.get('valorAvaliacao')?.value | currency:'BRL' }}</span>
                 </div>
                 <div class="item">
                     <span class="label">Venda Imóvel</span>
-                    <span class="value cyan">{{ paymentForm.get('valorVenda')?.value | currency:'BRL' }}</span>
+                    <span class="value cyan">{{ associativeForm.get('valorVenda')?.value | currency:'BRL' }}</span>
                 </div>
                 <div class="item">
-                    <span class="label">Financiamento ({{ (paymentForm.get('valorFinanciamento')?.value /
-                        paymentForm.get('valorVenda')?.value) | percent:'1.1-1' }})</span>
-                    <span class="value cyan">{{ paymentForm.get('valorFinanciamento')?.value | currency:'BRL' }}</span>
+                    <span class="label">Financiamento ({{ (associativeForm.get('valorFinanciamento')?.value /
+                        associativeForm.get('valorVenda')?.value) | percent:'1.1-1' }})</span>
+                    <span class="value cyan">{{ associativeForm.get('valorFinanciamento')?.value | currency:'BRL'
+                        }}</span>
                 </div>
 
                 <div class="item">
-                    <span class="label">Parcela Morando ({{ paymentForm.get('prazoMensaisMorando')?.value}}
+                    <span class="label">Parcela Morando ({{ associativeForm.get('prazoMensaisMorando')?.value}}
                         meses)</span>
-                    <span class="value green">{{ paymentForm.get('valorMorando')?.value | currency:'BRL' }}</span>
+                    <span class="value green">{{ associativeForm.get('valorMorando')?.value | currency:'BRL' }}</span>
                 </div>
 
                 <div class="item highlight">
@@ -187,7 +188,7 @@
             <div class="data-block">
                 <div class="item">
                     <span class="label">Ato Pago</span>
-                    <span class="value magenta">- {{ paymentForm.get('valorAto')?.value | currency:'BRL' }}</span>
+                    <span class="value magenta">- {{ associativeForm.get('valorAto')?.value | currency:'BRL' }}</span>
                 </div>
                 @if(calculation().fgts > 0) {
                 <div class="item">
@@ -197,7 +198,7 @@
                 }
                 @if(calculation().valorTotalReforcos > 0) {
                 <div class="item">
-                    <span class="label">Parcelas Anuais ({{ paymentForm.get('qtdAnuais')?.value }}x)</span>
+                    <span class="label">Parcelas Anuais ({{ associativeForm.get('qtdAnuais')?.value }}x)</span>
                     <span class="value magenta">- {{ calculation().valorTotalReforcos | currency:'BRL' }}</span>
                 </div>
                 }
@@ -212,17 +213,17 @@
                 <div class="breakdown">
                     <div class="sub-item">
                         <div class="sub-label">MENSAIS</div>
-                        <div class="sub-value">{{ paymentForm.get('prazoMensais')?.value }}x de <span>{{
+                        <div class="sub-value">{{ associativeForm.get('prazoMensais')?.value }}x de <span>{{
                                 calculation().valorMensal | currency:'BRL' }}</span></div>
                         @if(calculation().parcelaAcimaSalario) {
                         <small class="warning">⚠️ Acima de 30% da renda</small>
                         }
                     </div>
 
-                    @if(paymentForm.get('desejaAnuais')?.value) {
+                    @if(associativeForm.get('desejaAnuais')?.value) {
                     <div class="sub-item orange">
                         <div class="sub-label">PARCELAS ANUAIS</div>
-                        <div class="sub-value">{{ paymentForm.get('qtdAnuais')?.value }}x de <span>{{
+                        <div class="sub-value">{{ associativeForm.get('qtdAnuais')?.value }}x de <span>{{
                                 calculation().valorCadaAnual | currency:'BRL' }}</span></div>
                         <div class="years-list">
                             @for(ano of calculation().anosReforcos; track ano) {
@@ -239,7 +240,8 @@
             Gerado por Simulador Pro v1.0
         </footer>
     </aside>
-    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()">
+    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()"
+        disabled="{{associativeForm.invalid}}">
         <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
     </button>
 </div>
