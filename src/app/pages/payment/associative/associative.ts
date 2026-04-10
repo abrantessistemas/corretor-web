@@ -62,25 +62,26 @@ export class AssociativeComponent implements OnInit {
 
   private initForm() {
     this.associativeForm = this.fb.group({
+      nomeTabelaCalculo: ['Associativo'],
       nomeCliente: ['', [Validators.required]],
       nomeCorretor: ['', [Validators.required]],
       salario: [0, [Validators.required, Validators.min(1)]],
-      valorVenda: [0, [Validators.required]],
+      valorVenda: [0, [Validators.required, Validators.min(1)]],
       valorAvaliacao: [0],
-      valorMorando: [0, [Validators.required]],
-      prazoMensaisMorando: [0, [Validators.required]],
+      valorMorando: [0, [Validators.required, Validators.min(1)]],
+      prazoMensaisMorando: [0, [Validators.required, Validators.min(1)]],
       // Regra 1: Mínimo de 500 para o Ato
-      valorAto: [0, [Validators.required, Validators.min(500)]],
-      valorFinanciamento: [0],
+      valorAto: [0, [Validators.required, Validators.min(100)]],
+      valorFinanciamento: [0, [Validators.required, Validators.min(1)]],
       possuiFgts: ['nao'],
-      valorFgts: [0],
+      valorFgts: [0, [Validators.min(1)]],
 
       desejaAnuais: [false],
-      qtdAnuais: [0],
+      qtdAnuais: [0, [Validators.min(1)]],
       // Regra 2: O valor de cada anual será validado no cálculo em relação ao salário
-      valorCadaAnual: [0, [Validators.required, Validators.min(0)]],
-
-      prazoMensais: [12]
+      valorCadaAnual: [0, [Validators.min(1)]],
+      valorObra: [0, [Validators.min(1)]],
+      prazoMensais: [12, [Validators.min(1)]]
     });
   }
 
@@ -96,7 +97,9 @@ export class AssociativeComponent implements OnInit {
   });
 
   valorProgressao = computed(() => {
-    return (this.associativeForm.value.valorMorando * (this.progress() / 100));
+    const valor = (this.associativeForm.value.valorMorando * (this.progress() / 100));
+    this.associativeForm.get('valorObra')?.setValue(valor);
+    return valor;
   });
 
   updateProgress(event: Event) {

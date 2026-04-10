@@ -62,6 +62,7 @@ export class InvestorComponent implements OnInit {
 
   private initForm() {
     this.investorForm = this.fb.group({
+      nomeTabelaCalculo: ['Tabela Investidor'],
       nomeCliente: ['', [Validators.required]],
       nomeCorretor: ['', [Validators.required]],
       salario: [0, [Validators.required, Validators.min(1)]],

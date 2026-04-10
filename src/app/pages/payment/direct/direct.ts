@@ -62,6 +62,7 @@ export class DirectComponent implements OnInit {
 
   private initForm() {
     this.directForm = this.fb.group({
+      nomeTabelaCalculo: ['Tabela Direta Contrutora'],
       nomeCliente: ['', [Validators.required]],
       nomeCorretor: ['', [Validators.required]],
       salario: [0, [Validators.required, Validators.min(1)]],
