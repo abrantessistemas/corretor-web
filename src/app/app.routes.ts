@@ -43,7 +43,7 @@ export const routes: Routes = [
   },
   {
     path: 'payment',
-    loadComponent: () => import('./pages/payment/payment-flow/payment-flow').then(m => m.PaymentFlowComponent),
+    loadComponent: () => import('./pages/payment/payment/payment').then(m => m.Payment),
     data: { animation: 'AjustesPage' }
   },
   // Rota de fallback para 404 ou redirecionamento
