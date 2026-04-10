@@ -2,7 +2,7 @@
     <div id="printable-area">
         <div class="header">
             <div>
-                <h2 style="margin:0; color: #2c3e50;">Proposta de Pagamento</h2>
+                <h2 style="margin:0; color: #2c3e50;">Simulação de Pagamento {{form.nomeTabelaCalculo}}</h2>
                 <span class="label">Cliente: </span><span class="value">{{ form.nomeCliente }}</span>
                 <br>
                 <span class="label">Corretor: </span><span class="value">{{form.nomeCorretor}}</span>
@@ -17,27 +17,26 @@
             <div class="section-title">Dados do Imóvel</div>
             <div class="grid">
                 <div>
-                    <div class="label">Valor de Venda</div>
-                    <div class="value">{{ form.valorVenda | currency:'BRL' }}</div>
-                </div>
-                <br>
-                <div>
                     <div class="label">Valor de Avaliação</div>
                     <div class="value">{{ form.valorAvaliacao | currency:'BRL' }}</div>
                 </div>
                 <br>
                 <div>
-                    <div class="label">Financiamento Bancário</div>
-                    <div class="value">{{ form.valorFinanciamento | currency:'BRL' }} ({{ (form.valorFinanciamento /
-                        form.valorVenda) | percent:'1.1-2' }})</div>
-                </div>
-                <div>
-                    <div class="label">Parcela Pós-Chaves (Fixa)</div>
-                    <div class="value">{{ form.valorMorando | currency:'BRL' }}</div>
+                    <div class="label">Valor de Venda</div>
+                    <div class="value">{{ form.valorVenda | currency:'BRL' }}</div>
                 </div>
             </div>
         </div>
-
+        <div style="border-top: 1px dashed gray; width: 100%; height: 10px;"></div>
+        <div class="section">
+            <div class="section-title">Financiamento Bancário</div>
+            <div class="value">{{ form.valorFinanciamento | currency:'BRL' }} ({{ (form.valorFinanciamento /
+                form.valorVenda) | percent:'1.1-2' }})</div>
+            <br>
+            <div class="label">Parcela Pós-Chaves Meses (Fixa)</div>
+            <div class="value">{{form.prazoMensaisMorando}} X {{ form.valorMorando | currency:'BRL' }}</div>
+        </div>
+        <div style="border-top: 1px dashed gray; width: 100%; height: 10px;"></div>
         <div class="section">
             <div class="section-title">Fluxo de Entrada</div>
             <div class="grid">
@@ -45,30 +44,42 @@
                     <div class="label">Sinal / Ato</div>
                     <div class="value">{{ form.valorAto | currency:'BRL' }}</div>
                 </div>
+                <br>
                 @if(form.possuiFgts === 'sim') {
                 <div class="highlight">
                     <div class="label">FGTS</div>
                     <div class="value">{{ form.valorFgts | currency:'BRL' }}</div>
                 </div>
                 }
-            </div>
-
-            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
-                <div class="grid">
-                    <div>
-                        <div class="label">Mensais ({{ form.prazoMensais }}x)</div>
-                        <div class="value">{{ (form.valorVenda - form.valorFinanciamento - form.valorAto -
-                            (form.possuiFgts === 'sim' ? form.valorFgts : 0) - (form.desejaAnuais ? (form.qtdAnuais *
-                            form.valorCadaAnual) : 0)) / form.prazoMensais | currency:'BRL' }}</div>
-                    </div>
-
-                    @if(form.desejaAnuais) {
-                    <div>
-                        <div class="label">Anuais ({{ form.qtdAnuais }}x)</div>
-                        <div class="value">{{ form.valorCadaAnual | currency:'BRL' }}</div>
-                    </div>
-                    }
+                <br>
+                <div class="highlight">
+                    <div class="label">Mensais ({{ form.prazoMensais }}x)</div>
+                    <div class="value">{{ (form.valorVenda - form.valorFinanciamento - form.valorAto -
+                        (form.possuiFgts === 'sim' ? form.valorFgts : 0) - (form.desejaAnuais ? (form.qtdAnuais *
+                        form.valorCadaAnual) : 0)) / form.prazoMensais | currency:'BRL' }}</div>
                 </div>
+                <br>
+                @if(form.desejaAnuais) {
+                <div class="highlight">
+                    <div class="label">Anuais ({{ form.qtdAnuais }}x)</div>
+                    <div class="value">{{ form.valorCadaAnual | currency:'BRL' }}</div>
+                </div>
+                }
+            </div>
+            <div style="border-top: 1px dashed gray; width: 100%; height: 10px;"></div>
+            <div class="section">
+                <div class="section-title">Evolução de obras</div>
+                <!--div class="grid">
+                    <div class="highlight">
+                        <div class="label">Base calculo</div>
+                        <div class="value">Parcela morando: {{ form.valorMorando | currency:'BRL' }}</div>
+                    </div>
+                    <br>
+                    <div class="highlight">
+                        <div class="label">Seleção de Evolução</div>
+                        <div class="value">{{ form.valorObra | currency:'BRL' }}</div>
+                    </div>
+                </div-->
             </div>
         </div>
 
