@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { PdfGenerationComponent } from '../../../shared/pdf-generation/pdf-generation';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-associative',
@@ -43,7 +44,8 @@ import { PdfGenerationComponent } from '../../../shared/pdf-generation/pdf-gener
   styleUrl: './associative.scss'
 })
 export class AssociativeComponent implements OnInit {
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private http: HttpClient) { }
+
 
   private fb = inject(FormBuilder);
 
@@ -153,6 +155,13 @@ export class AssociativeComponent implements OnInit {
   imprimirResumo() {
     const relatorio = this.associativeForm.value;
     this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
+    this.enviarFormulario(relatorio);
+  }
 
+  enviarFormulario(dados: any) {
+    this.http.post('/api/contato', dados).subscribe({
+      next: (res) => console.log('Dados salvos com sucesso!', res),
+      error: (err) => console.error('Erro ao salvar', err)
+    });
   }
 }

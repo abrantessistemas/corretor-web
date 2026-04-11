@@ -2,7 +2,7 @@
 
     <section class="form-container">
         <header class="form-header">
-            <mat-icon>calculate</mat-icon>
+            <mat-icon class="color-text">calculate</mat-icon>
             <div>
                 <h1>{{ associativeForm.value.nomeTabelaCalculo }}</h1>
                 <p>Preencha os campos para ajustar as parcelas</p>
@@ -92,7 +92,7 @@
 
             <div class="row-toggle full">
                 <div class="label-group">
-                    <mat-icon>account_balance_wallet</mat-icon>
+                    <mat-icon class="color-text">account_balance_wallet</mat-icon>
                     <span>Utilizar FGTS?</span>
                 </div>
                 <mat-radio-group formControlName="possuiFgts">
@@ -130,13 +130,13 @@
             <mat-form-field appearance="outline" class="full highlight-field">
                 <mat-label>Prazo para pagar a entrada (Meses)</mat-label>
                 <input matInput type="number" formControlName="prazoMensais" (focus)="selectAll($event)">
-                <mat-icon matSuffix>calendar_today</mat-icon>
+                <mat-icon matSuffix class="color-text">calendar_today</mat-icon>
             </mat-form-field>
         </div>
         <div class="progress-card">
             <div class="header">
                 <div class="title-group">
-                    <mat-icon>engineering</mat-icon>
+                    <mat-icon class="color-text">engineering</mat-icon>
                     <span>Evolução de Obras</span>
                 </div>
                 <div class="badge">Valor Evolução: {{ valorProgressao() | currency:'BRL' }}</div>
@@ -150,7 +150,7 @@
 
                 <div class="ruler">
                     @for (tick of ticks; track tick) {
-                    <span [class.active]="tick === progress()">{{ tick }}%</span>
+                    <span [class.active]="tick === progress()" class="color-text">{{ tick }}%</span>
                     }
                 </div>
             </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="row highlight">
                     <span class="label">Mensalidade durante a obra:</span>
-                    <span class="val">{{ valorProporcional() | currency:'BRL' }}</span>
+                    <span class="val color-text">{{ valorProporcional() | currency:'BRL' }}</span>
                 </div>
             </div>
         </div>
@@ -267,7 +267,7 @@
             Gerado por Simulador Pro v1.0
         </footer>
     </aside>
-    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()"
+    <button mat-raised-button color="primary" class="print-trigger color-text" (click)="imprimirResumo()"
         disabled="{{associativeForm.invalid}}">
         <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
     </button>
