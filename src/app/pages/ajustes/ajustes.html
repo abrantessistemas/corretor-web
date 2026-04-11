@@ -12,37 +12,31 @@
         <mat-card-title>Personalização de Cores</mat-card-title>
         <mat-card-subtitle>Selecione a cor principal do sistema</mat-card-subtitle>
       </mat-card-header>
-      
+
       <mat-card-content>
         <div class="color-grid">
           @for (color of primaryColors(); track color.hex) {
-            <div class="color-item">
-              <button 
-                mat-fab 
-                [style.background-color]="color.hex"
-                (click)="setThemeColor(color.hex)"
-                class="color-btn">
-                @if (currentPrimary() === color.hex) {
-                  <mat-icon>check</mat-icon>
-                }
-              </button>
-              <span class="color-name">{{ color.name }}</span>
-            </div>
+          <div class="color-item">
+            <button mat-fab [style.background-color]="color.hex" (click)="setThemeColor(color.hex)" class="color-btn">
+              @if (currentPrimary() === color.hex) {
+              <mat-icon>check</mat-icon>
+              }
+            </button>
+            <span class="color-name">{{ color.name }}</span>
+          </div>
           }
         </div>
 
         <mat-divider class="my-4"></mat-divider>
 
-        <!--div class="toggle-row">
+        <div class="toggle-row">
           <div class="label-group">
             <h3>Modo Escuro</h3>
             <p>Reduz o cansaço visual em ambientes de baixa luz</p>
           </div>
-          <mat-slide-toggle 
-            [checked]="isDarkMode()" 
-            (change)="toggleDark()">
+          <mat-slide-toggle [checked]="isDarkMode()" (change)="toggleDark()">
           </mat-slide-toggle>
-        </div-->
+        </div>
       </mat-card-content>
     </mat-card>
 

@@ -1,21 +1,29 @@
 <div class="app-shell">
   <!-- Navegação Superior (Desktop) -->
-  <mat-toolbar color="primary" class="top-nav mat-elevation-z4">
-    <div class="brand">
-      <img src="../assets/logo.png" alt="Logo Na Planta" class="logo-img">
-      <span class="logo-text">na planta</span>
-    </div>
-    <span class="spacer"></span>
-    <div class="desktop-menu">
-      @for (item of menuItems(); track item.path) {
-      <a mat-button [routerLink]="item.path" routerLinkActive="active-link">
-        <mat-icon>{{ item.icon }}</mat-icon>
-        {{ item.label }}
-      </a>
-      }
+  <img src="{{imageBackgroundUrl}}" alt="" srcset=""
+    style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;opacity: 0.7;">
+
+  <mat-toolbar class="top-nav mat-elevation-z0"
+    style="padding: 40px; width: 100%; height: 10px;background: transparent;">
+    <div class="toolbar-container">
+      <div class="brand" routerLink="/">
+        <img src="../assets/logo.png" alt="Logo" class="logo-img">
+        <span class="logo-text" [routerLink]="['/']" style="cursor:pointer;color: yellow;">na planta</span>
+      </div>
+
+      <span class="spacer"></span>
+
+      <div class="desktop-menu">
+        @for (item of menuItems(); track item.path) {
+        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+        }
+        <button mat-flat-button color="accent">Falar com Consultor</button>
+      </div>
     </div>
   </mat-toolbar>
-
   <!-- Conteúdo das Páginas com Animação -->
   <main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
     <router-outlet #outlet="outlet"></router-outlet>

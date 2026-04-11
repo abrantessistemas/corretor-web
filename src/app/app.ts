@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { trigger, transition, style, query, animate, group } from '@angular/animations';
@@ -8,6 +8,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { PropertyService } from './services/property';
+import { PropertyListComponent } from "./pages/properties/property-list/property-list";
 
 /**
  * Definição da animação de transição entre páginas
@@ -47,8 +49,9 @@ const slideInAnimation = trigger('routeAnimations', [
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatRippleModule
-  ],
+    MatRippleModule,
+    PropertyListComponent
+],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   animations: [slideInAnimation]
@@ -58,12 +61,16 @@ export class App {
   menuItems = signal([
     { path: '/home', label: 'Home', icon: 'dashboard' },
     { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent' },
-    { path: '/payment', label: 'Pagamento', icon: 'payment' },
+    { path: '/payment', label: 'Simulador de Pagamento', icon: 'payment' },
     { path: '/trabalhe-conosco', label: 'Trabalhe Conosco', icon: 'group' },
     { path: '/ajustes', label: 'Ajustes', icon: 'settings' }
     // { path: '/perfil', label: 'Perfil', icon: 'person' },
 
   ]);
+
+  public propertyService = inject(PropertyService);
+
+  imageBackgroundUrl = this.propertyService.backgroundImageUrl;;
 
   /**
    * Prepara os dados da rota para a animação
