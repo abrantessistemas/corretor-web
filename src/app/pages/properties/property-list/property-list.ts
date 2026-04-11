@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, OnInit, signal, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
 // O caminho foi ajustado para garantir que o Angular encontre o serviço corretamente
@@ -10,10 +10,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { PropertySlide } from "../property-slide/property-slide";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-property-list',
@@ -82,4 +84,16 @@ export class PropertyListComponent implements OnInit {
       localStorage.setItem('favoriteProperties', id.toString());
     }
   }
+
+  // 1. Captura os eventos de navegação em um Signal
+  private urlSignal = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.router.url)
+    ),
+    { initialValue: this.router.url }
+  );
+
+  // 2. Computed que retorna true apenas se for a home
+  isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
 }

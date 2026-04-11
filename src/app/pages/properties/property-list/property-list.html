@@ -1,10 +1,12 @@
 <div class="container">
+  @if(!isHome()){
   <app-property-slide></app-property-slide>
+  }
   <!-- Cabeçalho da Página -->
   <header class="list-header">
     <div class="header-main">
       <div class="title-group">
-        <h1>Catálogo de Imóveis</h1>
+        <h1 style="margin-bottom: 10px;" class="color-text">Catálogo de Imóveis</h1>
         <p>Consulte e gira as propriedades disponíveis no sistema.</p>
       </div>
 

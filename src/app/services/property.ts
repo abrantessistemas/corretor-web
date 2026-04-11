@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { get } from 'node:http';
 
 /**
  * Interface que define a estrutura de um Imóvel
@@ -317,6 +318,12 @@ export class PropertyService {
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
   properties = this.propertiesList.asReadonly();
+
+  private backgraoundImageUrl = 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000';
+
+  get backgroundImageUrl() {
+    return this.backgraoundImageUrl;
+  }
 
   constructor() { }
 
