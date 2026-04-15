@@ -5,7 +5,6 @@
             <mat-icon class="color-text">calculate</mat-icon>
             <div>
                 <h1>{{ associativeForm.value.nomeTabelaCalculo }}</h1>
-                <p>Preencha os campos para ajustar as parcelas</p>
             </div>
         </header>
 
@@ -62,7 +61,7 @@
             </mat-form-field>
 
             <div class="row-toggle full">
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Financiado(CAIXA)</mat-label>
                     <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
                     <span matPrefix>R$&nbsp;</span>
@@ -100,30 +99,27 @@
                     <mat-radio-button value="nao">Não</mat-radio-button>
                 </mat-radio-group>
                 @if(associativeForm.get('possuiFgts')?.value === 'sim') {
-                <input class="inline-input" type="number" formControlName="valorFgts" (focus)="selectAll($event)"
-                    placeholder="0.00">
+                <input class="inline-input full-width" type="number" formControlName="valorFgts"
+                    (focus)="selectAll($event)" placeholder="0.00">
                 }
             </div>
 
             <div class="annual-box full">
                 <mat-checkbox formControlName="desejaAnuais">Parcelas Anuais</mat-checkbox>
                 @if(associativeForm.get('desejaAnuais')?.value) {
-                <div class="annual-fields">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Qtd. de Parcelas</mat-label>
-                        <input matInput type="text" maxlength="1" formControlName="qtdAnuais"
-                            (focus)="selectAll($event)">
-                    </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Qtd. de Parcelas</mat-label>
+                    <input matInput type="text" maxlength="1" formControlName="qtdAnuais" (focus)="selectAll($event)">
+                </mat-form-field>
 
-                    <mat-form-field appearance="fill">
-                        <mat-label>Valor da parcela anual</mat-label>
-                        <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
-                        <span matPrefix>R$&nbsp;</span>
-                        <mat-error v-If="associativeForm.get('valorCadaAnual')?.hasError('required')">
-                            O valor da parcela anual deve ser maior que <strong>zero.</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Valor da parcela anual</mat-label>
+                    <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
+                    <span matPrefix>R$&nbsp;</span>
+                    <mat-error v-If="associativeForm.get('valorCadaAnual')?.hasError('required')">
+                        O valor da parcela anual deve ser maior que <strong>zero.</strong>
+                    </mat-error>
+                </mat-form-field>
                 }
             </div>
 
@@ -131,6 +127,9 @@
                 <mat-label>Prazo para pagar a entrada (Meses)</mat-label>
                 <input matInput type="number" formControlName="prazoMensais" (focus)="selectAll($event)">
                 <mat-icon matSuffix class="color-text">calendar_today</mat-icon>
+                <mat-error v-If="associativeForm.get('prazoMensais')?.hasError('required')">
+                    O prazo para pagar entre <strong>1 e 84X.</strong>
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="progress-card">
@@ -139,7 +138,7 @@
                     <mat-icon class="color-text">engineering</mat-icon>
                     <span>Evolução de Obras</span>
                 </div>
-                <div class="badge">Valor Evolução: {{ valorProgressao() | currency:'BRL' }}</div>
+                <div class="badge">{{ valorProgressao() | currency:'BRL' }}</div>
             </div>
             <span class="label">PROGRESSO DA OBRA ({{ progress() }}%):</span>
 
@@ -166,6 +165,10 @@
                 </div>
             </div>
         </div>
+        <button mat-raised-button color="primary" class="print-trigger color-text" (click)="imprimirResumo()"
+            disabled="{{associativeForm.invalid}}">
+            <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
+        </button>
     </section>
 
     <aside class="display-panel">
@@ -201,7 +204,8 @@
                 <div class="item">
                     <span class="label">Parcela Morando ({{ associativeForm.get('prazoMensaisMorando')?.value}}
                         meses)</span>
-                    <span class="value green">{{ associativeForm.get('valorMorando')?.value | currency:'BRL' }}</span>
+                    <span class="value green">{{ associativeForm.get('valorMorando')?.value | currency:'BRL'
+                        }}</span>
                 </div>
 
                 <div class="item highlight">
@@ -215,7 +219,8 @@
             <div class="data-block">
                 <div class="item">
                     <span class="label">Ato Pago</span>
-                    <span class="value magenta">- {{ associativeForm.get('valorAto')?.value | currency:'BRL' }}</span>
+                    <span class="value magenta">- {{ associativeForm.get('valorAto')?.value | currency:'BRL'
+                        }}</span>
                 </div>
                 @if(calculation().fgts > 0) {
                 <div class="item">
@@ -267,8 +272,4 @@
             Gerado por Simulador Pro v1.0
         </footer>
     </aside>
-    <button mat-raised-button color="primary" class="print-trigger color-text" (click)="imprimirResumo()"
-        disabled="{{associativeForm.invalid}}">
-        <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
-    </button>
 </div>

@@ -83,7 +83,7 @@ export class AssociativeComponent implements OnInit {
       // Regra 2: O valor de cada anual será validado no cálculo em relação ao salário
       valorCadaAnual: [0, [Validators.min(1)]],
       valorObra: [0, [Validators.min(1)]],
-      prazoMensais: [12, [Validators.min(1)]]
+      prazoMensais: [12, [Validators.min(1),Validators.max(84)]]
     });
   }
 

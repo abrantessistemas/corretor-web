@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -65,23 +65,19 @@ export class DirectComponent implements OnInit {
       nomeTabelaCalculo: ['Tabela Direta Contrutora'],
       nomeCliente: ['', [Validators.required]],
       nomeCorretor: ['', [Validators.required]],
-      salario: [0, [Validators.required, Validators.min(1)]],
       valorVenda: [0, [Validators.required]],
       valorAvaliacao: [0],
       valorMorando: [0, [Validators.required]],
       prazoMensaisMorando: [0, [Validators.required]],
-      // Regra 1: Mínimo de 500 para o Ato
       valorAto: [0, [Validators.required, Validators.min(500)]],
       valorFinanciamento: [0],
       possuiFgts: ['nao'],
       valorFgts: [0],
-
       desejaAnuais: [false],
       qtdAnuais: [0],
-      // Regra 2: O valor de cada anual será validado no cálculo em relação ao salário
       valorCadaAnual: [0, [Validators.required, Validators.min(0)]],
-
-      prazoMensais: [12]
+      prazoMensais: [12],
+      sinais: this.fb.array([this.fb.control(null)])
     });
   }
 
@@ -148,6 +144,20 @@ export class DirectComponent implements OnInit {
       parcelaAcimaSalario
     });
   }
+  get sinais() {
+    return this.directForm.get('sinais') as FormArray;
+  }
+
+  adicionarSinal() {
+    if (this.sinais.length < 3) {
+      this.sinais.push(this.fb.control(null));
+    }
+  }
+
+  removerSinal(index: number) {
+    this.sinais.removeAt(index);
+  }
+
   imprimirResumo() {
     const relatorio = this.directForm.value;
     this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();

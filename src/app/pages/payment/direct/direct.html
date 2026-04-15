@@ -20,71 +20,90 @@
                 <input matInput type="text" formControlName="nomeCorretor" (focus)="selectAll($event)">
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Salário Bruto</mat-label>
-                <input matInput type="number" formControlName="salario" (focus)="selectAll($event)">
-                <span matPrefix>R$&nbsp;</span>
-            </mat-form-field>
+            <div class="row-toggle full">
+                <mat-form-field appearance="outline">
+                    <mat-label>Prazo Ato</mat-label>
+                    <input matInput [matDatepicker]="prazoatoPicker">
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="prazoatoPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #prazoatoPicker></mat-datepicker>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Sinal / Ato</mat-label>
-                <input matInput type="number" formControlName="valorAto" (focus)="selectAll($event)">
-                <span matPrefix>R$&nbsp;</span>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Ato</mat-label>
+                    <input matInput type="number" formControlName="valorAto" (focus)="selectAll($event)">
+                    <span matPrefix>R$&nbsp;</span>
+                </mat-form-field>
+            </div>
         </div>
+        <br>
+        <div class="row-toggle full">
+            <div>
+                <button mat-stroked-button style="margin-bottom: 5px;" color="primary" type="button"
+                    [disabled]="sinais.length >= 3" (click)="adicionarSinal()">
+                    + Adicionar Sinal ({{ sinais.length }}/3)
+                </button>
 
-        <div class="grid-inputs">
+                <div formArrayName="sinais">
+                    <div *ngFor="let sinal of sinais.controls; let i = index"
+                        style="display: flex; align-items: center; gap: 10px;">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Prazo Sinal {{ i + 1 }}</mat-label>
+                            <input matInput [matDatepicker]="picker">
+                            <mat-hint>DD/MM/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Sinal {{ i + 1 }}</mat-label>
+                            <input matInput type="number" [formControlName]="i" (focus)="selectAll($event)">
+                            <span matPrefix>R$&nbsp;</span>
+                        </mat-form-field>
+
+                        <button mat-icon-button color="warn" type="button" *ngIf="sinais.length > 1"
+                            (click)="removerSinal(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-toggle full">
             <mat-form-field appearance="outline">
-                <mat-label>Valor de Avaliação</mat-label>
-                <input matInput type="number" formControlName="valorAvaliacao" (focus)="selectAll($event)">
-                <span matPrefix>R$&nbsp;</span>
+                <mat-label>Início Mensais</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Qtd. de Parcelas</mat-label>
+                <input matInput type="text" maxlength="1" formControlName="qtdAnuais" (focus)="selectAll($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Valor de Venda</mat-label>
+                <mat-label>Valor Mensal</mat-label>
                 <input matInput type="number" formControlName="valorVenda" (focus)="selectAll($event)">
                 <span matPrefix>R$&nbsp;</span>
             </mat-form-field>
-
-            <div class="row-toggle full">
-                <mat-form-field appearance="outline">
-                    <mat-label>Financiamento (CAIXA)</mat-label>
-                    <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
-                    <span matPrefix>R$&nbsp;</span>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Valor Parcela Morando </mat-label>
-                    <input matInput type="number" formControlName="valorMorando" (focus)="selectAll($event)">
-                    <span matPrefix>R$&nbsp;</span>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Prazo máximo (Meses)</mat-label>
-                    <input matInput formControlName="prazoMensaisMorando" (focus)="selectAll($event)">
-                </mat-form-field>
-            </div>
-
-            <div class="row-toggle full">
-                <div class="label-group">
-                    <mat-icon>account_balance_wallet</mat-icon>
-                    <span>Utilizar FGTS?</span>
-                </div>
-                <mat-radio-group formControlName="possuiFgts">
-                    <mat-radio-button value="sim">Sim</mat-radio-button>
-                    <mat-radio-button value="nao">Não</mat-radio-button>
-                </mat-radio-group>
-                @if(directForm.get('possuiFgts')?.value === 'sim') {
-                <input class="inline-input" type="number" formControlName="valorFgts" (focus)="selectAll($event)"
-                    placeholder="0.00">
-                }
-            </div>
-
+        </div>
+        <div class="row-toggle full">
             <div class="annual-box full">
-                <mat-checkbox formControlName="desejaAnuais">Parcelas Anuais</mat-checkbox>
+                <mat-checkbox formControlName="desejaAnuais">Parcelas Semestrais</mat-checkbox>
 
                 @if(directForm.get('desejaAnuais')?.value) {
                 <div class="annual-fields">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Início Semestrais</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-hint>DD/MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <br>
                     <mat-form-field appearance="fill">
                         <mat-label>Qtd. de Parcelas</mat-label>
                         <input matInput type="text" maxlength="1" formControlName="qtdAnuais"
@@ -92,51 +111,20 @@
                     </mat-form-field>
 
                     <mat-form-field appearance="fill">
-                        <mat-label>Valor da parcela anual</mat-label>
+                        <mat-label>Valor da parcela Semestral</mat-label>
                         <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
                         <span matPrefix>R$&nbsp;</span>
                     </mat-form-field>
                 </div>
                 }
             </div>
-
-            <mat-form-field appearance="outline" class="full highlight-field">
-                <mat-label>Prazo para pagar a entrada (Meses)</mat-label>
-                <input matInput type="number" formControlName="prazoMensais" (focus)="selectAll($event)">
-                <mat-icon matSuffix>calendar_today</mat-icon>
-            </mat-form-field>
         </div>
-        <div class="progress-card">
-            <div class="header">
-                <div class="title-group">
-                    <mat-icon>engineering</mat-icon>
-                    <span>Evolução de Obras</span>
-                </div>
-                <div class="badge">Mensalidade {{ valorProporcional() | currency:'BRL' }}</div>
-            </div>
-
-            <div class="slider-container">
-                <mat-slider min="10" max="100" step="10" discrete showTickMarks>
-                    <input matSliderThumb [value]="progress()" (input)="updateProgress($event)">
-                </mat-slider>
-
-                <div class="ruler">
-                    @for (tick of ticks; track tick) {
-                    <span [class.active]="tick === progress()">{{ tick }}%</span>
-                    }
-                </div>
-            </div>
-
-            <div class="summary">
-                <div class="row">
-                    <span class="label">Parcela morando:</span>
-                    <span class="val">{{ directForm.get('valorMorando')?.value | currency:'BRL' }}</span>
-                </div>
-                <div class="row highlight">
-                    <span class="label">PROGRESSO DA OBRA ({{ progress() }}%):</span>
-                    <span class="val">{{ valorProgressao() | currency:'BRL' }}</span>
-                </div>
-            </div>
+        <div class="row-toggle full">
+            <mat-form-field appearance="outline">
+                <mat-label>Financiamento (CAIXA)</mat-label>
+                <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
         </div>
     </section>
 
