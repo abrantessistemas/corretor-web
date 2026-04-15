@@ -51,7 +51,7 @@ const slideInAnimation = trigger('routeAnimations', [
     MatIconModule,
     MatRippleModule,
     PropertyListComponent
-],
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   animations: [slideInAnimation]
@@ -60,10 +60,10 @@ export class App {
   // Itens do menu usando Signals (v21)
   menuItems = signal([
     { path: '/home', label: 'Home', icon: 'dashboard' },
-    { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent' },
+    // { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent' },
     { path: '/payment', label: 'Simulador de Pagamento', icon: 'payment' },
     { path: '/trabalhe-conosco', label: 'Trabalhe Conosco', icon: 'group' },
-    { path: '/ajustes', label: 'Ajustes', icon: 'settings' }
+    // { path: '/ajustes', label: 'Ajustes', icon: 'settings' }
     // { path: '/perfil', label: 'Perfil', icon: 'person' },
 
   ]);
@@ -71,6 +71,10 @@ export class App {
   public propertyService = inject(PropertyService);
 
   imageBackgroundUrl = this.propertyService.backgroundImageUrl;;
+  whatappNumber = this.propertyService.settings().whatsappNumber || '';
+  whatsappMensagem = this.propertyService.settings().siteTitle || 'Olá! Gostaria de mais informações';
+
+  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
   /**
    * Prepara os dados da rota para a animação
