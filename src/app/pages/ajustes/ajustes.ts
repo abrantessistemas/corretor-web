@@ -60,7 +60,13 @@ export class AjustesComponent {
     { name: 'Céu', hex: '#2196f3' },
     { name: 'Floresta', hex: '#009688' },
     { name: 'Abóbora', hex: '#ff9800' },
-    { name: 'Cereja', hex: '#e91e63' }
+    { name: 'Cereja', hex: '#e91e63' },
+    { name: 'Abacaxi', hex: '#dce91e' },
+    { name: 'Oliva', hex: '#026d14' },
+    { name: 'Chiclete', hex: '#e91eb6' },
+    { name: 'Chocolate', hex: '#6b5e57' },
+    { name: 'Tomate', hex: '#db0808' },
+    { name: 'Negro', hex: '#000000' }
   ]);
 
   /**
