@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Angular Material
@@ -9,6 +9,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { PropertyService } from '../../services/property';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-ajustes',
@@ -16,19 +21,34 @@ import { MatRippleModule } from '@angular/material/core';
   imports: [
     CommonModule,
     MatCardModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
     MatSlideToggleModule,
     MatDividerModule,
-    MatRippleModule
+    MatRippleModule,
+    NgxMaskDirective
   ],
   templateUrl: './ajustes.html',
   styleUrl: './ajustes.scss',
+  providers: [provideNgxMask(), // Configura o provedor da máscara
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AjustesComponent {
-  // Estado Reativo usando Signals
+  config = inject(PropertyService);
+
+  // Variáveis vinculadas ao formulário
+  tempTitle = this.config.settings().siteTitle;
+  tempLogo = this.config.settings().logoUrl;
+  whatsappNumber = this.config.settings().whatsappNumber || '';
+
+  savedSuccess = false;
+  showToast = false;
+
   currentPrimary = signal('#3f51b5');
   isDarkMode = signal(false);
   density = signal('comfortable');
@@ -68,5 +88,23 @@ export class AjustesComponent {
     this.isDarkMode.set(false);
     this.density.set('comfortable');
     document.body.classList.remove('dark-theme');
+  }
+  save() {
+    this.config.updateSettings({
+      siteTitle: this.tempTitle,
+      logoUrl: this.tempLogo
+    });
+    this.showToast = true;
+    setTimeout(() => this.showToast = false, 3000);
+  }
+
+  reset() {
+    const current = this.config.settings();
+    this.tempTitle = current.siteTitle;
+    this.tempLogo = current.logoUrl;
+  }
+
+  onImgError(event: any) {
+    event.target.src = 'https://placehold.co/200x100?text=Logo+Invalida';
   }
 }

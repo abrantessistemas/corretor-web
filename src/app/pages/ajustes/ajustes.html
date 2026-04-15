@@ -1,6 +1,6 @@
 <div class="settings-container">
   <header class="settings-header">
-    <h1>Configurações</h1>
+    <h1 class="color-text">Configurações</h1>
     <p>Personalize a identidade visual da sua plataforma de corretagem.</p>
   </header>
 
@@ -39,7 +39,86 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <div class="color-grid settings-container">
+      <div class="settings-card-wrapper">
+        <mat-card class="main-card">
+          <!-- Cabeçalho -->
+          <header class="settings-header">
+            <div class="header-content">
+              <div class="header-icon-box">
+                <mat-icon class="color-text">settings_suggest</mat-icon>
+              </div>
+              <div class="header-text">
+                <h1 class="color-text">Ajustes de Branding</h1>
+                <p>Configure a identidade visual do seu portal.</p>
+              </div>
+            </div>
+            <div class="status-badge">
+              <span class="pulse-dot"></span>
+              MODO DE EDIÇÃO
+            </div>
+          </header>
 
+          <div class="card-body">
+            <!-- Grid de Configuração -->
+            <div class="settings-grid">
+
+              <!-- Formulário -->
+              <div class="form-section">
+                <div class="section-title">
+                  <mat-icon>edit</mat-icon>
+                  <span>Informações Gerais</span>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Título da Plataforma</mat-label>
+                  <input matInput [(ngModel)]="tempTitle" placeholder="Ex: Imobiliária Prime">
+                  <mat-icon matSuffix>title</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>URL do Logótipo</mat-label>
+                  <input matInput [(ngModel)]="tempLogo" placeholder="https://exemplo.pt/logo.svg">
+                  <mat-icon matSuffix>link</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Número do whatsapp</mat-label>
+                  <input matInput [(ngModel)]="whatsappNumber" placeholder="(11) 99999-9999" mask="(00) 00000-0000">
+                </mat-form-field>
+              </div>
+
+              <!-- Visualização em Tempo Real -->
+              <div class="preview-section">
+                <div class="preview-box">
+                  <span class="preview-label">PREVISÃO EM TEMPO REAL</span>
+                  <div class="preview-content">
+                    <img [src]="tempLogo" (error)="onImgError($event)" alt="Logo">
+                    <h3>{{ tempTitle || 'Sem Título' }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <footer class="form-actions">
+              <button mat-flat-button color="primary" class="btn-save" (click)="save()">
+                <mat-icon>save</mat-icon>
+                GUARDAR ALTERAÇÕES
+              </button>
+            </footer>
+          </div>
+        </mat-card>
+
+        <p class="footer-note">Configurações armazenadas localmente no navegador.</p>
+      </div>
+
+      <!-- Toast de Sucesso -->
+      <div class="toast" [class.visible]="showToast">
+        <mat-icon>check_circle</mat-icon>
+        Configurações aplicadas com sucesso!
+      </div>
+    </div>
     <!-- Cartão de Preferências de Layout -->
     <!--mat-card class="settings-card" appearance="outlined">
       <mat-card-header>
