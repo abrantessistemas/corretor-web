@@ -59,6 +59,27 @@ export interface Planta {
   category: 'HIS-1' | 'HIS-2' | 'R2V' | 'HMP'
 }
 
+export interface Incorporador {
+  id: number;
+  imagesUrl: string,
+  title: string;
+  description: string;
+  location: string;
+  date?: Date;
+  site: string;
+}
+
+/**
+ * Interface para as definições globais do site
+ */
+export interface AppSettings {
+  siteTitle: string;
+  logoUrl: string;
+  whatsappNumber: string;
+  whatsappMessage: string;
+}
+
+
 @Injectable({
   providedIn: 'root' // Isso torna o serviço disponível em toda a aplicação
 })
@@ -336,5 +357,17 @@ export class PropertyService {
 
   getPropertyById(id: number): Property | undefined {
     return this.propertiesList().find(p => p.id === id);
+  }
+
+  readonly settings = signal<AppSettings>({
+    siteTitle: 'Simulador Pro',
+    logoUrl: 'https://cdn-icons-png.flaticon.com/512/602/602182.png',
+    whatsappNumber: '5511968711986',
+    whatsappMessage: 'Olá! Gostaria de mais informações'
+  });
+
+  updateSettings(newSettings: Partial<AppSettings>) {
+    this.settings.update(current => ({ ...current, ...newSettings }));
+    localStorage.setItem('app_settings', JSON.stringify(this.settings()));
   }
 }
