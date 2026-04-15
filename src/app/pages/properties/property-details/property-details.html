@@ -2,12 +2,12 @@
 <div class="details-container">
     <!-- Topo com Navegação e Título Mobile -->
     <div class="top-nav">
-        <button mat-icon-button (click)="voltar()" class="back-btn">
+        <button mat-icon-button (click)="voltar()" class="color-text">
             <mat-icon>arrow_back</mat-icon>
         </button>
         <div class="project-header-mobile">
             <span class="status-tag">{{ p.status }}</span>
-            <h2>{{ p.title }}</h2>
+            <h2 class="color-text-inver">{{ p.title }}</h2>
         </div>
     </div>
 
@@ -48,13 +48,13 @@
         <!-- Coluna Direita: Informações Financeiras e Técnicas -->
         <section class="info-column">
             <div class="desktop-header">
-                <mat-chip-set>
+                <mat-chip-set class="color-text-inver">
                     @for(cat of p.category; track cat) {
                     <mat-chip class="custom-chip">{{ cat }}</mat-chip>
                     }
                     <mat-chip class="date-chip">Entrega: {{ p.date | date: 'MM/yyyy' }}</mat-chip>
                 </mat-chip-set>
-                <h1>{{ p.title }}</h1>
+                <h1 class="color-text-inver">{{ p.title }}</h1>
                 <p class="subtitle">{{ p.subtitle || 'O endereço da sua nova conquista' }}</p>
                 <p class="location"><mat-icon>place</mat-icon> {{ p.location }}</p>
             </div>
