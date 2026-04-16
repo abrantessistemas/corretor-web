@@ -77,6 +77,7 @@ export interface AppSettings {
   logoUrl: string;
   whatsappNumber: string;
   whatsappMessage: string;
+  backgroundImageUrl: string;
 }
 
 
@@ -115,7 +116,147 @@ export class PropertyService {
       category: ['HIS-2', 'R2V'],
 
       imagesUrl: ['https://lh3.googleusercontent.com/d/1lNaLTg6NkiDcJ-AabwYT4LD8RxaaDEsU=s1000'],
-      planta: [],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10]
+          },
+          price: 383636,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [26],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UD53TYvWSM8l3KwIzejniyHgsqJe82OO=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10]
+          },
+          price: 383636,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [26],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1PUy4Vk3Rw5Ez2XyBm80Kirah4ZvP4THc=s1000',
+          category: 'R2V'
+        },
+        {
+          id: 3,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [20]
+          },
+          price: 799990.00,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [28],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1o3NH5CbqJP8q0vnHCzhlEjs12segAm5-=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 4,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [20]
+          },
+          price: 799990.00,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [31],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/18CtnDfr28OEZAXkYODNkAtLJTrwvCSOD=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 5,
+          description: 'Planta Tipo Garden Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10]
+          },
+          price: 383636,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [45],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1oJXrU86u7IIQQvO-Bn957P_fmZT0Cqc7=s1000',
+          category: 'R2V'
+        },
+        {
+          id: 6,
+          description: 'Planta Tipo UP Garden',
+          location: {
+            towers: ['A'],
+            floor: [20]
+          },
+          price: 799990.00,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [58],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UCC23Yl3wL47DDjV_qqyBNy41Mlt4cAO=s1000',
+          category: 'R2V'
+        },
+
+      ],
       isPromo: false,
       favorite: true
     },
@@ -340,17 +481,16 @@ export class PropertyService {
   // Expõe a lista como um sinal de apenas leitura para os componentes
   properties = this.propertiesList.asReadonly();
 
-  private backgraoundImageUrl = 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000';
 
   get backgroundImageUrl() {
-    return this.backgraoundImageUrl;
+    return this.settings().backgroundImageUrl;
   }
 
   constructor() { }
 
   /**
    * Adiciona um novo imóvel à lista reativa
-   */
+  */
   addProperty(property: Property) {
     this.propertiesList.update(props => [...props, property]);
   }
@@ -363,7 +503,8 @@ export class PropertyService {
     siteTitle: 'Simulador Pro',
     logoUrl: 'https://cdn-icons-png.flaticon.com/512/602/602182.png',
     whatsappNumber: '5511968711986',
-    whatsappMessage: 'Olá! Gostaria de mais informações'
+    whatsappMessage: 'Olá! Gostaria de mais informações',
+    backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000'
   });
 
   updateSettings(newSettings: Partial<AppSettings>) {
