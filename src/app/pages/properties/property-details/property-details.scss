@@ -132,8 +132,8 @@
     .desktop-header {
         @media (max-width: 992px) { display: none; }
         h1 { font-size: 2.5rem; font-weight: 900; line-height: 1.1; margin: 16px 0; }
-        .subtitle { font-size: 1.1rem; color: #64748b; }
-        .location { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #64748b; margin-top: 12px; }
+        .subtitle { font-size: 1.1rem; color: #ffffff; }
+        .location { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #ffffff; margin-top: 12px; }
     }
 }
 
@@ -237,3 +237,12 @@
 }
 
 .my-4 { margin: 24px 0; }
+
+.custom-chip{
+    color: white !important;
+}
+
+.date-chip{
+color: white;
+border: white;
+}
