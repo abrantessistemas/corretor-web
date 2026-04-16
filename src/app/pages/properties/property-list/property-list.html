@@ -1,11 +1,11 @@
 <div class="container">
-  @if(!isHome()){
+  <!-- @if(!isHome()){
   <app-property-slide></app-property-slide>
-  }
+  } -->
   <!-- Cabeçalho da Página -->
   <header class="list-header">
     <div class="header-main">
-      <div class="title-group">
+      <div class="title-group" style="display: none;">
         <h1 style="margin-bottom: 10px;" class="color-text">Catálogo de Imóveis</h1>
         <p>Consulte e gira as propriedades disponíveis no sistema.</p>
       </div>
@@ -25,7 +25,7 @@
 
   <div class="property-grid">
     @for (item of propertyService.properties(); track item.id) {
-    <mat-card class="property-card" appearance="outlined">
+    <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
       <!-- Imagem e Badge de Estado -->
       <div class="card-image-wrapper">
         <img mat-card-image [src]="item.imagesUrl[0]" [alt]="item.title">
@@ -116,8 +116,7 @@
 
       <!-- Ações do Cartão -->
       <mat-card-actions align="end">
-        <button mat-button (click)="verDetalhes(item.id)">DETALHES</button>
-        <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
+       <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
           TENHO INTERESSE
         </button>
       </mat-card-actions>
