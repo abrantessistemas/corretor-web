@@ -37,11 +37,16 @@ export const routes: Routes = [
     data: { animation: 'AjustesPage' }
   },
   {
+    path: 'indique-ganhe',
+    loadComponent: () => import('./pages/indique-ganhe/indique-ganhe').then(m => m.IndiqueGanhe),
+    data: { animation: 'AjustesPage' }
+  },
+ {
     path: 'trabalhe-conosco',
     loadComponent: () => import('./pages/trabalhe-conosco/trabalhe-conosco').then(m => m.TrabalheConosco),
     data: { animation: 'AjustesPage' }
   },
-  {
+   {
     path: 'payment',
     loadComponent: () => import('./pages/payment/payment/payment').then(m => m.Payment),
     data: { animation: 'AjustesPage' }

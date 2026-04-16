@@ -1,0 +1,96 @@
+<div class="festive-container">
+    <!-- Camada de Decoração -->
+    <div class="confetti-overlay"></div>
+    <div class="floating-balloon balloon-1">🎈</div>
+    <div class="floating-balloon balloon-2">✨</div>
+
+    <mat-card class="referral-card">
+        <div class="card-accent-bar"></div>
+
+        <header class="festive-header">
+            <div class="icon-badge">
+                <mat-icon>card_giftcard</mat-icon>
+            </div>
+            <h2 style="font-size: large;">Indique e Ganhe! 🚀</h2>
+            <p>A sua indicação vale ouro. Preencha os dados e prepare o seu PIX!</p>
+        </header>
+
+        <form [formGroup]="referralForm" (ngSubmit)="onSubmit()" class="festive-form">
+            <!-- Nome -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome Completo</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex: Maria Oliveira">
+                    <mat-icon matSuffix>person</mat-icon>
+                    @if (referralForm.get('name')?.invalid && referralForm.get('name')?.touched) {
+                    <mat-error>O nome é obrigatório</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Contacto -->
+            <div class="form-row grid-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Telemóvel</mat-label>
+                    <input matInput formControlName="phone" placeholder="(00) 00000-0000">
+                    <mat-icon matSuffix>call</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput formControlName="email" type="email" placeholder="exemplo@email.com">
+                    <mat-icon matSuffix>alternate_email</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <!-- Origem -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Onde viu esta promoção?</mat-label>
+                    <mat-select formControlName="source">
+                        <mat-option value="redes_sociais">Redes Sociais (Instagram/FB)</mat-option>
+                        <mat-option value="linkedin">LinkedIn</mat-option>
+                        <mat-option value="whatsapp">WhatsApp / Telegram</mat-option>
+                        <mat-option value="indicao">Indicação de Amigo</mat-option>
+                        <mat-option value="outro">Outro Canal</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>share</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <!-- Dados de Pagamento -->
+            <div class="pix-section">
+                <div class="pix-header">
+                    <mat-icon>bolt</mat-icon>
+                    <span>DADOS PARA RECEBIMENTO</span>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Chave PIX</mat-label>
+                    <input matInput formControlName="pixKey" (input)="validatePix()"
+                        placeholder="CPF, Telemóvel, E-mail ou Aleatória">
+                    <mat-icon matSuffix>key</mat-icon>
+
+                    <mat-hint align="end">
+                        Tipo detetado: <span class="badge-type">{{ pixType() }}</span>
+                    </mat-hint>
+
+                    @if (referralForm.get('pixKey')?.errors?.['invalidPix'] && referralForm.get('pixKey')?.touched) {
+                    <mat-error>Formato de chave PIX inválido para este tipo</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Botão de Ação -->
+            <button mat-flat-button class="submit-btn" type="submit" [disabled]="referralForm.invalid">
+                <mat-icon>celebration</mat-icon>
+                CONCLUIR INDICAÇÃO AGORA!
+            </button>
+        </form>
+
+        <footer class="terms-footer">
+            <mat-icon>verified_user</mat-icon>
+            <span>Processamento seguro de dados conforme a LGPD.</span>
+        </footer>
+    </mat-card>
+</div>

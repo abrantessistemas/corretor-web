@@ -1,0 +1,254 @@
+// Variáveis de Design Festivo
+$primary-festive: #ff3e00;
+$secondary-festive: #ffd700;
+$accent-festive: #00e676;
+$deep-purple: #311b92;
+$light-bg: #f8f9fa;
+
+.festive-container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, $deep-purple 0%, darken($deep-purple, 15%) 100%);
+    overflow: hidden;
+}
+
+.confetti-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient($secondary-festive 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+// Balões flutuantes para decoração
+.floating-balloon {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+
+    &.balloon-1 {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+
+    &.balloon-2 {
+        bottom: 15%;
+        right: 8%;
+        animation-delay: 2s;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+.referral-card {
+    width: 100%;
+    max-width: 620px;
+    border-radius: 32px !important;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4) !important;
+    border: none !important;
+    background: white !important;
+    animation: entrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes entrance {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.card-accent-bar {
+    height: 12px;
+    background: linear-gradient(90deg, $primary-festive, $secondary-festive, $accent-festive);
+}
+
+.festive-header {
+    padding: 45px 40px 25px;
+    text-align: center;
+
+    .icon-badge {
+        background: $secondary-festive;
+        color: #1a1a1a;
+        width: 80px;
+        height: 80px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        transform: rotate(-8deg);
+        box-shadow: 0 12px 24px rgba($secondary-festive, 0.3);
+
+        mat-icon {
+            font-size: 40px;
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    h2 {
+        font-size: 2.4rem;
+        font-weight: 900;
+        color: #2d3436;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+    }
+
+    p {
+        color: #636e72;
+        font-size: 1.15rem;
+        margin-top: 12px;
+        line-height: 1.4;
+    }
+}
+
+.festive-form {
+    padding: 0 40px 45px;
+
+    .form-row {
+        margin-bottom: 8px;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+
+        @media (max-width: 600px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .full-width {
+        width: 100%;
+    }
+}
+
+.pix-section {
+    background: #f0f3ff;
+    border: 2px dashed #ccd5ff;
+    border-radius: 24px;
+    padding: 24px;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+
+    &:focus-within {
+        border-color: $deep-purple;
+        background: #ffffff;
+    }
+
+    .pix-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        color: $deep-purple;
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+
+        mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .badge-type {
+        color: $primary-festive;
+        font-weight: 700;
+        background: rgba($primary-festive, 0.1);
+        padding: 2px 8px;
+        border-radius: 6px;
+    }
+}
+
+.submit-btn {
+    width: 100%;
+    height: 70px !important;
+    background: $primary-festive !important;
+    color: white !important;
+    border-radius: 20px !important;
+    font-size: 1.25rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px !important;
+    box-shadow: 0 15px 30px rgba($primary-festive, 0.35) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-4px) scale(1.01);
+        background: darken($primary-festive, 5%) !important;
+        box-shadow: 0 20px 40px rgba($primary-festive, 0.45) !important;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        background: #dfe6e9 !important;
+        color: #b2bec3 !important;
+        box-shadow: none !important;
+    }
+}
+
+.terms-footer {
+    padding: 25px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #a0a0a0;
+
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+// Customização de campos do Angular Material para visual vibrante
+::ng-deep {
+    .mat-mdc-form-field-outline {
+        border-radius: 16px !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+        background-color: white !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+        border-width: 2px !important;
+    }
+}
