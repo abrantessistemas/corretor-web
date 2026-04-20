@@ -22,17 +22,26 @@ export interface Property {
     balcony: boolean,
     area: number[],
     garden: boolean,
-    parking: number
+    parking: number,
+    pool?: boolean,
   },
   features: string[],
   amenities: string[],
   type: 'Estudio' | 'Apartamento' | 'Casa' | 'Cobertura';
   status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido';
   category: string[];
-  imagesUrl: string[];
+  imagesUrl: Implantacao[];
   planta: Planta[];
   isPromo?: boolean;
   favorite: boolean;
+  bookUrl?: string;
+}
+
+export interface Implantacao {
+  [x: string]: any;
+  id: number;
+  description: string;
+  imagesUrl: string;
 }
 
 export interface Planta {
@@ -96,7 +105,7 @@ export class PropertyService {
       description: '',
       location: 'Rua Princesa Isabel, 400 - Brooklin SP',
       price: 383636,
-      price_promo: 0,
+      price_promo: 319000,
       towers: 1,
       units_available: 370,
       date: new Date('2029-08-31'),
@@ -107,7 +116,8 @@ export class PropertyService {
         balcony: true,
         area: [26, 27, 28, 31, 36, 37, 45, 58],
         garden: true,
-        parking: 0
+        parking: 0,
+        pool: true
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico'],
       amenities: ['Piscina com dack molhado', 'Salão de Festas', 'Churrasqueira', 'Coworking', 'Academia 24h', 'Lavanderia Coletiva', 'Pet Place', 'lavanderia 24h', 'Bicicletário', 'Gerador', 'Mini-Mercado'],
@@ -115,7 +125,18 @@ export class PropertyService {
       status: 'Lançamento',
       category: ['HIS-2', 'R2V'],
 
-      imagesUrl: ['https://lh3.googleusercontent.com/d/1lNaLTg6NkiDcJ-AabwYT4LD8RxaaDEsU=s1000'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do Brooklin Sky Home Tower',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1lNaLTg6NkiDcJ-AabwYT4LD8RxaaDEsU=s1000'
+        },
+        {
+          id: 2,
+          description: 'Interior do Brooklin Sky Home Tower',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1uGTwop-_7ZtuOZFj9Vhs2q8uPg1-MfJR=s1000'
+        }
+      ],
       planta: [
         {
           id: 1,
@@ -125,7 +146,7 @@ export class PropertyService {
             floor: [4, 10]
           },
           price: 383636,
-          price_promo: 0,
+          price_promo: 319000,
           specs: {
             bedrooms: 1,
             bathrooms: 1,
@@ -142,7 +163,7 @@ export class PropertyService {
         },
         {
           id: 2,
-          description: 'Planta Tipo Meio',
+          description: 'Planta Garden Tipo Meio',
           location: {
             towers: ['A'],
             floor: [4, 10]
@@ -170,7 +191,7 @@ export class PropertyService {
             towers: ['A'],
             floor: [20]
           },
-          price: 799990.00,
+          price: 539990,
           price_promo: 0,
           specs: {
             bedrooms: 1,
@@ -188,12 +209,12 @@ export class PropertyService {
         },
         {
           id: 4,
-          description: 'Planta Tipo Meio',
+          description: 'Planta Garden Tipo Meio',
           location: {
             towers: ['A'],
             floor: [20]
           },
-          price: 799990.00,
+          price: 513990,
           price_promo: 0,
           specs: {
             bedrooms: 1,
@@ -211,12 +232,12 @@ export class PropertyService {
         },
         {
           id: 5,
-          description: 'Planta Tipo Garden Meio',
+          description: 'Planta Garden Tipo Meio',
           location: {
             towers: ['A'],
             floor: [4, 10]
           },
-          price: 383636,
+          price: 559990,
           price_promo: 0,
           specs: {
             bedrooms: 1,
@@ -257,8 +278,10 @@ export class PropertyService {
         },
 
       ],
-      isPromo: false,
-      favorite: true
+      isPromo: true,
+      favorite: true,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1niSUepYyfUIgUBBoC8mk25m8wHqsl-yO'
+
     },
     {
       id: 2,
@@ -278,14 +301,21 @@ export class PropertyService {
         balcony: true,
         area: [34, 35],
         garden: false,
-        parking: 0
+        parking: 0,
+        pool: false
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
       amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
       type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2'],
-      imagesUrl: ['https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do Abytá Santo Amaro',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'
+        },
+      ],
       planta: [
         {
           id: 1,
@@ -345,7 +375,8 @@ export class PropertyService {
         }
       ],
       isPromo: true,
-      favorite: false
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1atAlq5JYhCUgLVME8aLLk4R70KDzBStr'
     },
     {
       id: 3,
@@ -365,7 +396,8 @@ export class PropertyService {
         balcony: true,
         area: [40.66, 41.85, 65.67],
         garden: true,
-        parking: 1
+        parking: 1,
+        pool: true
       },
       features: [
         'Infraestrutura para ar-condicionado nos dormitórios',
@@ -419,10 +451,104 @@ export class PropertyService {
       type: 'Apartamento',
       status: 'Em obras',
       category: ['HIS-2'],
-      imagesUrl: ['https://lh3.googleusercontent.com/d/19RMbpAtLn34a7IgNT9Un0RBlweKgw14t=s1000'],
-      planta: [],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do 011 Brooklin Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/19RMbpAtLn34a7IgNT9Un0RBlweKgw14t=s1000'
+        }
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Garden Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 574690,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [65],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1CVpowZSMKtdtnSAdHPuRj63Zaix8gblK=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 1,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 574690,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [40],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/13aTZDBwZgRu3CKrCuP74A75CcaUIUJaQ=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 1,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 574690,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [41],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1nZ7APtn-ilAlOFqRM0u0-QHD3D6ep8Qx=s1000',
+
+          category: 'HIS-2'
+        }
+      ],
       isPromo: false,
-      favorite: false
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1Bm8yFdhr8WTxRX9OWma-ut8z4YVlYWHb'
     },
     {
       id: 4,
@@ -440,9 +566,10 @@ export class PropertyService {
         bathrooms: 1,
         suits: 1,
         balcony: true,
-        area: [36.77, 37.44, 38.81, 44.15, 44.24],
+        area: [36, 37, 38, 44],
         garden: false,
-        parking: 1
+        parking: 1,
+        pool: true
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
       amenities: [
@@ -471,11 +598,260 @@ export class PropertyService {
       type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2'],
-      imagesUrl: ['../../assets/patio-plantas/patiofachada.jpeg'],
-      planta: [],
+      imagesUrl: [{
+        id: 1,
+        description: 'Fachada do Pátio Central',
+        imagesUrl: '../../assets/patio-plantas/patiofachada.jpeg'
+      }],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [36],
+            garden: false,
+            parking: 1
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1BOF6fGL0O33xM3-E7nNIy4SwJQJYafyG=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [37, 38],
+            garden: false,
+            parking: 1
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1bRS39jpSDGkOM-vVCJuvfQNMLf2BkCJ5=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [44],
+            garden: false,
+            parking: 1
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Qi1Sn_ekhQ156dQBBsDjAkgvDZyZeoIr=s1000',
+
+
+          category: 'HIS-2'
+        }
+      ],
       isPromo: false,
-      favorite: false
-    }
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1eHDXm61tLnYwO6itbjvjQSN-86GTI5UE'
+    },
+    {
+      id: 5,
+      title: 'Equale Condominio Clube',
+      subtitle: '',
+      description: '',
+      location: 'Rua Rodrigo Fernandes, 55, Socorro – SP',
+      price: 279000,
+      price_promo: 0,
+      towers: 3,
+      units_available: 308,
+      date: new Date('2029-12-31'),
+      specs: {
+        bedrooms: 2,
+        bathrooms: 1,
+        suits: 0,
+        balcony: true,
+        area: [34, 35, 47],
+        garden: true,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do e-quale Condominio Clube',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1m9s16dfH7KbgqEUyXn3JUmnOXB4VJ9KU=s1000'
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 279000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [34],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1hY6FSm0DNU0Hix4FN1Y7TXn8_RbeNHn5=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 279000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 2,
+            balcony: true,
+            area: [35],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1E9MEoFloVO5YLWWsfNJadHtl1ZIAubn3=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta Garden Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 279000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 2,
+            balcony: true,
+            area: [35],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1PiQ6HksNB6W3Rv5AhPiGS7fOTtoB94Zu=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 4,
+          description: 'Planta Garden Tipo Meio',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 279000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 2,
+            balcony: true,
+            area: [35],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1l-IX4UdzF_J9g1FDnPkjqrVAaYm17Uec=s1000',
+
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1CS9KQ2gTNbwiEykXM1EWZeMTZohfZgR5'
+
+    },
   ]);
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
