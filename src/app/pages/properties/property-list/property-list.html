@@ -28,7 +28,9 @@
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
       <!-- Imagem e Badge de Estado -->
       <div class="card-image-wrapper">
-        <img mat-card-image [src]="item.imagesUrl[0]" [alt]="item.title">
+        @for (imagens of item.imagesUrl; track imagens.id) {
+          <img mat-card-image [src]="imagens.imagesUrl" [alt]="item.title">
+        }
         <span class="status-badge"
           [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento'?'':'rent2'">
           {{ item.status }}
@@ -105,6 +107,11 @@
             <mat-icon>directions_car</mat-icon>
           </div>
           }
+          @if( item?.specs?.pool ){
+          <div class="spec-item">
+            <mat-icon>pool</mat-icon>
+          </div>
+          }
           @if( item?.specs?.area ){
           <div class="spec-item">
             <mat-icon>square_foot</mat-icon>
@@ -116,7 +123,7 @@
 
       <!-- Ações do Cartão -->
       <mat-card-actions align="end">
-       <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
+        <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
           TENHO INTERESSE
         </button>
       </mat-card-actions>
