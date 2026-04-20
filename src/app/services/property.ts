@@ -802,7 +802,7 @@ export class PropertyService {
             bathrooms: 1,
             suits: 2,
             balcony: true,
-            area: [35],
+            area: [47],
             garden: true,
             parking: 0
           },
@@ -831,7 +831,7 @@ export class PropertyService {
             bathrooms: 1,
             suits: 2,
             balcony: true,
-            area: [35],
+            area: [47],
             garden: true,
             parking: 0
           },
