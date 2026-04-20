@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 // Service e Interfaces
-import { Planta, Property, PropertyService } from '../../../services/property';
+import { Implantacao, Planta, Property, PropertyService } from '../../../services/property';
 
 @Component({
   selector: 'app-property-details',
@@ -41,6 +41,7 @@ export class PropertyDetailsComponent implements OnInit {
   // Signals de Estado
   readonly property = signal<Property | null>(null);
   readonly selectedPlanta = signal<Planta | null>(null);
+  readonly selectedImplantacao = signal<Implantacao | null>(null);
 
   // Computed para facilitar o acesso à imagem atual
   readonly currentImageUrl = computed(() => {
@@ -49,16 +50,28 @@ export class PropertyDetailsComponent implements OnInit {
     return this.property()?.imagesUrl[0] || '';
   });
 
+  // Computed para facilitar o acesso à imagem atual
+  readonly currentImageUrl2 = computed(() => {
+    const p = this.selectedImplantacao();
+    if (p) return p.imagesUrl;
+    return this.property()?.imagesUrl[0] || '';
+  });
+
   ngOnInit() {
     if (this.id) {
       const found = this.propertyService.getPropertyById(Number(this.id));
-      
+
       if (found) {
         this.property.set(found);
         // Inicializa com a primeira planta se disponível
         if (found.planta && found.planta.length > 0) {
           this.selectedPlanta.set(found.planta[0]);
         }
+        // Inicializa com a primeira implantacao se disponível
+        if (found.imagesUrl && found.imagesUrl.length > 0) {
+          this.selectedImplantacao.set(found.imagesUrl[0]);
+        }
+
       } else {
         this.router.navigate(['/imoveis']);
       }
@@ -72,6 +85,13 @@ export class PropertyDetailsComponent implements OnInit {
     this.selectedPlanta.set(planta);
   }
 
+  /**
+   * Altera a implantacao selecionada e atualiza todos os dados da tela
+   */
+  selectImplantacao(implantacao: Implantacao) {
+    this.selectedImplantacao.set(implantacao);
+  }
+
   voltar() {
     this.router.navigate(['/imoveis']);
   }
@@ -79,6 +99,17 @@ export class PropertyDetailsComponent implements OnInit {
   openImage(): void {
     this.dialog.open(ImageDialogComponent, {
       data: { url: this.currentImageUrl() },
+      panelClass: 'full-screen-dialog',
+      maxHeight: '100vh',
+      maxWidth: '100vw',
+      width: '100%',
+      height: '100%'
+    });
+  }
+
+  openImage2(): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { url: this.currentImageUrl2() },
       panelClass: 'full-screen-dialog',
       maxHeight: '100vh',
       maxWidth: '100vw',
