@@ -1,14 +1,14 @@
-import { Component, inject, signal, Input, OnInit, Inject, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, Inject, Input, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // Service e Interfaces
 import { Implantacao, Planta, Property, PropertyService } from '../../../services/property';
@@ -43,6 +43,11 @@ export class PropertyDetailsComponent implements OnInit {
   readonly selectedPlanta = signal<Planta | null>(null);
   readonly selectedImplantacao = signal<Implantacao | null>(null);
 
+  whatappNumber = this.propertyService.settings().whatsappNumber || '';
+  whatsappMensagem = this.propertyService.settings().siteTitle || 'Olá! Gostaria de mais detalhes sobre este imóvel';
+  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+
+
   // Computed para facilitar o acesso à imagem atual
   readonly currentImageUrl = computed(() => {
     const p = this.selectedPlanta();
@@ -71,6 +76,10 @@ export class PropertyDetailsComponent implements OnInit {
         if (found.imagesUrl && found.imagesUrl.length > 0) {
           this.selectedImplantacao.set(found.imagesUrl[0]);
         }
+        this.whatsappMensagem = `Olá! Gostaria de mais detalhes sobre o imóvel 
+        ${found.title} ${this.selectedPlanta()?.description || ''}, de ${this.selectedPlanta()?.specs.area}m²`;
+        
+        this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
       } else {
         this.router.navigate(['/imoveis']);

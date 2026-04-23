@@ -126,9 +126,9 @@
             </div>
 
             <div class="actions-group">
-                <button mat-flat-button color="primary" class="main-cta">
+                <a mat-flat-button color="primary" class="main-cta" href="{{ whatsappUrl }}" target="_blank">
                     <mat-icon>whatsapp</mat-icon> FALAR COM CONSULTOR
-                </button>
+                </a>
                 <a mat-raised-button color="primary" [href]="property()?.bookUrl">
                     <mat-icon>cloud_download</mat-icon>
                     <mat-icon>download</mat-icon> BAIXAR BOOK COMPLETO
@@ -145,9 +145,9 @@
         </section>
     </div>
 
-    <!-- Coluna Esquerda: Visualizador de Implantações -->
+    <!-- Coluna central: Visualizador de Implantações -->
     <section class="gallery-column">
-        <div class="main-viewer shadow-lg" (click)="openImage2()" style="object-fit: cover;">
+        <div class="main-viewer-implantacao shadow-lg" (click)="openImage2()" style="object-fit: cover;">
             <img [src]="currentImageUrl2()" [alt]="selectedImplantacao()?.description || projeto.title" loading="eager">
             @if (selectedImplantacao(); as sp) {
             <div class="planta-label">
@@ -171,7 +171,7 @@
                     </div>
                 </div>
                 } @empty {
-                <p class="no-data">Imagens de plantas em breve.</p>
+                <p class="no-data">Imagens da implantação em breve.</p>
                 }
             </div>
         </div>
