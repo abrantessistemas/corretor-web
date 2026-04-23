@@ -43,7 +43,7 @@ export class AjustesComponent {
 
   // Variáveis vinculadas ao formulário
   tempTitle = this.config.settings().siteTitle;
-  tempLogo = this.config.settings().logoUrl;
+  tempLogo = this.config.settings().logo[0]?.imagesUrl || '';
   whatsappNumber = this.config.settings().whatsappNumber || '';
 
   savedSuccess = false;
@@ -98,7 +98,11 @@ export class AjustesComponent {
   save() {
     this.config.updateSettings({
       siteTitle: this.tempTitle,
-      logoUrl: this.tempLogo
+      logo: [{
+        id: 1,
+        imagesUrl: this.tempLogo,
+        description: this.config.settings().logo[0]?.description || ''
+      }]
     });
     this.showToast = true;
     setTimeout(() => this.showToast = false, 3000);
@@ -107,7 +111,7 @@ export class AjustesComponent {
   reset() {
     const current = this.config.settings();
     this.tempTitle = current.siteTitle;
-    this.tempLogo = current.logoUrl;
+    this.tempLogo = current.logo[0]?.imagesUrl || '';
   }
 
   onImgError(event: any) {
