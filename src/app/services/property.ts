@@ -78,15 +78,21 @@ export interface Incorporador {
   site: string;
 }
 
+export interface Logo {
+  id: number;
+  imagesUrl: string;
+  description: string;
+}
+
 /**
  * Interface para as definições globais do site
  */
 export interface AppSettings {
   siteTitle: string;
-  logoUrl: string;
   whatsappNumber: string;
   whatsappMessage: string;
   backgroundImageUrl: string;
+  logo: Logo[];
 }
 
 
@@ -314,7 +320,25 @@ export class PropertyService {
           id: 1,
           description: 'Fachada do Abytá Santo Amaro',
           imagesUrl: 'https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'
+          
         },
+        {
+          id: 2,
+          description: 'Academia do Abytá Santo Amaro',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1r8zORdXHdOHJO-BTZBMhRUOjmgjiVmli=s1000'
+          
+        },
+        {
+          id: 3,
+          description: 'Salão de jogos do Abytá Santo Amaro',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1FoQsM0WiLiZ1x-r8J16D0GHbGaiG5Tx1=s1000'
+        },
+        {
+          id: 4,
+          description: 'Playground do Abytá Santo Amaro',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IBorsVIADRAaAHR0cts5_eAO_4YTaQOt=s1000'
+
+        }
       ],
       planta: [
         {
@@ -450,7 +474,7 @@ export class PropertyService {
       ],
       type: 'Apartamento',
       status: 'Em obras',
-      category: ['HIS-2'],
+      category: ['HIS-2', 'R2V'],
       imagesUrl: [
         {
           id: 1,
@@ -852,6 +876,225 @@ export class PropertyService {
       bookUrl: 'https://drive.google.com/uc?export=download&id=1CS9KQ2gTNbwiEykXM1EWZeMTZohfZgR5'
 
     },
+    {
+      id: 6,
+      title: 'Signature Barra Funda Residences',
+      subtitle: '',
+      description: '',
+      location: 'Rua Robert Bosch, 332, Barra Funda – SP',
+      price: 584990,
+      price_promo: 0,
+      towers: 2,
+      units_available: 308,
+      date: new Date('2028-12-31'),
+      specs: {
+        bedrooms: 2,
+        bathrooms: 1,
+        suits: 0,
+        balcony: true,
+        area: [44, 58],
+        garden: true,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do Signature',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1L1wIERPnWj2kU3R3NUlmWgsiloHkrFY3=s1000'
+        },
+        {
+          id: 2,
+          description: 'Piscina do Signature',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000'
+
+
+        },
+        {
+          id: 3,
+          description: 'Quadra do Signature',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1vnvqBa55WH6J23BcYLNS4q3199eRvK8g=s1000'
+
+
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 584990,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [44],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1kalBZ_Wjn8ZUyfkqY0H0__tJ0WMyEoQU=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 808990,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [58],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/10Fsb0BA2mGSXbs2ch4-qs1ZsgiAtN3pZ=s1000',
+
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1khkECPzJqMUbUoUWSrXyLbBN9N319JsE'
+
+
+    },
+    {
+      id: 7,
+      title: 'Holistic Residence',
+      subtitle: '',
+      description: '',
+      location: 'Av. Santa Marina, 1550, Barra Funda – SP',
+      price: 461201,
+      price_promo: 0,
+      towers: 2,
+      units_available: 308,
+      date: new Date('2026-12-31'),
+      specs: {
+        bedrooms: 3,
+        bathrooms: 1,
+        suits: 1,
+        balcony: false,
+        area: [43, 54],
+        garden: false,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do holistic Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Kp5i4WPIHgzydt2PP_6CzFNGE5X6Fp5t=s1000'
+        },
+        {
+          id: 2,
+          description: 'Piscina do holistic Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1mXGcpno1SCy9dZRBecPQ6jVCMKyGefs3=s1000'
+        },
+        {
+          id: 3,
+          description: 'Coworking do holistic Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1I3YU7UYoeobp32yr5TrijMOlgx8z8718=s1000'
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 461201,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [43],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1a3pVoO4HylETLSB0jHaZi8TUrEKIucx9=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 731090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 3,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [54],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1YV1qlmFzo0am3TgY3nynCm4lzcnYHVse=s1000',
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1khkECPzJqMUbUoUWSrXyLbBN9N319JsE'
+    },
   ]);
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
@@ -875,13 +1118,21 @@ export class PropertyService {
     return this.propertiesList().find(p => p.id === id);
   }
 
-  readonly settings = signal<AppSettings>({
-    siteTitle: 'Simulador Pro',
-    logoUrl: 'https://cdn-icons-png.flaticon.com/512/602/602182.png',
-    whatsappNumber: '5511968711986',
-    whatsappMessage: 'Olá! Gostaria de mais informações',
-    backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000'
-  });
+  readonly settings = signal<AppSettings>(
+    {
+      siteTitle: 'na planta',
+      whatsappNumber: '5511968711986',
+      whatsappMessage: 'Olá! Gostaria de mais informações',
+      backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000',
+      logo: [
+        {
+          id: 1,
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
+          description: 'na planta'
+        }
+      ]
+    }
+  );
 
   updateSettings(newSettings: Partial<AppSettings>) {
     this.settings.update(current => ({ ...current, ...newSettings }));
