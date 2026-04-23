@@ -61,7 +61,7 @@ export class App {
     { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent', enable: true },
     { path: '/payment', label: 'Simulador', icon: 'payment', enable: true },
     { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: true },
-    { path: '/trabalhe-conosco', label: 'Trabalhe Conosco', icon: 'group', enable: true },
+    { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: true },
     { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: true },
     { path: '/perfil', label: 'Perfil', icon: 'person', enable: false }
   ]);
@@ -73,6 +73,8 @@ export class App {
   whatsappMensagem = this.propertyService.settings().siteTitle || 'Olá! Gostaria de mais informações';
 
   whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+
+  logoSetting = signal(this.propertyService.settings().logo);
 
   /**
    * Prepara os dados da rota para a animação

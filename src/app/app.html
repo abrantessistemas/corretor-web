@@ -7,8 +7,8 @@
     style="padding: 40px; width: 100%; height: 10px;background: transparent">
     <div class="toolbar-container">
       <div class="brand" routerLink="/">
-        <img src="../assets/logo.png" alt="Logo" class="logo-img">
-        <span [routerLink]="['/']" style="cursor:pointer;">na planta</span>
+        <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
+        <span [routerLink]="['/']" style="cursor:pointer;">{{propertyService.settings().siteTitle}}</span>
       </div>
 
       <span class="spacer"></span>
