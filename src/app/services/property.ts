@@ -72,6 +72,18 @@ export interface Incorporador {
   id: number;
   imagesUrl: string,
   title: string;
+  cnpj: string;
+  description: string;
+  location: string;
+  date?: Date;
+  site: string;
+}
+
+export interface Construtora {
+  id: number;
+  imagesUrl: string,
+  title: string;
+  cnpj: string;
   description: string;
   location: string;
   date?: Date;
@@ -320,13 +332,13 @@ export class PropertyService {
           id: 1,
           description: 'Fachada do Abytá Santo Amaro',
           imagesUrl: 'https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'
-          
+
         },
         {
           id: 2,
           description: 'Academia do Abytá Santo Amaro',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1r8zORdXHdOHJO-BTZBMhRUOjmgjiVmli=s1000'
-          
+
         },
         {
           id: 3,
@@ -1122,7 +1134,7 @@ export class PropertyService {
     {
       siteTitle: 'na planta',
       whatsappNumber: '5511968711986',
-      whatsappMessage: 'Olá! Gostaria de mais informações',
+      whatsappMessage: 'Olá! Gostaria de obter mais informações',
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000',
       logo: [
         {

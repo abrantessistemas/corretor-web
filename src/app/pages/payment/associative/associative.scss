@@ -1,17 +1,14 @@
 /* Mantendo os estilos idênticos para garantir a visualização original */
 .main-layout {
     display: grid;
-    grid-template-columns: 1fr 450px;
-    gap: 30px;
-    max-width: 1300px;
+    width: 100%;
     margin: 20px auto;
-    padding: 0 20px;
+    padding: 10px;
     font-family: 'Inter', system-ui, sans-serif;
 
     @media (max-width: 1100px) {
         grid-template-columns: 1fr;
-
-        .display-panel {
+         .display-panel {
             display: none;
         }
     }
@@ -19,10 +16,10 @@
 
 .form-container {
     background: white;
-    padding: 40px;
+    padding: 5px;
+    width: 100%;
     border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-    border: 1px solid;
 
     .full-width {
         width: 100%;
@@ -38,6 +35,7 @@
             font-size: 40px;
             width: 40px;
             height: 40px;
+            color: #2563eb;
         }
 
         h1 {
@@ -59,7 +57,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    border: 1px solid;
 
     .full {
         grid-column: 1 / -1;
@@ -68,7 +65,6 @@
 
 .row-toggle {
     display: flex;
-    flex-direction: column;
     align-items: center;
     background: #f8fafc;
     padding: 16px 20px;
@@ -84,6 +80,9 @@
         color: #334155;
         min-width: 160px;
 
+        mat-icon {
+            color: #64748b;
+        }
     }
 
     .inline-input {
@@ -146,7 +145,7 @@
         .title {
             font-weight: 900;
             letter-spacing: 2px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #94a3b8;
         }
 
@@ -326,6 +325,10 @@
         gap: 8px;
         font-weight: 700;
         color: #1e293b;
+
+        mat-icon {
+            color: #3b82f6;
+        }
     }
 
     .badge {
@@ -518,5 +521,3 @@
     position: sticky;
     top: 20px;
 }
-
-// ... resto dos estilos anteriores

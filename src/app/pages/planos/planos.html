@@ -1,0 +1,64 @@
+<section class="pricing-section">
+    <div class="container">
+        <div class="header">
+            <span class="badge">Nossos Planos</span>
+            <h1>Invista no seu Sucesso Imobiliário</h1>
+            <p>Site entregue com <strong>8 projetos da Riva</strong> já cadastrados e pronto para vender.</p>
+        </div>
+
+        <div class="pricing-grid">
+            @for (plan of plans(); track plan.title) {
+            <mat-card class="pricing-card" [class.popular]="plan.isPopular">
+
+                @if (plan.isPopular) {
+                <div class="ribbon">MAIS ESCOLHIDO</div>
+                }
+
+                <mat-card-header>
+                    <mat-card-title>{{ plan.title }}</mat-card-title>
+                    <mat-card-subtitle>{{ plan.highlight }}</mat-card-subtitle>
+                </mat-card-header>
+
+                <div class="price-container">
+                    <span class="currency">R$</span>
+                    <span class="amount">{{ plan.price.replace('R$ ', '') }}</span>
+                    <span class="period">{{ plan.subtitle }}</span>
+                </div>
+
+                @if (plan.dailyPrice) {
+                <div class="daily-savings">
+                    <mat-icon>savings</mat-icon>
+                    <span>{{ plan.dailyPrice }}</span>
+                </div>
+                }
+
+                <mat-divider></mat-divider>
+
+                <mat-card-content>
+                    <ul class="feature-list">
+                        @for (feature of plan.features; track feature.text) {
+                        <li>
+                            <mat-icon [class.disabled]="!feature.included">
+                                {{ feature.included ? 'check_circle' : 'cancel' }}
+                            </mat-icon>
+                            <span>{{ feature.text }}</span>
+                        </li>
+                        }
+                    </ul>
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <button mat-flat-button [color]="plan.isPopular ? 'primary' : ''" (click)="onSelectPlan(plan)">
+                        {{ plan.buttonText }}
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            }
+        </div>
+
+        <div class="footer-note">
+            <mat-icon>info</mat-icon>
+            <p>Todos os planos incluem suporte técnico e otimização para motores de busca (SEO).</p>
+        </div>
+    </div>
+</section>

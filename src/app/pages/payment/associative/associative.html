@@ -1,4 +1,4 @@
-<div class="main-layout" [formGroup]="associativeForm">
+<div [formGroup]="associativeForm" style="padding: 8px;">
 
     <section class="form-container">
         <header class="form-header">
@@ -61,31 +61,21 @@
             </mat-form-field>
 
             <div class="row-toggle full">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Financiado(CAIXA)</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>Financiamento (CAIXA)</mat-label>
                     <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
                     <span matPrefix>R$&nbsp;</span>
-                    <mat-error v-If="associativeForm.get('valorFinanciamento')?.hasError('required')">
-                        O valor do financiado deve ser maior que <strong>zero.</strong>
-                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Valor da Parcela Morando</mat-label>
-                    <input matInput type="number" formControlName="valorMorando" (focus)="selectAll($event)"
-                        (change)="progress()" (blur)="valorProgressao()">
+                    <mat-label>Valor Parcela Morando </mat-label>
+                    <input matInput type="number" formControlName="valorMorando" (focus)="selectAll($event)">
                     <span matPrefix>R$&nbsp;</span>
-                    <mat-error v-If="myForm.get('valorMorando')?.hasError('min')">
-                        O valor da parcela morando deve ser maior que <strong>zero.</strong>
-                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Prazo máximo (Meses)</mat-label>
                     <input matInput formControlName="prazoMensaisMorando" (focus)="selectAll($event)">
-                    <mat-error v-If="associativeForm.get('prazoMensaisMorando')?.hasError('required')">
-                        O prazo máximo deve ser maior que <strong>zero.</strong>
-                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -94,32 +84,36 @@
                     <mat-icon class="color-text">account_balance_wallet</mat-icon>
                     <span>Utilizar FGTS?</span>
                 </div>
-                <mat-radio-group formControlName="possuiFgts">
-                    <mat-radio-button value="sim">Sim</mat-radio-button>
-                    <mat-radio-button value="nao">Não</mat-radio-button>
-                </mat-radio-group>
-                @if(associativeForm.get('possuiFgts')?.value === 'sim') {
-                <input class="inline-input full-width" type="number" formControlName="valorFgts"
-                    (focus)="selectAll($event)" placeholder="0.00">
-                }
+                <div style="margin-right: 15px;">
+                    <mat-radio-group formControlName="possuiFgts">
+                        <mat-radio-button value="sim">Sim</mat-radio-button>
+                        <mat-radio-button value="nao">Não</mat-radio-button>
+                    </mat-radio-group>
+                    <br>
+                    @if(associativeForm.get('possuiFgts')?.value === 'sim') {
+                    <input class="inline-input full-width" type="number" formControlName="valorFgts"
+                        (focus)="selectAll($event)" placeholder="0.00">
+                    }
+                </div>
             </div>
 
             <div class="annual-box full">
                 <mat-checkbox formControlName="desejaAnuais">Parcelas Anuais</mat-checkbox>
-                @if(associativeForm.get('desejaAnuais')?.value) {
-                <mat-form-field appearance="fill">
-                    <mat-label>Qtd. de Parcelas</mat-label>
-                    <input matInput type="text" maxlength="1" formControlName="qtdAnuais" (focus)="selectAll($event)">
-                </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Valor da parcela anual</mat-label>
-                    <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
-                    <span matPrefix>R$&nbsp;</span>
-                    <mat-error v-If="associativeForm.get('valorCadaAnual')?.hasError('required')">
-                        O valor da parcela anual deve ser maior que <strong>zero.</strong>
-                    </mat-error>
-                </mat-form-field>
+                @if(associativeForm.get('desejaAnuais')?.value) {
+                <div class="annual-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Qtd. de Parcelas</mat-label>
+                        <input matInput type="text" maxlength="1" formControlName="qtdAnuais"
+                            (focus)="selectAll($event)">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Valor da parcela anual</mat-label>
+                        <input matInput type="number" formControlName="valorCadaAnual" (focus)="selectAll($event)">
+                        <span matPrefix>R$&nbsp;</span>
+                    </mat-form-field>
+                </div>
                 }
             </div>
 

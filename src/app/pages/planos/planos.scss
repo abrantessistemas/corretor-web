@@ -1,0 +1,234 @@
+// Variáveis de Design
+$primary: #2563eb;
+$primary-dark: #1e40af;
+$accent: #f59e0b;
+$text-main: #0f172a;
+$text-muted: #64748b;
+$bg-section: #f8fafc;
+
+.pricing-section {
+    padding: 80px 20px;
+    background-color: $bg-section;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container {
+        max-width: 1100px;
+        width: 100%;
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+
+    .badge {
+        background: rgba($primary, 0.1);
+        color: $primary;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: $text-main;
+        margin: 20px 0 10px;
+    }
+
+    p {
+        color: $text-muted;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.pricing-card {
+    position: relative;
+    border-radius: 24px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: white !important;
+
+    &:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    &.popular {
+        border: 2px solid $primary !important;
+
+        .amount {
+            color: $primary;
+        }
+    }
+
+    mat-card-header {
+        margin-bottom: 20px;
+
+        mat-card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: $text-main;
+        }
+
+        mat-card-subtitle {
+            color: $primary;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+    }
+}
+
+.price-container {
+    margin: 30px 0 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    .currency {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $text-main;
+    }
+
+    .amount {
+        font-size: 3rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+
+    .period {
+        color: $text-muted;
+        font-size: 1rem;
+    }
+}
+
+.daily-savings {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ecfdf5;
+    color: #059669;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.feature-list {
+    list-style: none;
+    padding: 25px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: $text-main;
+        font-size: 0.95rem;
+
+        mat-icon {
+            color: #22c55e;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+
+            &.disabled {
+                color: #cbd5e1;
+            }
+        }
+    }
+}
+
+mat-card-actions {
+    padding: 0 !important;
+    margin-top: 10px;
+
+    button {
+        width: 100%;
+        height: 56px !important;
+        border-radius: 14px !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        letter-spacing: 0.5px;
+
+        &:not([color="primary"]) {
+            background: #f1f5f9;
+            color: $text-main;
+        }
+    }
+}
+
+.ribbon {
+    position: absolute;
+    top: 20px;
+    right: -10px;
+    background: $accent;
+    color: white;
+    padding: 5px 15px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.1);
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        border-left: 10px solid transparent;
+        border-top: 5px solid darken($accent, 20%);
+    }
+}
+
+.footer-note {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: $text-muted;
+    font-size: 0.85rem;
+
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+}
