@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PropertyService } from '../../services/property';
 import { RouterLink } from '@angular/router';
 import { PropertyListComponent } from '../properties/property-list/property-list';
+import { RoletaCorretoresComponent } from "../../shared/roleta/roleta";
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,9 @@ import { PropertyListComponent } from '../properties/property-list/property-list
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    PropertyListComponent
-  ],
+    PropertyListComponent,
+    RoletaCorretoresComponent
+],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
