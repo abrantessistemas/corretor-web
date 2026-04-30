@@ -27,7 +27,7 @@ export interface Property {
   },
   features: string[],
   amenities: string[],
-  type: 'Estudio' | 'Apartamento' | 'Casa' | 'Cobertura';
+  type: 'Estudio' | 'Apartamento' | 'Suites' | 'Casa' | 'Cobertura' | 'Duplex' | 'Triplex';
   status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido';
   category: string[];
   imagesUrl: Implantacao[];
@@ -123,36 +123,70 @@ export class PropertyService {
       description: '',
       location: 'Rua Princesa Isabel, 400 - Brooklin SP',
       price: 383636,
-      price_promo: 319000,
+      price_promo: 349990,
       towers: 1,
       units_available: 370,
       date: new Date('2029-08-31'),
       specs: {
         bedrooms: 1,
         bathrooms: 1,
-        suits: 0,
+        suits: 1,
         balcony: true,
         area: [26, 27, 28, 31, 36, 37, 45, 58],
         garden: true,
         parking: 0,
-        pool: true
+        pool: true,
       },
       features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico'],
-      amenities: ['Piscina com dack molhado', 'Salão de Festas', 'Churrasqueira', 'Coworking', 'Academia 24h', 'Lavanderia Coletiva', 'Pet Place', 'lavanderia 24h', 'Bicicletário', 'Gerador', 'Mini-Mercado'],
+      amenities: ['Piscina com dack molhado', 'Salão de Festas', 'Churrasqueira', 'Coworking', 'Academia 24h', 'Lavanderia Coletiva 24h', 'Pet Place', 'Bicicletário', 'Gerador', 'Mini-Mercado'],
       type: 'Apartamento',
       status: 'Lançamento',
       category: ['HIS-2', 'R2V'],
-
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do Brooklin Sky Home Tower',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1lNaLTg6NkiDcJ-AabwYT4LD8RxaaDEsU=s1000'
         },
         {
           id: 2,
-          description: 'Interior do Brooklin Sky Home Tower',
+          description: 'Portaria',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1uGTwop-_7ZtuOZFj9Vhs2q8uPg1-MfJR=s1000'
+        },
+        {
+          id: 3,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1rBAd0-bCnOKD8-aNrJlpZa5WznUA7xJw=s1000'
+        },
+        {
+          id: 4,
+          description: 'Pet Place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/10_dU9urK0Huv6t6vevo5I82tPJI6wpO1=s1000'
+        },
+        {
+          id: 5,
+          description: 'Academia',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1-z7rpU0kXlkZ_qe0_yFxP4dWvPVgXxVL=s1000'
+        },
+        {
+          id: 6,
+          description: 'Lavanderia',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1ugc9ulhLtDj2KgEhEURJ2UbM0R6ua2jN=s1000'
+        },
+        {
+          id: 7,
+          description: 'Churrasqueira',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1LATuy5V5i79b8KgCyADRdRoC2jOSf99D=s1000'
+        },
+        {
+          id: 8,
+          description: 'Lobby Externo',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1YJKE8Ot2m0v-4fE7dlIWUBneVnRwQWso=s1000'
+        },
+        {
+          id: 9,
+          description: 'Minimarket',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1ESGpEGJspcPnvwAWufqOR2tPRrnUJa9e=s1000'
         }
       ],
       planta: [
@@ -164,14 +198,14 @@ export class PropertyService {
             floor: [4, 10]
           },
           price: 383636,
-          price_promo: 319000,
+          price_promo: 349990,
           specs: {
             bedrooms: 1,
             bathrooms: 1,
             suits: 1,
             balcony: true,
             area: [26],
-            garden: true,
+            garden: false,
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
@@ -181,7 +215,7 @@ export class PropertyService {
         },
         {
           id: 2,
-          description: 'Planta Garden Tipo Meio',
+          description: 'Planta Tipo Garden Meio',
           location: {
             towers: ['A'],
             floor: [4, 10]
@@ -192,7 +226,7 @@ export class PropertyService {
             bedrooms: 1,
             bathrooms: 1,
             suits: 1,
-            balcony: true,
+            balcony: false,
             area: [26],
             garden: true,
             parking: 0
@@ -217,7 +251,7 @@ export class PropertyService {
             suits: 1,
             balcony: true,
             area: [28],
-            garden: true,
+            garden: false,
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
@@ -227,7 +261,7 @@ export class PropertyService {
         },
         {
           id: 4,
-          description: 'Planta Garden Tipo Meio',
+          description: 'Planta Tipo Meio',
           location: {
             towers: ['A'],
             floor: [20]
@@ -240,7 +274,7 @@ export class PropertyService {
             suits: 1,
             balcony: true,
             area: [31],
-            garden: true,
+            garden: false,
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
@@ -250,7 +284,30 @@ export class PropertyService {
         },
         {
           id: 5,
-          description: 'Planta Garden Tipo Meio',
+          description: 'Planta Tipo Garden Meio',
+          location: {
+            towers: ['A'],
+            floor: [20]
+          },
+          price: 513990,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [31],
+            garden: false,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1O7PtRY8bSokUXT5-YV9xp10ovInDLK02=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 6,
+          description: 'Planta Tipo Garden Meio',
           location: {
             towers: ['A'],
             floor: [4, 10]
@@ -261,7 +318,30 @@ export class PropertyService {
             bedrooms: 1,
             bathrooms: 1,
             suits: 1,
-            balcony: true,
+            balcony: false,
+            area: [45],
+            garden: true,
+            parking: 0
+          },
+          features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
+          status: 'Disponivel',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1O7PtRY8bSokUXT5-YV9xp10ovInDLK02=s1000',
+          category: 'R2V'
+        },
+        {
+          id: 7,
+          description: 'Planta Tipo Garden Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10]
+          },
+          price: 559990,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
             area: [45],
             garden: true,
             parking: 0
@@ -272,8 +352,8 @@ export class PropertyService {
           category: 'R2V'
         },
         {
-          id: 6,
-          description: 'Planta Tipo UP Garden',
+          id: 8,
+          description: 'Planta Tipo UP Garden Ponta',
           location: {
             towers: ['A'],
             floor: [20]
@@ -284,7 +364,7 @@ export class PropertyService {
             bedrooms: 1,
             bathrooms: 1,
             suits: 1,
-            balcony: true,
+            balcony: false,
             area: [58],
             garden: true,
             parking: 0
@@ -293,13 +373,11 @@ export class PropertyService {
           status: 'Disponivel',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1UCC23Yl3wL47DDjV_qqyBNy41Mlt4cAO=s1000',
           category: 'R2V'
-        },
-
+        }
       ],
       isPromo: true,
-      favorite: true,
-      bookUrl: 'https://drive.google.com/uc?export=download&id=1niSUepYyfUIgUBBoC8mk25m8wHqsl-yO'
-
+      favorite: false,
+      bookUrl: '',
     },
     {
       id: 2,
@@ -388,15 +466,15 @@ export class PropertyService {
             towers: ['A', 'B', 'C'],
             floor: [2, 8],
           },
-          price: 264000,
+          price: 279000,
           price_promo: 245000,
           specs: {
             bedrooms: 2,
             bathrooms: 1,
-            suits: 2,
+            suits: 0,
             balcony: true,
             area: [35],
-            garden: true,
+            garden: false,
             parking: 0
           },
           features: [
