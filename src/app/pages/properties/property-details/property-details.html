@@ -19,7 +19,7 @@
                 @if (selectedPlanta(); as sp) {
                 <div class="planta-label">
                     <mat-icon>straighten</mat-icon>
-                    {{ projeto.description }}
+                    {{ sp.description }}
                 </div>
                 }
             </div>
@@ -151,8 +151,8 @@
             <img [src]="currentImageUrl2()" [alt]="selectedImplantacao()?.description || projeto.title" loading="eager">
             @if (selectedImplantacao(); as sp) {
             <div class="planta-label">
-                <mat-icon>straighten</mat-icon>
-                {{ projeto.description }}
+                <mat-icon>mood_heart</mat-icon>
+                {{ sp.description }}
             </div>
             }
         </div>
@@ -180,7 +180,7 @@
     <!-- Abas de Detalhes Adicionais -->
     <section class="extra-tabs">
         <mat-tab-group animationDuration="300ms">
-            <mat-tab label="Diferenciais da Unidade">
+            <mat-tab label="Diferênciais da Unidade">
                 <div class="tab-content">
                     <div class="feature-grid">
                         @for (feature of (selectedPlanta()?.features?.length ? selectedPlanta()?.features :
