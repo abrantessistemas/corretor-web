@@ -1,0 +1,126 @@
+.fab-wrapper {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    max-width: calc(100vw - 40px); // Garante que não estoure no mobile
+
+    .roleta-window {
+        width: 350px;
+        max-width: calc(100vw - 40px); // Responsividade
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(30px) scale(0.9);
+        margin-bottom: 15px;
+        border-radius: 20px;
+    }
+
+    &.active {
+        .roleta-window {
+            max-height: 80vh; // Ajusta ao tamanho da tela
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .main-fab {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.input-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+.lista-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.corretor-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    animation: slideIn 0.3s ease forwards;
+
+    .rank-badge {
+        width: 28px;
+        height: 28px;
+        background: #9e9e9e;
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+        margin-right: 12px;
+
+        &.gold {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #ffd700, #ffa000);
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(255, 160, 0, 0.3);
+        }
+    }
+
+    &.first-place {
+        background: #fffbe6;
+        border-color: #ffe58f;
+
+        .nome-texto {
+            font-weight: bold;
+            color: #876800;
+            font-size: 1.1rem;
+        }
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.w-100 {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+}
+
+// Ajuste para Mobile
+@media (max-width: 600px) {
+    .fab-wrapper {
+        right: 10px;
+        bottom: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .roleta-window {
+        width: 100%;
+    }
+}
