@@ -10,6 +10,8 @@ export interface Property {
   subtitle: string;
   description: string;
   location: string;
+  state: string;
+  region: string;
   price: number;
   price_promo: number;
   towers: number;
@@ -101,10 +103,12 @@ export interface Logo {
  */
 export interface AppSettings {
   siteTitle: string;
-  whatsappNumber: string;
-  whatsappMessage: string;
-  backgroundImageUrl: string;
   logo: Logo[];
+  backgroundImageUrl: string;
+  whatsappConfig: {
+    whatsappNumber: string,
+    whatsappMessage: string
+  };
 }
 
 
@@ -122,6 +126,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Princesa Isabel, 400 - Brooklin SP',
+      state:'São Paulo',
+      region: 'Zona Sul',
       price: 383636,
       price_promo: 349990,
       towers: 1,
@@ -385,6 +391,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Herbert Alfred Landsberg, 27 - Santo Amaro SP',
+      state:'São Paulo',
+      region: 'Zona Sul',
       price: 279000,
       price_promo: 245000,
       towers: 3,
@@ -498,6 +506,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Caetano José Batista, 149 - Brooklin - SP',
+      state:'São Paulo',
+      region: 'Zona Sul',
       price: 574690,
       price_promo: 0,
       towers: 3,
@@ -670,6 +680,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Junqueira Freire, no 263 - Liberdade - SP',
+      state:'São Paulo',
+      region: 'Centro',
       price: 340090,
       price_promo: 0,
       towers: 3,
@@ -816,6 +828,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Rodrigo Fernandes, 55, Socorro – SP',
+      state:'São Paulo',
+      region: 'Zona Sul',
       price: 279000,
       price_promo: 0,
       towers: 3,
@@ -972,6 +986,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Robert Bosch, 332, Barra Funda – SP',
+      state:'São Paulo',
+      region: 'Zona Oeste',
       price: 584990,
       price_promo: 0,
       towers: 2,
@@ -1085,6 +1101,8 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Av. Santa Marina, 1550, Barra Funda – SP',
+      state:'São Paulo',
+      region: 'Zona Oeste',
       price: 461201,
       price_promo: 0,
       towers: 2,
@@ -1184,7 +1202,7 @@ export class PropertyService {
       isPromo: false,
       favorite: false,
       bookUrl: 'https://drive.google.com/uc?export=download&id=1khkECPzJqMUbUoUWSrXyLbBN9N319JsE'
-    },
+    }
   ]);
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
@@ -1211,16 +1229,19 @@ export class PropertyService {
   readonly settings = signal<AppSettings>(
     {
       siteTitle: 'na planta',
-      whatsappNumber: '5511968711986',
-      whatsappMessage: 'Olá! Gostaria de obter mais informações',
-      backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000',
       logo: [
         {
           id: 1,
           imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
-          description: 'na planta'
+          description: 'projetos na planta'//max 18 character
         }
-      ]
+      ],
+      backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000',
+      whatsappConfig:
+      {
+        whatsappNumber: '5511968711986',
+        whatsappMessage: 'Olá! Gostaria de obter mais informações',
+      }
     }
   );
 
