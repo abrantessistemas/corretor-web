@@ -1,5 +1,5 @@
 // Variáveis de Design
-$primary: #2563eb;
+$primary: var(--primary-color);
 $primary-dark: #1e40af;
 $accent: #f59e0b;
 $text-main: #0f172a;
@@ -68,10 +68,11 @@ $bg-section: #f8fafc;
     &:hover {
         transform: translateY(-12px);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+        cursor: pointer;
     }
 
     &.popular {
-        border: 2px solid $primary !important;
+        border: 2px solid var(--primary-color) !important;
 
         .amount {
             color: $primary;
@@ -149,14 +150,14 @@ $bg-section: #f8fafc;
     li {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 5px;
         color: $text-main;
         font-size: 0.95rem;
 
         mat-icon {
             color: #22c55e;
             font-size: 20px;
-            width: 20px;
+            width: 30px;
             height: 20px;
 
             &.disabled {
@@ -231,4 +232,10 @@ mat-card-actions {
     .pricing-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.old-price {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    text-decoration: line-through;
 }
