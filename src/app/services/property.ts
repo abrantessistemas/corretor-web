@@ -1228,18 +1228,18 @@ export class PropertyService {
 
   readonly settings = signal<AppSettings>(
     {
-      siteTitle: 'na planta',
+      siteTitle: 'idelis Imobiliária',
       logo: [
         {
           id: 1,
-          imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
-          description: 'projetos na planta'//max 18 character
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1KI7kkIoZ2pYLTGjamuWxW1CcLAbBGplS=s1000',
+          description: 'Ed Fidelis Inteligencia Imobiliária'//max 18 character
         }
       ],
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000',
       whatsappConfig:
       {
-        whatsappNumber: '5511968711986',
+        whatsappNumber: '5511921770553',
         whatsappMessage: 'Olá! Gostaria de obter mais informações',
       }
     }
