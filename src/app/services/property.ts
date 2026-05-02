@@ -1232,7 +1232,7 @@ export class PropertyService {
       logo: [
         {
           id: 1,
-          imagesUrl: 'https://lh3.googleusercontent.com/d/1KI7kkIoZ2pYLTGjamuWxW1CcLAbBGplS=s1000',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
           description: 'Prontos ou na planta'//max 18 character
         }
       ],
