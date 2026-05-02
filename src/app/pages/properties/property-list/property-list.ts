@@ -53,6 +53,24 @@ export class PropertyListComponent implements OnInit {
    * Usando o padrão de injeção do Angular 21.
    */
   public propertyService = inject(PropertyService);
+  sortOrder = signal<'asc' | 'desc' | null>(null);
+  sortedProperties = computed(() => {
+    const list = [...this.propertyService.properties()]; // Copia a lista original
+    const order = this.sortOrder();
+
+    if (!order) return list;
+
+    return list.sort((a, b) => {
+      return order === 'asc'
+        ? a.price - b.price
+        : b.price - a.price;
+    });
+  });
+
+  toggleSort() {
+    // Alterna entre Ascendente, Descendente e Original (opcional)
+    this.sortOrder.update(current => current === 'asc' ? 'desc' : 'asc');
+  }
 
   /**
    * Navega para o formulário de cadastro de um novo imóvel.
@@ -96,4 +114,34 @@ export class PropertyListComponent implements OnInit {
 
   // 2. Computed que retorna true apenas se for a home
   isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
+
+  // Signal para armazenar a zona selecionada
+selectedZone = signal<string | null>(null);
+
+// Lista de zonas disponíveis (pode vir do serviço ou ser estática)
+zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
+
+// Atualizamos o computed para filtrar E ordenar
+filteredAndSortedProperties = computed(() => {
+  let list = [...this.propertyService.properties()];
+  const zone = this.selectedZone();
+  const order = this.sortOrder();
+
+  // 1. Filtrar por Zona
+  if (zone) {
+    list = list.filter(item => item.region === zone);
+  }
+
+  // 2. Ordenar por Valor
+  if (order) {
+    list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+  }
+
+  return list;
+});
+
+// Função para selecionar/deselecionar zona
+filterByZone(zone: string) {
+  this.selectedZone.update(current => current === zone ? null : zone);
+}
 }

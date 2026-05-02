@@ -43,7 +43,7 @@ export class PropertyDetailsComponent implements OnInit {
   readonly selectedPlanta = signal<Planta | null>(null);
   readonly selectedImplantacao = signal<Implantacao | null>(null);
 
-  whatappNumber = this.propertyService.settings().whatsappNumber || '';
+  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
   whatsappMensagem = this.propertyService.settings().siteTitle || 'Olá! Gostaria de mais detalhes sobre este imóvel';
   whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 

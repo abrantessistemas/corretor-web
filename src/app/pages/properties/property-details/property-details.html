@@ -140,7 +140,7 @@
             <div class="description-box">
                 <h3>Sobre o Empreendimento</h3>
                 <p>{{ projeto.description || 'Um projeto pensado nos mínimos detalhes para oferecer conforto,'
-                    +'sofisticação e uma localização estratégica no coração da cidade.' }}</p>
+                    +' sofisticação e uma localização estratégica no coração da cidade.' }}</p>
             </div>
         </section>
     </div>
@@ -200,7 +200,7 @@
                     <div class="amenities-list">
                         @for (amenity of projeto.amenities; track amenity) {
                         <div class="amenity-card">
-                            <mat-icon>star</mat-icon>
+                            <mat-icon style="color: yellow;">star</mat-icon>
                             <span>{{ amenity }}</span>
                         </div>
                         }

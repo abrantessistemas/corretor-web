@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" #value>
   @if(!isHome()){
   <app-property-slide></app-property-slide>
   }
@@ -19,17 +19,40 @@
   </header>
 
   <!-- Grelha de Imóveis -->
+  @if(!isHome()){
+  <div class="filter-container">
+    <div class="zone-filters" style="margin-top: -30px;">
+      <small>Filtrar por região:</small>
+      <mat-chip-listbox aria-label="Seleção de Zona">
+        @for (zona of zonas; track zona) {
+        <mat-chip-option (click)="filterByZone(zona)" [selected]="selectedZone() === zona">
+          {{ zona }}
+        </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </div>
+
+    <hr>
+
+    @if(filteredAndSortedProperties().length > 0) {
+    <button mat-stroked-button (click)="toggleSort()" style="margin-bottom: 5px;">
+      <mat-icon>{{ sortOrder() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+      Ordenar por Valor
+    </button>
+    }
+  </div>
+  }
   @if(loadDetails){
   <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
   }
 
   <div class="property-grid">
-    @for (item of propertyService.properties(); track item.id) {
+    @for (item of filteredAndSortedProperties();track item.id) {
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
       <!-- Imagem e Badge de Estado -->
       <div class="card-image-wrapper">
         @for (imagens of item.imagesUrl; track imagens.id) {
-          <img mat-card-image [src]="imagens.imagesUrl" [alt]="item.title">
+        <img mat-card-image [src]="imagens.imagesUrl" [alt]="item.title">
         }
         <span class="status-badge"
           [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento'?'':'rent2'">
@@ -135,10 +158,10 @@
         <mat-icon>home_work</mat-icon>
       </div>
       <h2>Ainda não existem imóveis registados</h2>
-      <p>Comece a sua jornada adicionando o seu primeiro imóvel ao catálogo.</p>
+      <!-- <p>Comece a sua jornada adicionando o seu primeiro imóvel ao catálogo.</p>
       <button mat-raised-button color="primary" (click)="irParaCadastro()">
         CADASTRAR MEU PRIMEIRO IMÓVEL
-      </button>
+      </button> -->
     </div>
     }
   </div>
