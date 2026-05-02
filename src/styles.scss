@@ -5,7 +5,7 @@ Definimos a cor padrão inicial aqui.
 Esta variável será sobrescrita via JavaScript no AjustesComponent.
 */
 :root {
-    --primary-color: #005cbb;
+    --primary-color: #026d14;
     /* Cor 'azure' padrão do Material */
 }
 
@@ -79,40 +79,4 @@ Classe que será aplicada pelo seu toggle no AjustesComponent
     --mat-sys-surface: #121212;
     --mat-sys-on-surface: #e0e0e0;
     /* Ajuste a cor primária para ser mais suave no modo dark se desejar */
-}
-
-.whatsapp-button {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    background-color: #25d366;
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 30px;
-    box-shadow: 2px 2px 3px #999;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.whatsapp-button:hover {
-    background-color: #128c7e;
-    color: #FFF;
-}
-
-/* Ajuste para telas menores (celular) */
-@media screen and (max-width: 768px) {
-    .whatsapp-button {
-        width: 50px;
-        height: 50px;
-        bottom: 80px;
-        right: 20px;
-        font-size: 25px;
-    }
 }
