@@ -49,7 +49,7 @@ export class AjustesComponent {
   savedSuccess = false;
   showToast = false;
 
-  currentPrimary = signal('#3f51b5');
+  currentPrimary = signal('#3782bf');
   isDarkMode = signal(false);
   density = signal('comfortable');
 
@@ -57,7 +57,7 @@ export class AjustesComponent {
   primaryColors = signal([
     { name: 'Oceano', hex: '#3f51b5' },
     { name: 'Ametista', hex: '#673ab7' },
-    { name: 'Céu', hex: '#2196f3' },
+    { name: 'Céu', hex: '#3782bf' },
     { name: 'Floresta', hex: '#009688' },
     { name: 'Abóbora', hex: '#ff9800' },
     { name: 'Cereja', hex: '#e91e63' },
