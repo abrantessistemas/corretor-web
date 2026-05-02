@@ -49,7 +49,7 @@ export class AjustesComponent {
   savedSuccess = false;
   showToast = false;
 
-  currentPrimary = signal('#3f51b5');
+  currentPrimary = signal('#026d14');
   isDarkMode = signal(false);
   density = signal('comfortable');
 

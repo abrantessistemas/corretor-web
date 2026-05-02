@@ -1228,18 +1228,18 @@ export class PropertyService {
 
   readonly settings = signal<AppSettings>(
     {
-      siteTitle: 'pronto&planta',
+      siteTitle: 'na plantas',
       logo: [
         {
           id: 1,
           imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
-          description: 'Pronto & Planta'//max 18 character
+          description: 'Projetos na planta'//max 18 character
         }
       ],
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000',
       whatsappConfig:
       {
-        whatsappNumber: '5511968159811',
+        whatsappNumber: '5511968711986',
         whatsappMessage: 'Olá! Gostaria de obter mais informações',
       }
     }
