@@ -39,17 +39,22 @@ export const routes: Routes = [
   {
     path: 'indique-ganhe',
     loadComponent: () => import('./pages/indique-ganhe/indique-ganhe').then(m => m.IndiqueGanhe),
-    data: { animation: 'AjustesPage' }
+    data: { animation: 'IndiqueGanhePage' }
   },
   {
     path: 'trabalhe-conosco',
     loadComponent: () => import('./pages/trabalhe-conosco/trabalhe-conosco').then(m => m.TrabalheConosco),
-    data: { animation: 'AjustesPage' }
+    data: { animation: 'TrabalheConoscoPage' }
   },
   {
     path: 'planos',
     loadComponent: () => import('./pages/planos/planos').then(m => m.PlanosComponent),
-    data: { animation: 'AjustesPage' }
+    data: { animation: 'PlanosPage' }
+  },
+  {
+    path: 'payment',
+    loadComponent: () => import('./pages/payment/payment/payment').then(m => m.Payment),
+    data: { animation: 'PaymentPage' }
   },
   // Rota de fallback para 404 ou redirecionamento
   {

@@ -12,7 +12,6 @@
   height: var(--nav-height);
   transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   &.mat-elevation-z8 {
     height: 80px; // Encolhe levemente ao rolar (efeito premium)
@@ -24,7 +23,7 @@
   display: flex;
   justify-content: space-between; // Alinha itens nas extremidades
   align-items: center;
-  max-width: 1400px;
+  max-width: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 0 40px;
@@ -43,6 +42,7 @@
 .nav-link {
   margin: 0 4px;
   padding: 0 16px !important;
+  color: var(--mat-sys-on-primary);
   height: 45px;
   line-height: 45px;
   border-radius: 12px;
@@ -50,13 +50,14 @@
   font-size: 20px;
 
   &.active-link {
+    color: var(--primary-color);
+
     &::after {
       content: '';
       position: absolute;
       bottom: 8px;
       width: 0%;
       height: 3px;
-      background: #272727;
       border-radius: 4px;
     }
   }
@@ -95,7 +96,7 @@
 }
 
 .active-mobile {
-  color: #3f51b5;
+  color: var(--primary-color);
 }
 
 /* Media Queries para alternar os menus */
@@ -122,15 +123,15 @@
 .brand {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--mat-sys-on-primary);
   /* Alinha o logo e o texto verticalmente */
   gap: 10px;
   /* Espaço entre a imagem e o texto */
 }
 
 .logo-img {
-  width: 80px;
-  height: 90px;
+  width: 150px;
+  height: 50px;
 }
 
 .logo-text {
@@ -138,7 +139,7 @@
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  color: #ffffff;
+  color: var(--mat-sys-on-primary);
   // text-transform: uppercase;
   /* Opcional: logos costumam ficar bem em caixa alta */
   letter-spacing: -1px;
@@ -151,4 +152,40 @@
 
   /* Garante que o texto não quebre linha se o espaço for curto */
   white-space: nowrap;
+}
+
+.whatsapp-button {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  right: 30px;
+  bottom: 30px;
+  /* Posição padrão para Desktop */
+  background-color: #25d366;
+  color: #FFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  /* Garante que fique acima de tudo (cards, modais, etc) */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Estado de Hover */
+.whatsapp-button:hover {
+  transform: translateY(-5px);
+  /* Efeito de flutuar */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+@media screen and (max-width: 768px) {
+    .whatsapp-button {
+        right: 15% !important; /* Usa porcentagem para garantir que está sempre dentro */
+        bottom: 80px;
+        max-width: 60px;
+    }
 }

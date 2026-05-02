@@ -44,7 +44,7 @@ export class AjustesComponent {
   // Variáveis vinculadas ao formulário
   tempTitle = this.config.settings().siteTitle;
   tempLogo = this.config.settings().logo[0]?.imagesUrl || '';
-  whatsappNumber = this.config.settings().whatsappNumber || '';
+  whatsappNumber = this.config.settings().whatsappConfig.whatsappNumber || '';
 
   savedSuccess = false;
   showToast = false;

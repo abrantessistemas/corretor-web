@@ -3,26 +3,23 @@
   <img src="{{imageBackgroundUrl}}" alt="" srcset=""
     style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
 
-  <mat-toolbar class="top-nav mat-elevation-z0"
-    style="padding: 40px; width: 100%; height: 10px;background: black">
+  <mat-toolbar class="top-nav mat-elevation-z0" style="background-color: white;color: black; padding-top: 10px;padding-bottom: 5px;">
     <div class="toolbar-container">
       <div class="brand" routerLink="/">
         <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
-        <span [routerLink]="['/']" style="cursor:pointer;">{{propertyService.settings().siteTitle}}</span>
+        <span [routerLink]="['/']" style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0, 18).toUpperCase()}}</span>
       </div>
-
-      <span class="spacer"></span>
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
         @if(item.enable){
-        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link" style="color:white">
-          <mat-icon class="nav-link">{{ item.icon }}</mat-icon>
+        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+          <mat-icon>{{ item.icon }}</mat-icon>
           <span>{{ item.label }}</span>
         </a>
         }
         }
-        <a href="{{whatsappUrl}}" mat-flat-button color="accent">Falar com Consultor</a>
+        <a href="{{whatsappUrl}}" mat-flat-button color="accent" target="_blank">Falar com Consultor</a>
       </div>
     </div>
   </mat-toolbar>
@@ -42,7 +39,7 @@
       @if(item.enable){
       <mat-icon>{{ item.icon }}</mat-icon>
       }
-      <!--span>{{ item.label }}</span-->
+      <span>{{ item.label }}</span>
     </a>
     }
   </nav>

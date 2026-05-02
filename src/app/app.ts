@@ -63,15 +63,15 @@ export class App {
     { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: true },
     { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: true },
     { path: '/planos', label: 'Planos', icon: 'payments', enable: true },
-    // { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: true },
+    { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: true },
     { path: '/perfil', label: 'Perfil', icon: 'person', enable: false }
   ]);
 
   public propertyService = inject(PropertyService);
 
   imageBackgroundUrl = this.propertyService.backgroundImageUrl;;
-  whatappNumber = this.propertyService.settings().whatsappNumber || '';
-  whatsappMensagem = this.propertyService.settings().whatsappMessage || 'Olá! Gostaria de obter mais informações';
+  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
+  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
 
   whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
