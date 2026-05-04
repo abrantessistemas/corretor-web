@@ -3,12 +3,16 @@
   <img src="{{imageBackgroundUrl}}" alt="" srcset=""
     style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
 
-  <mat-toolbar class="top-nav mat-elevation-z0" style="background-color: white;color: black; padding-top: 10px;padding-bottom: 5px;">
+  <mat-toolbar class="top-nav mat-elevation-z0"
+    style="background-color: white;color: black; padding-top: 10px;padding-bottom: 5px;">
     <div class="toolbar-container">
       <div class="brand" routerLink="/">
         <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
-        <span [routerLink]="['/']" style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0, 18).toUpperCase()}}</span>
+        <span [routerLink]="['/']"
+          style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0,
+          18).toUpperCase()}}</span>
       </div>
+      <a href="tel:+{{whatsappUrl}}" mat-flat-button color="accent">Ligue Agora para {{whatsappContactName}}</a>
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
@@ -43,4 +47,9 @@
     </a>
     }
   </nav>
+
+  <div style="background-color: black;color: white;padding: 14px;">
+    Copyright © 2026 {{propertyService.settings().siteTitle}}. Todos os direitos reservados.
+    <a href="{{whatsappUrl}}">Desenvolvido por Abrantes Sistemas</a>.
+  </div>
 </div>
