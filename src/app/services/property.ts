@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { get } from 'node:http';
 
 /**
  * Interface que define a estrutura de um Imóvel
@@ -30,7 +29,7 @@ export interface Property {
   features: string[],
   amenities: string[],
   type: 'Estudio' | 'Apartamento' | 'Suites' | 'Casa' | 'Cobertura' | 'Duplex' | 'Triplex';
-  status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido';
+  status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido' | 'Em Breve';
   category: string[];
   imagesUrl: Implantacao[];
   planta: Planta[];
@@ -65,7 +64,7 @@ export interface Planta {
     parking?: number
   },
   features: string[],
-  status: 'Disponivel' | 'Espelho' | 'Reservada' | 'Vendida' | 'Bloqueada',
+  status: 'Disponível' | 'Espelho' | 'Reservada' | 'Vendida' | 'Bloqueada',
   imagesUrl: string,
   category: 'HIS-1' | 'HIS-2' | 'R2V' | 'HMP'
 }
@@ -106,6 +105,7 @@ export interface AppSettings {
   logo: Logo[];
   backgroundImageUrl: string;
   whatsappConfig: {
+    whatsappContactName: string;
     whatsappNumber: string,
     whatsappMessage: string
   };
@@ -126,7 +126,7 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Princesa Isabel, 400 - Brooklin SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Sul',
       price: 383636,
       price_promo: 349990,
@@ -215,7 +215,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1UD53TYvWSM8l3KwIzejniyHgsqJe82OO=s1000',
           category: 'HIS-2'
         },
@@ -238,7 +238,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1PUy4Vk3Rw5Ez2XyBm80Kirah4ZvP4THc=s1000',
           category: 'R2V'
         },
@@ -261,7 +261,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1o3NH5CbqJP8q0vnHCzhlEjs12segAm5-=s1000',
           category: 'HIS-2'
         },
@@ -284,7 +284,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/18CtnDfr28OEZAXkYODNkAtLJTrwvCSOD=s1000',
           category: 'HIS-2'
         },
@@ -307,7 +307,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1O7PtRY8bSokUXT5-YV9xp10ovInDLK02=s1000',
           category: 'HIS-2'
         },
@@ -330,7 +330,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1O7PtRY8bSokUXT5-YV9xp10ovInDLK02=s1000',
           category: 'R2V'
         },
@@ -353,7 +353,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1oJXrU86u7IIQQvO-Bn957P_fmZT0Cqc7=s1000',
           category: 'R2V'
         },
@@ -376,7 +376,7 @@ export class PropertyService {
             parking: 0
           },
           features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Chuveiro eletrico', ''],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1UCC23Yl3wL47DDjV_qqyBNy41Mlt4cAO=s1000',
           category: 'R2V'
         }
@@ -391,9 +391,9 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Herbert Alfred Landsberg, 27 - Santo Amaro SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Sul',
-      price: 279000,
+      price: 259000,
       price_promo: 245000,
       towers: 3,
       units_available: 308,
@@ -463,7 +463,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1IA0WCYAZlc3A_kofwYLSLR_yMqHtDWpA=s1000',
           category: 'HIS-2'
         },
@@ -491,7 +491,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1qZY65Kbc3VqIQHQghKWTiPbgR5BJ1sQp=s1000',
           category: 'HIS-2'
         }
@@ -506,7 +506,7 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Caetano José Batista, 149 - Brooklin - SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Sul',
       price: 574690,
       price_promo: 0,
@@ -607,7 +607,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1CVpowZSMKtdtnSAdHPuRj63Zaix8gblK=s1000',
           category: 'HIS-2'
         },
@@ -635,7 +635,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/13aTZDBwZgRu3CKrCuP74A75CcaUIUJaQ=s1000',
 
           category: 'HIS-2'
@@ -664,7 +664,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1nZ7APtn-ilAlOFqRM0u0-QHD3D6ep8Qx=s1000',
 
           category: 'HIS-2'
@@ -680,7 +680,7 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Junqueira Freire, no 263 - Liberdade - SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Centro',
       price: 340090,
       price_promo: 0,
@@ -754,7 +754,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1BOF6fGL0O33xM3-E7nNIy4SwJQJYafyG=s1000',
           category: 'HIS-2'
         },
@@ -782,7 +782,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1bRS39jpSDGkOM-vVCJuvfQNMLf2BkCJ5=s1000',
 
           category: 'HIS-2'
@@ -811,7 +811,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1Qi1Sn_ekhQ156dQBBsDjAkgvDZyZeoIr=s1000',
 
 
@@ -828,9 +828,9 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Rodrigo Fernandes, 55, Socorro – SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Sul',
-      price: 279000,
+      price: 269000,
       price_promo: 0,
       towers: 3,
       units_available: 308,
@@ -882,7 +882,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1hY6FSm0DNU0Hix4FN1Y7TXn8_RbeNHn5=s1000',
 
           category: 'HIS-2'
@@ -911,7 +911,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1E9MEoFloVO5YLWWsfNJadHtl1ZIAubn3=s1000',
 
           category: 'HIS-2'
@@ -940,7 +940,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1PiQ6HksNB6W3Rv5AhPiGS7fOTtoB94Zu=s1000',
 
           category: 'HIS-2'
@@ -969,7 +969,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1l-IX4UdzF_J9g1FDnPkjqrVAaYm17Uec=s1000',
 
           category: 'HIS-2'
@@ -986,7 +986,7 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Rua Robert Bosch, 332, Barra Funda – SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Oeste',
       price: 584990,
       price_promo: 0,
@@ -1054,7 +1054,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1kalBZ_Wjn8ZUyfkqY0H0__tJ0WMyEoQU=s1000',
 
           category: 'HIS-2'
@@ -1083,7 +1083,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/10Fsb0BA2mGSXbs2ch4-qs1ZsgiAtN3pZ=s1000',
 
           category: 'HIS-2'
@@ -1101,7 +1101,7 @@ export class PropertyService {
       subtitle: '',
       description: '',
       location: 'Av. Santa Marina, 1550, Barra Funda – SP',
-      state:'São Paulo',
+      state: 'São Paulo',
       region: 'Zona Oeste',
       price: 461201,
       price_promo: 0,
@@ -1165,7 +1165,7 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação natual'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1a3pVoO4HylETLSB0jHaZi8TUrEKIucx9=s1000',
 
           category: 'HIS-2'
@@ -1194,8 +1194,232 @@ export class PropertyService {
             'Varanda com ponto grill',
             'Ventilação Exaustiva'
           ],
-          status: 'Disponivel',
+          status: 'Disponível',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1YV1qlmFzo0am3TgY3nynCm4lzcnYHVse=s1000',
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1khkECPzJqMUbUoUWSrXyLbBN9N319JsE'
+    },
+    {
+      id: 8,
+      title: 'Estilo Lapa',
+      subtitle: '',
+      description: '',
+      location: 'Lapa – SP',
+      state: 'São Paulo',
+      region: 'Zona Oeste',
+      price: 0,
+      price_promo: 0,
+      towers: 2,
+      units_available: 0,
+      date: new Date('2029-12-31'),
+      specs: {
+        bedrooms: 2,
+        bathrooms: 2,
+        suits: 1,
+        balcony: true,
+        area: [25, 33, 37, 40, 43],
+        garden: false,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Em Breve',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do Estilo Lapa',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1J-S0nTjsEJ7FNgOrR-FOcpA3Mj260o34=s1000'
+        },
+        {
+          id: 2,
+          description: 'Piscina do Estilo Lapa',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000'
+        },
+        {
+          id: 3,
+          description: 'Academia do Estilo Lapa',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1hyeYm39NHzXvoAsgJUHuszFbcUaqMouV=s1000'
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Meio',
+          location: {
+            towers: ['B'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [25],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/173bj91uBN3hDsQbDBconqb8PrA4yo9ys=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: false,
+            area: [33],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/19DiRaOu_PJIKmqHGdcwW1_YORWTWft7Y=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta Ponta',
+          location: {
+            towers: ['A', 'B'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [37],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1ukqchTL7HknwBXmgWkwmB0QncE8Z5OjG=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 4,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A', 'B'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: false,
+            area: [37],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1PQ4gP-qh3yE2D3DY_Hx9Jhs7PRnVaaZ-=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 5,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A', 'B'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [40],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/175pa8QZ4oZIpmTiaFrn9Ds2HjjcQKMod=s1000',
+
+          category: 'HIS-2'
+        },
+        {
+          id: 6,
+          description: 'Planta Meio',
+          location: {
+            towers: ['A', 'B'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [43],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1YIBdjUdUxj0yWfSdAV4fITcQD4l8d9Vo=s1000',
           category: 'HIS-2'
         }
       ],
@@ -1228,7 +1452,7 @@ export class PropertyService {
 
   readonly settings = signal<AppSettings>(
     {
-      siteTitle: 'na plantas',
+      siteTitle: 'Projetos na Planta Adriano',
       logo: [
         {
           id: 1,
@@ -1236,9 +1460,10 @@ export class PropertyService {
           description: 'Projetos na planta'//max 18 character
         }
       ],
-      backgroundImageUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000',
+      backgroundImageUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000',
       whatsappConfig:
       {
+        whatsappContactName: 'Adriano Abrantes',
         whatsappNumber: '5511968711986',
         whatsappMessage: 'Olá! Gostaria de obter mais informações',
       }
