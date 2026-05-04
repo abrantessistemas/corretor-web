@@ -12,7 +12,15 @@
           style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0,
           18).toUpperCase()}}</span>
       </div>
-      <a href="tel:+{{whatsappUrl}}" mat-flat-button color="accent">Ligue Agora para {{whatsappContactName}}</a>
+      
+      <a class="desktop-menu" href="tel:+{{whatsappUrl}}" mat-flat-button color="accent">
+        <mat-icon>phone</mat-icon>
+        Ligue Agora para {{whatsappContactName}}
+      </a>
+
+      <a class="phone-menu" href="tel:+{{whatsappUrl}}" color="accent">
+        <mat-icon>phone</mat-icon>
+      </a>
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
@@ -48,7 +56,7 @@
     }
   </nav>
 
-  <div style="background-color: black;color: white;padding: 14px;">
+  <div class="desktop-menu" style="background-color: black;color: white;padding: 14px;">
     Copyright © 2026 {{propertyService.settings().siteTitle}}. Todos os direitos reservados.
     <a href="{{whatsappUrl}}">Desenvolvido por Abrantes Sistemas</a>.
   </div>
