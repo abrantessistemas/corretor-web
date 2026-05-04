@@ -72,6 +72,7 @@ export class App {
   imageBackgroundUrl = this.propertyService.backgroundImageUrl;;
   whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
   whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
+  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
 
   whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
