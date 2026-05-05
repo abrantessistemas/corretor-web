@@ -1426,6 +1426,169 @@ export class PropertyService {
       isPromo: false,
       favorite: false,
       bookUrl: 'https://drive.google.com/uc?export=download&id=1khkECPzJqMUbUoUWSrXyLbBN9N319JsE'
+    },
+    {
+      id: 9,
+      title: 'Line Barra Funda Residence',
+      subtitle: '',
+      description: '',
+      location: 'Rua Inocêncio Tobias, 136, Barra Funda – SP',
+      state: 'São Paulo',
+      region: 'Zona Oeste',
+      price: 341127,
+      price_promo: 0,
+      towers: 4,
+      units_available: 782,
+      date: new Date('2027-06-30'),
+      specs: {
+        bedrooms: 3,
+        bathrooms: 1,
+        suits: 1,
+        balcony: false,
+        area: [37, 55],
+        garden: false,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada do Line Barra Funda Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12joQdRxZH54gThGSTzvzY4QrcSw6nG8K=s1000'
+        },
+        {
+          id: 2,
+          description: 'Fitness Line Barra Funda Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1mqTHq7ITsvSm9UtXcWJ-Bjwf6XGLOoDg=s1000'
+        },
+        {
+          id: 3,
+          description: 'Churrasqueira do Line Barra Funda Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1OO0HM6qGDKZiE2z8QfgKV9Y0QL88BZFv=s1000'
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Ponta',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 461201,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [37],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1SXUt_jk6-kZ0UktV8IIle-NqufHC6Mkq=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 731090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 3,
+            bathrooms: 1,
+            suits: 1,
+            balcony: true,
+            area: [37],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1BRb0SjfM6UPIYrmjWeGMMiGinoz9VGHw=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta Garden Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 731090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [55, 88],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/11XU9eWsvVMrPOJOMS1OddRTwWXZr0iqf=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 4,
+          description: 'Planta Garden Tipo Meio',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 731090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [55, 88],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/vf=s1000',
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1Ynw7MgoOy6m5-Q6085aRXuLu2pKlNCmNE'
     }
   ]);
 
