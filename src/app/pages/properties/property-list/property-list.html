@@ -25,7 +25,7 @@
       <small>Filtrar por região:</small>
       <mat-chip-listbox aria-label="Seleção de Zona">
         @for (zona of zonas; track zona) {
-        <mat-chip-option (click)="filterByZone(zona)" [selected]="selectedZone() === zona">
+        <mat-chip-option class="chip" (click)="filterByZone(zona)" [selected]="selectedZone() === zona">
           {{ zona }}
         </mat-chip-option>
         }
@@ -35,7 +35,7 @@
     <hr>
 
     @if(filteredAndSortedProperties().length > 0) {
-    <button mat-stroked-button (click)="toggleSort()" style="margin-bottom: 5px;">
+    <button class="chip" mat-stroked-button (click)="toggleSort()" style="margin-bottom: 5px;">
       <mat-icon>{{ sortOrder() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
       Ordenar por Valor
     </button>
