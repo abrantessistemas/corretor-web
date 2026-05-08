@@ -10,7 +10,7 @@ export interface Property {
   description: string;
   location: string;
   state: string;
-  region: string;
+  region: 'Zona Oeste' | 'Zona Norte' | 'Zona Leste' | 'Zona Sul' | 'Centro' | 'Lojas';
   price: number;
   price_promo: number;
   towers: number;
@@ -416,24 +416,24 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do Abytá Santo Amaro',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/11bXyQRnVmVnx9lT-Clp7c-h7EQUSoDBA=s1000'
 
         },
         {
           id: 2,
-          description: 'Academia do Abytá Santo Amaro',
+          description: 'Academia',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1r8zORdXHdOHJO-BTZBMhRUOjmgjiVmli=s1000'
 
         },
         {
           id: 3,
-          description: 'Salão de jogos do Abytá Santo Amaro',
+          description: 'Salão de jogos',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1FoQsM0WiLiZ1x-r8J16D0GHbGaiG5Tx1=s1000'
         },
         {
           id: 4,
-          description: 'Playground do Abytá Santo Amaro',
+          description: 'Playground',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1IBorsVIADRAaAHR0cts5_eAO_4YTaQOt=s1000'
 
         }
@@ -578,7 +578,7 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do 011 Brooklin Residence',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/19RMbpAtLn34a7IgNT9Un0RBlweKgw14t=s1000'
         }
       ],
@@ -853,7 +853,7 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do e-quale Condominio Clube',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1m9s16dfH7KbgqEUyXn3JUmnOXB4VJ9KU=s1000'
         },
       ],
@@ -1011,19 +1011,19 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do Signature',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1L1wIERPnWj2kU3R3NUlmWgsiloHkrFY3=s1000'
         },
         {
           id: 2,
-          description: 'Piscina do Signature',
+          description: 'Piscina',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1BLKAUlQmmSw4l-AXXblsG4is61CP9pcp=s1000'
 
 
         },
         {
           id: 3,
-          description: 'Quadra do Signature',
+          description: 'Quadra',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1vnvqBa55WH6J23BcYLNS4q3199eRvK8g=s1000'
 
 
@@ -1126,17 +1126,17 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do holistic Residence',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1Kp5i4WPIHgzydt2PP_6CzFNGE5X6Fp5t=s1000'
         },
         {
           id: 2,
-          description: 'Piscina do holistic Residence',
+          description: 'Piscina',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1mXGcpno1SCy9dZRBecPQ6jVCMKyGefs3=s1000'
         },
         {
           id: 3,
-          description: 'Coworking do holistic Residence',
+          description: 'Coworking',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1I3YU7UYoeobp32yr5TrijMOlgx8z8718=s1000'
         },
       ],
@@ -1211,7 +1211,7 @@ export class PropertyService {
       location: 'Lapa – SP',
       state: 'São Paulo',
       region: 'Zona Oeste',
-      price: 0,
+      price: 229000,
       price_promo: 0,
       towers: 2,
       units_available: 0,
@@ -1234,17 +1234,17 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do Estilo Lapa',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1J-S0nTjsEJ7FNgOrR-FOcpA3Mj260o34=s1000'
         },
         {
           id: 2,
-          description: 'Piscina do Estilo Lapa',
+          description: 'Piscina',
           imagesUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000'
         },
         {
           id: 3,
-          description: 'Academia do Estilo Lapa',
+          description: 'Academia',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1hyeYm39NHzXvoAsgJUHuszFbcUaqMouV=s1000'
         },
       ],
@@ -1256,7 +1256,7 @@ export class PropertyService {
             towers: ['B'],
             floor: [4, 10],
           },
-          price: 0,
+          price: 229000,
           price_promo: 0,
           specs: {
             bedrooms: 1,
@@ -1458,17 +1458,17 @@ export class PropertyService {
       imagesUrl: [
         {
           id: 1,
-          description: 'Fachada do Line Barra Funda Residence',
+          description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/12joQdRxZH54gThGSTzvzY4QrcSw6nG8K=s1000'
         },
         {
           id: 2,
-          description: 'Fitness Line Barra Funda Residence',
+          description: 'Fitness',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1mqTHq7ITsvSm9UtXcWJ-Bjwf6XGLOoDg=s1000'
         },
         {
           id: 3,
-          description: 'Churrasqueira do Line Barra Funda Residence',
+          description: 'Churrasqueira',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1OO0HM6qGDKZiE2z8QfgKV9Y0QL88BZFv=s1000'
         },
       ],
@@ -1589,6 +1589,113 @@ export class PropertyService {
       isPromo: false,
       favorite: false,
       bookUrl: 'https://drive.google.com/uc?export=download&id=1Ynw7MgoOy6m5-Q6085aRXuLu2pKlNCmNE'
+    },
+    {
+      id: 10,
+      title: 'Conquista Clube Itaim Paulista',
+      subtitle: '',
+      description: '',
+      location: 'Avenida marechal Tito, 7555, Jardim Miragaia – SP',
+      state: 'São Paulo',
+      region: 'Zona Leste',
+      price: 264000,
+      price_promo: 0,
+      towers: 11,
+      units_available: 1200,
+      date: new Date('2028-12-31'),
+      specs: {
+        bedrooms: 3,
+        bathrooms: 1,
+        suits: 1,
+        balcony: false,
+        area: [37, 55],
+        garden: false,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12joQdRxZH54gThGSTzvzY4QrcSw6nG8K=s1000'
+        },
+        {
+          id: 2,
+          description: 'Fitness Line Barra Funda Residence',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1mqTHq7ITsvSm9UtXcWJ-Bjwf6XGLOoDg=s1000'
+        },
+        {
+          id: 3,
+          description: 'Churrasqueira',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1OO0HM6qGDKZiE2z8QfgKV9Y0QL88BZFv=s1000'
+        },
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 264600,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [32],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1EEJ-iU8OeDhy91f2bcrTE4ppyqvvehqH=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Studio',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 295000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 1,
+            suits: 1,
+            balcony: false,
+            area: [44],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Lj_JaRt3UzDFK8QOOs4CmkAzwPA0EVdH=s1000',
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1Ynw7MgoOy6m5-Q6085aRXuLu2pKlNCmNE'
     }
   ]);
 
@@ -1615,7 +1722,7 @@ export class PropertyService {
 
   readonly settings = signal<AppSettings>(
     {
-      siteTitle: 'Projetos na Planta Adriano',
+      siteTitle: 'Na Planta',
       logo: [
         {
           id: 1,
