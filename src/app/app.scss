@@ -99,10 +99,19 @@
   color: var(--primary-color);
 }
 
+
+  .phone-menu {
+    display: none;
+  }
+
 /* Media Queries para alternar os menus */
 @media (max-width: 768px) {
   .desktop-menu {
     display: none;
+  }
+
+  .phone-menu {
+    display: flex;
   }
 
   .bottom-nav {
@@ -182,10 +191,12 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
   color: #fff;
 }
+
 @media screen and (max-width: 768px) {
-    .whatsapp-button {
-        right: 15% !important; /* Usa porcentagem para garantir que está sempre dentro */
-        bottom: 80px;
-        max-width: 60px;
-    }
+  .whatsapp-button {
+    right: 15% !important;
+    /* Usa porcentagem para garantir que está sempre dentro */
+    bottom: 80px;
+    max-width: 60px;
+  }
 }

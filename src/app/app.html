@@ -3,12 +3,20 @@
   <img src="{{imageBackgroundUrl}}" alt="" srcset=""
     style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
 
-  <mat-toolbar class="top-nav mat-elevation-z0" style="background-color: white;color: black; padding-top: 10px;padding-bottom: 5px;">
+  <mat-toolbar class="top-nav mat-elevation-z0"
+    style="padding-top: 10px;padding-bottom: 5px;">
     <div class="toolbar-container">
       <div class="brand" routerLink="/">
         <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
-        <span [routerLink]="['/']" style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0, 18).toUpperCase()}}</span>
+        <span [routerLink]="['/']"
+          style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0,
+          18).toUpperCase()}}</span>
       </div>
+
+      <a class="phone-menu" href="tel:+{{whatsappUrl}}" mat-flat-button color="accent">
+        <mat-icon>phone</mat-icon>
+        <span>Ligue</span>
+      </a>
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
@@ -39,8 +47,13 @@
       @if(item.enable){
       <mat-icon>{{ item.icon }}</mat-icon>
       }
-      <span>{{ item.label }}</span>
+      <!-- <span>{{ item.label }}</span> -->
     </a>
     }
   </nav>
+
+  <div class="desktop-menu" style="padding: 14px;">
+    Copyright © 2026 {{propertyService.settings().siteTitle}}. Todos os direitos reservados.
+    <a href="{{whatsappUrl}}">Desenvolvido por Abrantes Sistemas</a>.
+  </div>
 </div>
