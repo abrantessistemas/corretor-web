@@ -1,5 +1,5 @@
 <div class="container" #value>
-  @if(!isHome()){
+  @if(isHome()){
   <app-property-slide></app-property-slide>
   }
   <!-- Cabeçalho da Página -->
@@ -21,11 +21,11 @@
   <!-- Grelha de Imóveis -->
   @if(!isHome()){
   <div class="filter-container">
-    <div class="zone-filters" style="margin-top: -30px;">
+    <div class="zone-filters">
       <small>Filtrar por região:</small>
       <mat-chip-listbox aria-label="Seleção de Zona">
         @for (zona of zonas; track zona) {
-        <mat-chip-option (click)="filterByZone(zona)" [selected]="selectedZone() === zona">
+        <mat-chip-option class="chip" [selected]="selectedZone() === zona" (selectionChange)="filterByZone(zona)">
           {{ zona }}
         </mat-chip-option>
         }
@@ -35,7 +35,7 @@
     <hr>
 
     @if(filteredAndSortedProperties().length > 0) {
-    <button mat-stroked-button (click)="toggleSort()" style="margin-bottom: 5px;">
+    <button class="chip" mat-stroked-button (click)="toggleSort()" style="margin-bottom: 5px;">
       <mat-icon>{{ sortOrder() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
       Ordenar por Valor
     </button>

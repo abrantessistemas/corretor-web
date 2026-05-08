@@ -80,3 +80,31 @@ Classe que será aplicada pelo seu toggle no AjustesComponent
     --mat-sys-on-surface: #e0e0e0;
     /* Ajuste a cor primária para ser mais suave no modo dark se desejar */
 }
+
+
+/* Garante que o Chip selecionado use a cor dinâmica do template */
+.mat-mdc-chip-option.mat-mdc-chip-selected {
+    // Fundo do chip selecionado
+    background-color: var(--primary-color) !important;
+
+    // Cor do texto quando selecionado
+    .mdc-evolution-chip__text-label {
+        color: var(--mat-sys-on-primary, #ffffff) !important;
+    }
+
+    // Cor do ícone de check (se houver)
+    .mat-mdc-chip-selected-indicator {
+        color: var(--mat-sys-on-primary, #ffffff) !important;
+    }
+}
+
+/* Ajuste opcional para o chip quando não está selecionado */
+.mat-mdc-chip-option {
+    --mdc-chip-elevated-container-color: var(--mat-sys-surface-container-low);
+    --mdc-chip-label-text-color: var(--mat-sys-on-surface);
+
+    /* Cor da borda ou foco */
+    &.mat-mdc-chip-focused {
+        outline: 2px solid var(--primary-color);
+    }
+}
