@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { PropertyService } from '../../services/property';
+import { disabled } from '@angular/forms/signals';
 
 export interface PlanFeature {
   text: string;
@@ -118,11 +119,11 @@ export class PlanosComponent {
     plan.isPopular = true;
     this.planSelected = plan;
     this.plans.update(plans => plans.map(p => p.id !== plan.id ? { ...p, isPopular: !plan.isPopular } : p));
-
   }
 
   escolher() {
-    // window.open(this.whatsappMensagem.url + JSON.stringify(this.planSelected), '_blank');
+    const whatsappUrl = `https://wa.me/${this.propertyService.settings().whatsappConfig.whatsappNumber}?text=${encodeURIComponent(JSON.stringify(this.planSelected))}`;
+    window.open(whatsappUrl, '_blank');
     console.log(this.whatsappMensagem.url + JSON.stringify(this.planSelected), '_blank');
   }
 }
