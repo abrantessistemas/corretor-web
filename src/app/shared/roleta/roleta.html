@@ -1,7 +1,7 @@
 <div class="fab-wrapper" [class.active]="isExpanded()">
 
     <mat-card class="roleta-window">
-        <mat-card-header>
+        <mat-card-header style="display: flex;justify-content: space-between;">
             <mat-card-title>Fila de Corretores</mat-card-title>
             <button mat-icon-button (click)="toggleJanela()" class="close-btn">
                 <mat-icon>close</mat-icon>
@@ -33,29 +33,33 @@
                         <span class="nome-texto">{{ c.nome }}</span>
                     </div>
 
-                    <button mat-icon-button style="color: red;" (click)="excluirCorretor(i)" [disabled]="sortearN()" *ngIf="!estaGirando()">
+                    <button mat-icon-button style="color: red;" (click)="excluirCorretor(i)" [disabled]="sortearN()"
+                        *ngIf="!estaGirando()">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
                 } @empty {
+                <p class="empty-msg">Digite o nome do corretor e tecle enter</p>
                 <p class="empty-msg">Adicione pelo menos 2 corretores</p>
                 }
             </div>
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-flat-button color="accent" class="w-100" (click)="sortear()"
+            <button mat-flat-button color="accent" class="w-100" style="margin-right: 4px;" (click)="sortear()"
                 [disabled]="listaCorretores().length < 2 || estaGirando() || sortearN()">
                 <mat-icon>{{ estaGirando() ? 'sync' : 'auto_awesome' }}</mat-icon>
                 {{ estaGirando() ? 'SORTEANDO...' : 'SORTEAR' }}
             </button>
-            <button mat-flat-button color="accent" class="w-100" type="reset" (click)="limpar()" [disabled]="!sortearN()">
+            <button mat-flat-button color="accent" class="w-100" type="reset" (click)="limpar()"
+                [disabled]="!sortearN()">
+                <mat-icon>delete</mat-icon>
                 Limpar
             </button>
         </mat-card-actions>
     </mat-card>
 
-    <button mat-fab color="primary" class="main-fab" (click)="toggleJanela()">
+    <button mat-fab color="primary" class="main-fab" (click)="toggleJanela()" matTooltip="Roleta Corretores">
         <mat-icon>{{ isExpanded() ? 'expand_more' : 'casino' }}</mat-icon>
     </button>
 </div>

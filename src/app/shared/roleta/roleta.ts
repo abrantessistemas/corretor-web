@@ -1,12 +1,13 @@
-import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { MatTooltip } from "@angular/material/tooltip";
 
 interface Corretor {
   nome: string;
@@ -19,8 +20,9 @@ interface Corretor {
   imports: [
     CommonModule, FormsModule, MatButtonModule,
     MatFormFieldModule, MatInputModule, MatListModule,
-    MatCardModule, MatIconModule
-  ],
+    MatCardModule, MatIconModule,
+    MatTooltip
+],
   templateUrl: './roleta.html',
   styleUrls: ['./roleta.scss']
 })
