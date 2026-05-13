@@ -1,4 +1,6 @@
 @if (property(); as projeto) {
+<img src="{{currentImageUrl2()}}" alt="" srcset=""
+    style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
 <div class="details-container">
     <!-- Topo com Navegação e Título Mobile -->
     <div class="top-nav">
@@ -129,7 +131,8 @@
                 <a mat-flat-button color="primary" class="main-cta" href="{{ whatsappUrl }}" target="_blank">
                     <mat-icon>whatsapp</mat-icon> FALAR COM CONSULTOR
                 </a>
-                <a mat-raised-button color="primary" [href]="property()?.bookUrl">
+                <a mat-raised-button color="primary" disabled [href]="property()?.bookUrl"
+                    matTooltip="Fale com um consultor para obter o book.">
                     <mat-icon>cloud_download</mat-icon>
                     <mat-icon>download</mat-icon> BAIXAR BOOK COMPLETO
                 </a>
