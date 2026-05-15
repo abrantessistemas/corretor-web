@@ -172,9 +172,21 @@
             <div class="neon-divider"></div>
 
             <div class="data-block">
-                <div class="item">
-                    <span class="label">Ato Pago</span>
-                    <span class="value magenta">- {{ directForm.get('valorAto')?.value | currency:'BRL' }}</span>
+                <div class="sinais-summary-container">
+                    <span class="label">Resumo de Sinais:</span>
+                    <div class="chips-grid">
+                        <!-- Iteramos sobre os controles para pegar o valor de cada um -->
+                        <div *ngFor="let sinal of sinais.controls; let i = index" class="sinal-badge">
+                            <span class="index">#{{ i + 1 }}</span>
+                            <span class="amount">{{ sinal.value | currency:'BRL':'symbol':'1.2-2' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Totalizador (Opcional, mas muito útil) -->
+                    <div class="total-box" style="color: black;">
+                        <span class="sinal-badge">Saldo: {{ calcularTotalSinais() | currency:'BRL':'symbol':'1.2-2'
+                            }}</span>
+                    </div>
                 </div>
                 @if(calculation().fgts > 0) {
                 <div class="item">
@@ -226,8 +238,7 @@
             Gerado por Simulador Pro v1.0
         </footer>
     </aside>
-    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()"
-        disabled="{{directForm.invalid}}">
+    <button mat-raised-button color="primary" class="print-trigger" (click)="imprimirResumo()">
         <mat-icon>print</mat-icon> GERAR PDF / IMPRIMIR
     </button>
 </div>

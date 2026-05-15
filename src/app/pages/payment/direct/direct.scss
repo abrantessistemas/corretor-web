@@ -485,7 +485,7 @@
 
     .cyan,
     .magenta {
-        color: black !important;
+        color: rgb(68, 0, 255) !important;
         font-weight: bold;
     }
 }
@@ -520,4 +520,57 @@
     top: 20px;
 }
 
-// ... resto dos estilos anteriores
+.sinais-summary-container {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-left: 4px solid #0330ba; // Cor magenta de destaque
+
+    .label {
+        font-size: 0.8rem;
+        color: #666;
+        display: block;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .chips-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .sinal-badge {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        .index {
+            color: #000000;
+            font-size: 0.7rem;
+            margin-right: 6px;
+            border-right: 1px solid #eee;
+            padding-right: 6px;
+        }
+
+        .amount {
+            color: #0330ba;
+            font-weight: 500;
+        }
+    }
+
+    .total-box {
+        border-top: 1px dashed #0330ba;
+        padding-top: 8px;
+        font-size: 1rem;
+
+    }
+}
