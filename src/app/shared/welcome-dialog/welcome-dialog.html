@@ -1,0 +1,23 @@
+<div class="welcome-container">
+  <div mat-dialog-title class="dialog-title">
+    <mat-icon class="title-icon">maps_home_work</mat-icon>
+    <h1>Seja bem-vindo!</h1>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <p>Para personalizarmos a sua experiência, nos conte:</p>
+    <h2 class="highlight-text">Você é corretor de imóveis?</h2>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" class="dialog-actions">
+    <button mat-flat-button color="primary" class="btn-choice broker-btn" (click)="selectOption(true)">
+      <mat-icon>badge</mat-icon>
+      Sim, sou Corretor
+    </button>
+    
+    <button mat-outlined-button color="accent" class="btn-choice" (click)="selectOption(false)">
+      <mat-icon>person</mat-icon>
+      Não, estou buscando imóveis
+    </button>
+  </mat-dialog-actions>
+</div>

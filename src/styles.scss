@@ -108,3 +108,9 @@ Classe que será aplicada pelo seu toggle no AjustesComponent
         outline: 2px solid var(--primary-color);
     }
 }
+
+// Força o fundo a ficar bem escuro e com um leve efeito de desfoque (blur) moderno
+.backdrop-escura-total {
+  background: rgba(0, 0, 0, 0.75) !important; // Deixa 75% preto (o padrão do material é mais claro)
+  backdrop-filter: blur(4px); // Opcional: dá um efeito sofisticado de vidro fosco no fundo do site
+}
