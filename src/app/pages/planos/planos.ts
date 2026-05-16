@@ -50,8 +50,8 @@ export class PlanosComponent {
     {
       id: 1,
       title: 'Plano Mensal',
-      price: 'R$ 1900,00',
-      price_promo: 'R$ 960,00',
+      price: 'R$ 800,00',
+      price_promo: 'R$ 300,00',
       subtitle: 'por mês',
       dailyPrice: 'Apenas R$ 32,00 por dia',
       highlight: 'Evolução constante do sistema',
@@ -89,7 +89,7 @@ export class PlanosComponent {
     {
       id: 3,
       title: 'Plano Turbo',
-      price: 'R$ 100,00',
+      price: 'R$ 150,00',
       price_promo: '',
       subtitle: 'Pagamento por campanha',
       highlight: 'Evolução constante do sistema',
