@@ -172,20 +172,22 @@
             <div class="neon-divider"></div>
 
             <div class="data-block">
-                <div class="sinais-summary-container">
-                    <span class="label">Resumo de Sinais:</span>
-                    <div class="chips-grid">
-                        <!-- Iteramos sobre os controles para pegar o valor de cada um -->
-                        <div *ngFor="let sinal of sinais.controls; let i = index" class="sinal-badge">
-                            <span class="index">#{{ i + 1 }}</span>
-                            <span class="amount">{{ sinal.value | currency:'BRL':'symbol':'1.2-2' }}</span>
+                <div class="item">
+                    <div class="sinais-summary-container">
+                        <span class="label">Resumo de Sinais:</span>
+                        <div class="chips-grid">
+                            <!-- Iteramos sobre os controles para pegar o valor de cada um -->
+                            <div *ngFor="let sinal of sinais.controls; let i = index" class="sinal-badge">
+                                <span class="index">#{{ i + 1 }}</span>
+                                <span class="amount">{{ sinal.value | currency:'BRL':'symbol':'1.2-2' }}</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Totalizador (Opcional, mas muito útil) -->
-                    <div class="total-box" style="color: black;">
-                        <span class="sinal-badge">Saldo: {{ calcularTotalSinais() | currency:'BRL':'symbol':'1.2-2'
-                            }}</span>
+                        <!-- Totalizador (Opcional, mas muito útil) -->
+                        <div class="total-box">
+                            <strong>Total: </strong>
+                            <span class="magenta">{{ calcularTotalSinais() | currency:'BRL':'symbol':'1.2-2' }}</span>
+                        </div>
                     </div>
                 </div>
                 @if(calculation().fgts > 0) {

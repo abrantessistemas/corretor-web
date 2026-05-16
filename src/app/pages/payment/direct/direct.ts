@@ -164,7 +164,6 @@ export class DirectComponent implements OnInit {
     // this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
   }
 
-  // No seu componente .ts
   calcularTotalSinais(): number {
     return this.sinais.controls
       .map(control => control.value)
