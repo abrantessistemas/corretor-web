@@ -1,4 +1,4 @@
-<div [formGroup]="associativeForm" style="padding: 8px;">
+<div [formGroup]="associativeForm" style="padding: 8px;display: flex;">
 
     <section class="form-container">
         <header class="form-header">
@@ -59,8 +59,7 @@
                     O valor de venda é <strong>obrigatório.</strong>
                 </mat-error>
             </mat-form-field>
-
-            <div class="row-toggle full">
+            <div style="display: flex;justify-content: space-around;">
                 <mat-form-field appearance="outline">
                     <mat-label>Financiamento (CAIXA)</mat-label>
                     <input matInput type="number" formControlName="valorFinanciamento" (focus)="selectAll($event)">
@@ -78,7 +77,6 @@
                     <input matInput formControlName="prazoMensaisMorando" (focus)="selectAll($event)">
                 </mat-form-field>
             </div>
-
             <div class="row-toggle full">
                 <div class="label-group">
                     <mat-icon class="color-text">account_balance_wallet</mat-icon>
@@ -165,7 +163,7 @@
         </button>
     </section>
 
-    <aside class="display-panel">
+    <aside class="display-panel" style="width: 30%;">
         <div class="panel-header">
             <span class="status-dot"></span>
             <span class="title">RESUMO DO FLUXO ASSOCIATIVO</span>
