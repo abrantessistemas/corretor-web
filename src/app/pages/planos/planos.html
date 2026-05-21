@@ -1,9 +1,9 @@
 <section class="pricing-section">
     <div class="container">
         <div class="header">
-            <span class="badge">Nossos Planos</span>
-            <h1>Conheça nossas vantagens</h1>
-            <p>Site entregue com <strong>8 projetos da Riva</strong> já cadastrados e pronto para vender.</p>
+            <span class="badge">Conheça nossas vantagens</span>
+            <h1>Tenha seu próprio site de vendas</h1>
+            <p>Com <strong>10 projetos da Riva</strong> cadastrados prontos para vender.</p>
         </div>
 
         <div class="pricing-grid">
@@ -57,7 +57,7 @@
                 </mat-card-content>
 
                 <mat-card-actions>
-                    <button mat-flat-button color="primary" (click)="escolher()">
+                    <button [id]="plan.id" disabled mat-flat-button color="primary" (click)="escolher()">
                         {{ plan.buttonText }}
                     </button>
                 </mat-card-actions>

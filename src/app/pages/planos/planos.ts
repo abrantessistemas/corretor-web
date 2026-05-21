@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { PropertyService } from '../../services/property';
+import { disabled } from '@angular/forms/signals';
 
 export interface PlanFeature {
   text: string;
@@ -49,8 +50,8 @@ export class PlanosComponent {
     {
       id: 1,
       title: 'Plano Mensal',
-      price: 'R$ 1900,00',
-      price_promo: 'R$ 960,00',
+      price: 'R$ 800,00',
+      price_promo: 'R$ 300,00',
       subtitle: 'por mês',
       dailyPrice: 'Apenas R$ 32,00 por dia',
       highlight: 'Evolução constante do sistema',
@@ -88,7 +89,7 @@ export class PlanosComponent {
     {
       id: 3,
       title: 'Plano Turbo',
-      price: 'R$ 100,00',
+      price: 'R$ 150,00',
       price_promo: '',
       subtitle: 'Pagamento por campanha',
       highlight: 'Evolução constante do sistema',
@@ -118,11 +119,11 @@ export class PlanosComponent {
     plan.isPopular = true;
     this.planSelected = plan;
     this.plans.update(plans => plans.map(p => p.id !== plan.id ? { ...p, isPopular: !plan.isPopular } : p));
-
   }
 
   escolher() {
-    // window.open(this.whatsappMensagem.url + JSON.stringify(this.planSelected), '_blank');
+    const whatsappUrl = `https://wa.me/${this.propertyService.settings().whatsappConfig.whatsappNumber}?text=${encodeURIComponent(JSON.stringify(this.planSelected))}`;
+    window.open(whatsappUrl, '_blank');
     console.log(this.whatsappMensagem.url + JSON.stringify(this.planSelected), '_blank');
   }
 }

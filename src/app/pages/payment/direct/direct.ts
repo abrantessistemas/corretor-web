@@ -160,7 +160,13 @@ export class DirectComponent implements OnInit {
 
   imprimirResumo() {
     const relatorio = this.directForm.value;
-    this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
+    console.log(relatorio)
+    // this.dialog.open(PdfGenerationComponent, { data: relatorio }).afterClosed().subscribe();
+  }
 
+  calcularTotalSinais(): number {
+    return this.sinais.controls
+      .map(control => control.value)
+      .reduce((acc, curr) => acc + (Number(curr) || 0), 0);
   }
 }

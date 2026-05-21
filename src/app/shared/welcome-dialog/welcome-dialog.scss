@@ -1,0 +1,84 @@
+.welcome-container {
+  padding: 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  
+  .dialog-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    .title-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: var(--mdc-filled-button-container-color, #3f51b5);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin: 0;
+      background: linear-gradient(45deg, #1a237e, #3f51b5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .dialog-content {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 24px;
+
+    .highlight-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #212121;
+      margin-top: 12px;
+    }
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dialog-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+
+    .btn-choice {
+      width: 100%;
+      max-width: 320px;
+      padding: 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+
+    // Estilo extra para o botão de corretor chamar mais atenção
+    .broker-btn {
+      box-shadow: 0 4px 14px rgba(63, 81, 181, 0.3);
+    }
+  }
+}
+
+// Ajuste para telas maiores (computador) colocar os botões lado a lado
+@media (min-width: 600px) {
+  .welcome-container .dialog-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
