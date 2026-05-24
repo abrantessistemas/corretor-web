@@ -856,6 +856,66 @@ export class PropertyService {
           description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1m9s16dfH7KbgqEUyXn3JUmnOXB4VJ9KU=s1000'
         },
+        {
+          id: 2,
+          description: 'Spa e Espaço de Beleza',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IlhdMHbWusxale96mDOHqrjI04ps3Zwr=s1000'
+        },
+        {
+          id: 3,
+          description: 'Salão de Festas',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1TKIpcrtjY3DmEdbllAZggBX5ytSKaH7s=s1000'
+        },
+        {
+          id: 4,
+          description: 'Salão de Jogos',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1wHYrULXLI1MNFbvpnWuu7fEeuD-D-tVq=s1000'
+        },
+        {
+          id: 5,
+          description: 'Redário',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1f9COUI8_d4RKmwStghjL4x-x3GZ3F13p=s1000'
+        },
+        {
+          id: 6,
+          description: 'Portaria',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1K5PlhVhukQaFWrfcX7gQmWnOjacA33F6=s1000'
+        },
+        {
+          id: 7,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UxGTQr3K7VN6Ij9myDSKTaNJoUAXzr63=s1000'
+        },
+        {
+          id: 8,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1aOA3MBj1tz2ZD1wH4a9NJBAzM7JJfsRz=s1000'
+        },
+        {
+          id: 9,
+          description: 'Pet Place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1WDAx04_bCZ4hZg-O7DkfzRDw0aKAZ7vK=s1000'
+        },
+        {
+          id: 10,
+          description: 'Pet Care',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17nOdqQTiIxCbIMFPeT6GYowk-1MYDUOq=s1000'
+        },
+        {
+          id: 11,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/19n70PQVWsGXbCHtBZxLcrSpltpdQrmWy=s1000'
+        },
+        {
+          id: 12,
+          description: 'Minimercado',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1aOA3MBj1tz2ZD1wH4a9NJBAzM7JJfsRz=s1000'
+        },
+        {
+          id: 13,
+          description: 'Fitness',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Mufjy7XsL-435xDLN16AqJ7GJvIm3knu=s1000'
+        }
       ],
       planta: [
         {
@@ -1247,6 +1307,51 @@ export class PropertyService {
           description: 'Academia',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1hyeYm39NHzXvoAsgJUHuszFbcUaqMouV=s1000'
         },
+        {
+          id: 4,
+          description: 'Salão de Jogos',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1fi3aNwaVXlrcnNRF-LO7jGzwWbl8U3ll=s1000'
+        },
+        {
+          id: 5,
+          description: 'Salão de Jogos Infantil',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1mM4_2AgZ3f7khHD2yWVRGX3eRJH3RSEg=s1000'
+        },
+        {
+          id: 6,
+          description: 'Salão de Festas',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1atSLmhRMlcJZdmgOLqctDLsBzg2gbO9v=s1000'
+        },
+        {
+          id: 7,
+          description: 'Salão de Festas Infantil',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1wTBs6-9koF9seVdKO6xKhapp28SINzBR=s1000'
+        },
+        {
+          id: 8,
+          description: 'Quadra',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12ikO2cRHZMaWrPIEDzbpDO6bBb8RnXw3=s1000'
+        },
+        {
+          id: 9,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1WxEruFzwuan3nMf6NnwplkcTMXP778rj=s1000'
+        },
+        {
+          id: 10,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000'
+        },
+        {
+          id: 11,
+          description: 'Pet Place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/11tJpxBaRMaFk9MANUrR9XgUjHNU5KsAw=s1000'
+        },
+        {
+          id: 12,
+          description: 'Pet Care',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17GluoHcHx7lNMsLkXAHZmwOoyXShohCa=s1000'
+        }
       ],
       planta: [
         {
