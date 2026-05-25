@@ -3,8 +3,7 @@
   <img src="{{imageBackgroundUrl}}" alt="" srcset=""
     style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
 
-  <mat-toolbar class="top-nav mat-elevation-z0"
-    style="padding-top: 10px;padding-bottom: 5px;">
+  <mat-toolbar class="top-nav mat-elevation-z0" style="padding-top: 10px;padding-bottom: 5px;">
     <div class="toolbar-container">
       <div class="brand" routerLink="/">
         <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
@@ -43,12 +42,14 @@
   <!-- Navegação Inferior (Mobile) -->
   <nav class="bottom-nav">
     @for (item of menuItems(); track item.path) {
+    @if(item.enable){
     <a [routerLink]="item.path" routerLinkActive="active-mobile" matRipple class="mobile-nav-item">
       @if(item.enable){
       <mat-icon>{{ item.icon }}</mat-icon>
       }
       <!-- <span>{{ item.label }}</span> -->
     </a>
+    }
     }
   </nav>
 
