@@ -44,7 +44,13 @@
 
     @media (max-width: 992px) {
         grid-template-columns: 1fr;
+        gap: 24px;
     }
+}
+
+.gallery-column {
+    min-width: 0;
+    width: 100%;
 }
 
 /* Galeria de Plantas */
