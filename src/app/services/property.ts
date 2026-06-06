@@ -2119,8 +2119,8 @@ export class PropertyService {
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000',
       whatsappConfig:
       {
-        whatsappContactName: 'Adriano Abrantes',
-        whatsappNumber: '5511968711986',
+        whatsappContactName: 'Conssultor Freitas',
+        whatsappNumber: '5511968159811',
         whatsappMessage: 'Olá! Gostaria de obter mais informações',
       }
     }
