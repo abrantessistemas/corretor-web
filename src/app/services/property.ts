@@ -860,7 +860,7 @@ export class PropertyService {
       location: 'Rua Rodrigo Fernandes, 55, Socorro – SP',
       state: 'São Paulo',
       region: 'Zona Sul',
-      price: 269000,
+      price: 350000,
       price_promo: 0,
       towers: 3,
       units_available: 308,
