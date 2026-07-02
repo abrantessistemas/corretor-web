@@ -62,7 +62,7 @@ export class App {
     { path: '/payment', label: 'Simulador', icon: 'payment', enable: true },
     { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: false },
     { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: false },
-    { path: '/planos', label: 'Planos', icon: 'payments', enable: true },
+    { path: '/planos', label: 'Planos', icon: 'payments', enable: false },
     { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: false },
     { path: '/perfil', label: 'Perfil', icon: 'person', enable: false }
   ]);
