@@ -8,7 +8,8 @@
                 <span class="label">Corretor: </span><span class="value">{{form.nomeCorretor}}</span>
             </div>
             <div style="text-align: right;">
-                <div class="value">NA PLANTA</div>
+                <img src="{{settings().logo[1].imagesUrl}}" alt="{{settings().logo[1].description}}" style="max-width: 100px; max-height: 100px;">
+                <!-- <div class="value">{{settings().logo[1].description}}</div> -->
                 <div class="label">{{ dataCriacao | date:'dd/MM/yyyy HH:mm' }}</div>
             </div>
         </div>
