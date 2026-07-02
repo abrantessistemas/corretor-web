@@ -2114,12 +2114,17 @@ export class PropertyService {
           id: 1,
           imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
           description: 'Projetos na planta'//max 18 character
+        },
+        {
+          id: 2,
+          imagesUrl: 'https://lspace.nyc3.cdn.digitaloceanspaces.com/lp-riva-sp/content/uploads/riva-sp/2023/03/riva-logo-300x102-1.png',
+          description: 'Riva Incorporadora'//max 18 character
         }
       ],
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000',
       whatsappConfig:
       {
-        whatsappContactName: 'Conssultor Freitas',
+        whatsappContactName: 'Consultor Freitas',
         whatsappNumber: '5511968159811',
         whatsappMessage: 'Olá! Gostaria de obter mais informações',
       }
