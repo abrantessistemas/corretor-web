@@ -1,8 +1,9 @@
 import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, computed, inject, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { PropertyService } from '../../services/property';
 
 @Component({
   selector: 'pdf-generation',
@@ -23,6 +24,10 @@ import { MatIconModule } from '@angular/material/icon';
 export class PdfGenerationComponent implements OnInit {
   dataCriacao = new Date();
   form: any;
+
+  // Injeção do serviço de propriedades
+  private propertyService = inject(PropertyService);
+  public settings = computed(() => this.propertyService.settings());
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -76,4 +81,5 @@ export class PdfGenerationComponent implements OnInit {
   fechar() {
     this.dialogRef.close();
   }
+
 }

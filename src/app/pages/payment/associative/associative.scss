@@ -1,23 +1,43 @@
-/* Mantendo os estilos idênticos para garantir a visualização original */
+/* Layout Principal */
 .main-layout {
     display: grid;
-    width: 100%;
+    grid-template-columns: 1fr 450px;
+    gap: 30px;
+    max-width: 1300px;
     margin: 20px auto;
-    padding: 10px;
+    padding: 0 20px;
     font-family: 'Inter', system-ui, sans-serif;
 
+    /* Tablets e telas médias */
     @media (max-width: 1100px) {
         grid-template-columns: 1fr;
-         .display-panel {
-            display: none;
+        gap: 20px;
+    }
+
+    /* Celulares / Mobile */
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+
+        .form-container {
+            order: 1; /* Formulário aparece primeiro */
+        }
+
+        .display-panel {
+            order: 2; /* Resumo do fluxo aparece em segundo */
+            position: static !important; /* Remove o sticky no mobile */
+        }
+
+        .print-trigger {
+            order: 3; /* Botão de imprimir fica por último, no final da página */
         }
     }
 }
 
+/* Container do Formulário */
 .form-container {
     background: white;
-    padding: 5px;
-    width: 100%;
+    padding: 40px;
     border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 
@@ -53,9 +73,10 @@
     }
 }
 
+/* Grid de Inputs (Modificado para Coluna Única) */
 .grid-inputs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr; /* Todos os campos um abaixo do outro */
     gap: 20px;
 
     .full {
@@ -63,14 +84,30 @@
     }
 }
 
+/* Linhas com Toggle / Inputs Inline */
 .row-toggle {
     display: flex;
+    flex-direction: row;
     align-items: center;
     background: #f8fafc;
     padding: 16px 20px;
     border-radius: 16px;
     gap: 15px;
     border: 1px solid #e2e8f0;
+
+    /* Responsividade para os subcampos internos do row-toggle */
+    @media (max-width: 540px) {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        mat-form-field {
+            width: 100%;
+        }
+        
+        .label-group {
+            width: 100%;
+        }
+    }
 
     .label-group {
         display: flex;
@@ -101,6 +138,7 @@
     }
 }
 
+/* Caixa de Parcelas Anuais */
 .annual-box {
     background: #f1f5f9;
     padding: 24px;
@@ -112,9 +150,14 @@
         grid-template-columns: 1fr 1fr;
         gap: 16px;
         margin-top: 16px;
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr; /* Um embaixo do outro também nas anuais se a tela for muito pequena */
+        }
     }
 }
 
+/* Painel Lateral de Resumo */
 .display-panel {
     background: #020617;
     color: white;
@@ -300,11 +343,13 @@
     }
 }
 
+/* Host Angular Component */
 :host {
     display: block;
     margin: 16px 0;
 }
 
+/* Card de Evolução de Obras */
 .progress-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -332,11 +377,11 @@
     }
 
     .badge {
-        background: #3b82f6;
+        background: #0f7f16;
         color: white;
         padding: 4px 12px;
         border-radius: 99px;
-        font-size: 0.85rem;
+        font-size: 1rem;
         font-weight: 800;
     }
 }
@@ -401,6 +446,19 @@
             }
         }
     }
+}
+
+/* Ocultar cabeçalho de impressão na tela */
+.print-header-only {
+    display: none;
+}
+
+/* Botão de Impressão */
+.print-trigger {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px !important;
+    font-weight: 800 !important;
 }
 
 /* Configurações de Impressão */
@@ -490,34 +548,4 @@
         color: black !important;
         font-weight: bold;
     }
-}
-
-/* Esconder cabeçalho de impressão no ecrã */
-.print-header-only {
-    display: none;
-}
-
-.print-trigger {
-    margin-top: 20px;
-    width: 100%;
-    padding: 15px !important;
-    font-weight: 800 !important;
-}
-
-/* Estilos base (mantidos do anterior) */
-.main-layout {
-    display: grid;
-    grid-template-columns: 1fr 450px;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 20px auto;
-}
-
-.display-panel {
-    background: #020617;
-    color: white;
-    border-radius: 24px;
-    padding: 30px;
-    position: sticky;
-    top: 20px;
 }

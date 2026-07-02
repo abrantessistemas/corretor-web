@@ -393,8 +393,8 @@ export class PropertyService {
       location: 'Rua Herbert Alfred Landsberg, 27 - Santo Amaro SP',
       state: 'São Paulo',
       region: 'Zona Sul',
-      price: 259000,
-      price_promo: 245000,
+      price: 329000,
+      price_promo: 269000,
       towers: 3,
       units_available: 308,
       date: new Date('2028-12-31'),
@@ -446,8 +446,8 @@ export class PropertyService {
             towers: ['A'],
             floor: [4, 10],
           },
-          price: 279000,
-          price_promo: 245000,
+          price: 329000,
+          price_promo: 269000,
           specs: {
             bedrooms: 2,
             bathrooms: 1,
@@ -474,8 +474,8 @@ export class PropertyService {
             towers: ['A', 'B', 'C'],
             floor: [2, 8],
           },
-          price: 279000,
-          price_promo: 245000,
+          price: 329000,
+          price_promo: 269000,
           specs: {
             bedrooms: 2,
             bathrooms: 1,
@@ -580,6 +580,36 @@ export class PropertyService {
           id: 1,
           description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/19RMbpAtLn34a7IgNT9Un0RBlweKgw14t=s1000'
+        },
+        {
+          id: 2,
+          description: 'Wine Bar',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12a_D9NldKCpfcFDLug1BFnpeESV_Uts5=s1000'
+        },
+        {
+          id: 2,
+          description: 'Sport Bar',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1OGNSEn_fMpTUYibMMXNxFrcfWvpY3JOU=s1000'
+        },
+        {
+          id: 3,
+          description: 'Spa e Sala de Massagem',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1LcG4ppajKpKiktFYtYzvQWPPuT74dG-z=s1000'
+        },
+        {
+          id: 4,
+          description: 'Quadra Recreativa',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1JIdAX2CTe1J8fO7ctAFVNIpWviRSUTSh=s1000'
+        },
+        {
+          id: 5,
+          description: 'Portaria',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000'
+        },
+        {
+          id: 6,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IAV6WAPYNcKFDgDSzOLvBa5IyeujeYld=s1000'
         }
       ],
       planta: [
@@ -830,7 +860,7 @@ export class PropertyService {
       location: 'Rua Rodrigo Fernandes, 55, Socorro – SP',
       state: 'São Paulo',
       region: 'Zona Sul',
-      price: 269000,
+      price: 350000,
       price_promo: 0,
       towers: 3,
       units_available: 308,
@@ -856,6 +886,66 @@ export class PropertyService {
           description: 'Fachada',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1m9s16dfH7KbgqEUyXn3JUmnOXB4VJ9KU=s1000'
         },
+        {
+          id: 2,
+          description: 'Spa e Espaço de Beleza',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IlhdMHbWusxale96mDOHqrjI04ps3Zwr=s1000'
+        },
+        {
+          id: 3,
+          description: 'Salão de Festas',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1TKIpcrtjY3DmEdbllAZggBX5ytSKaH7s=s1000'
+        },
+        {
+          id: 4,
+          description: 'Salão de Jogos',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1wHYrULXLI1MNFbvpnWuu7fEeuD-D-tVq=s1000'
+        },
+        {
+          id: 5,
+          description: 'Redário',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1f9COUI8_d4RKmwStghjL4x-x3GZ3F13p=s1000'
+        },
+        {
+          id: 6,
+          description: 'Portaria',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1K5PlhVhukQaFWrfcX7gQmWnOjacA33F6=s1000'
+        },
+        {
+          id: 7,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UxGTQr3K7VN6Ij9myDSKTaNJoUAXzr63=s1000'
+        },
+        {
+          id: 8,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1aOA3MBj1tz2ZD1wH4a9NJBAzM7JJfsRz=s1000'
+        },
+        {
+          id: 9,
+          description: 'Pet Place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1WDAx04_bCZ4hZg-O7DkfzRDw0aKAZ7vK=s1000'
+        },
+        {
+          id: 10,
+          description: 'Pet Care',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17nOdqQTiIxCbIMFPeT6GYowk-1MYDUOq=s1000'
+        },
+        {
+          id: 11,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/19n70PQVWsGXbCHtBZxLcrSpltpdQrmWy=s1000'
+        },
+        {
+          id: 12,
+          description: 'Minimercado',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1aOA3MBj1tz2ZD1wH4a9NJBAzM7JJfsRz=s1000'
+        },
+        {
+          id: 13,
+          description: 'Fitness',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Mufjy7XsL-435xDLN16AqJ7GJvIm3knu=s1000'
+        }
       ],
       planta: [
         {
@@ -1247,6 +1337,81 @@ export class PropertyService {
           description: 'Academia',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1hyeYm39NHzXvoAsgJUHuszFbcUaqMouV=s1000'
         },
+        {
+          id: 4,
+          description: 'Salão de Jogos',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1fi3aNwaVXlrcnNRF-LO7jGzwWbl8U3ll=s1000'
+        },
+        {
+          id: 5,
+          description: 'Salão de Jogos Infantil',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1mM4_2AgZ3f7khHD2yWVRGX3eRJH3RSEg=s1000'
+        },
+        {
+          id: 6,
+          description: 'Salão de Festas',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1atSLmhRMlcJZdmgOLqctDLsBzg2gbO9v=s1000'
+        },
+        {
+          id: 7,
+          description: 'Salão de Festas Infantil',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1wTBs6-9koF9seVdKO6xKhapp28SINzBR=s1000'
+        },
+        {
+          id: 8,
+          description: 'Quadra',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12ikO2cRHZMaWrPIEDzbpDO6bBb8RnXw3=s1000'
+        },
+        {
+          id: 9,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1WxEruFzwuan3nMf6NnwplkcTMXP778rj=s1000'
+        },
+        {
+          id: 10,
+          description: 'Pet Place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/11tJpxBaRMaFk9MANUrR9XgUjHNU5KsAw=s1000'
+        },
+        {
+          id: 11,
+          description: 'Pet Care',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17GluoHcHx7lNMsLkXAHZmwOoyXShohCa=s1000'
+        },
+        {
+          id: 12,
+          description: 'Fitness Externo',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1irDV6FLXbYg-FwyQ6_X8VYWsicr7-w8A=s1000'
+        },
+        {
+          id: 13,
+          description: 'Fitness 2',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1hyeYm39NHzXvoAsgJUHuszFbcUaqMouV=s1000'
+        },
+        {
+          id: 14,
+          description: 'Espaço Pilates',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1RZTum-iByONzJIEHcHxLXYYyV-7jH2A-=s1000'
+        },
+        {
+          id: 15,
+          description: 'Minimercado',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Lz6UbtnJfZrKasR5wY4W0MyopPUtuDLb=s1000'
+        },
+        {
+          id: 16,
+          description: 'Espaço Gourmet',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/19KLDkgAVRQ_nbUv4_zmMaOBkU-_haznM=s1000'
+        },
+        {
+          id: 17,
+          description: 'Churrasqueira',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Bw5j9KfA7izBvvzpzAQiLdpFdrlQwRU1=s1000'
+        },
+        {
+          id: 18,
+          description: 'Brinquedoteca',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1yz9fxz5g7lQy7ijiN0KqaZzv1YtJyyum=s1000'
+        }
       ],
       planta: [
         {
@@ -1622,18 +1787,68 @@ export class PropertyService {
         {
           id: 1,
           description: 'Fachada',
-          imagesUrl: 'https://lh3.googleusercontent.com/d/12joQdRxZH54gThGSTzvzY4QrcSw6nG8K=s1000'
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1vW9qy2qzTmPbX-BP2AeGosXGbsF_4_pj=s1000'
         },
         {
           id: 2,
-          description: 'Fitness Line Barra Funda Residence',
-          imagesUrl: 'https://lh3.googleusercontent.com/d/1mqTHq7ITsvSm9UtXcWJ-Bjwf6XGLOoDg=s1000'
+          description: 'Estudio',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1HqA6cvQ6s1UReey3gRdnsTEiflbVje2Q=s1000'
         },
         {
           id: 3,
-          description: 'Churrasqueira',
-          imagesUrl: 'https://lh3.googleusercontent.com/d/1OO0HM6qGDKZiE2z8QfgKV9Y0QL88BZFv=s1000'
+          description: 'Quadra de Areia',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1hBex6bNzHqQ68hcVIVs5X8lbSTwercto=s1000'
         },
+        {
+          id: 4,
+          description: 'Quadra',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1H6OEixmaHuPsCWiAmJUKjkDc7bp4e_Ci=s1000'
+        },
+        {
+          id: 5,
+          description: 'Praça',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/12_i1HlWU2cIMIG74YWyeiEHDdrUdzf8r=s1000'
+        },
+        {
+          id: 6,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1opkn2Ufu6e2rZflQuW92Gt8_sn9nTDkk=s1000'
+        },
+        {
+          id: 7,
+          description: 'Playground',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1p_033Dg1cpYJv27rn4dhLnJ2ppoR8VeH=s1000'
+        },
+        {
+          id: 8,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1A-xLyNfmNO2m3_QRsBj2WNxn1LG-Gxcc=s1000'
+        },
+        {
+          id: 9,
+          description: 'Pet Care',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1aC9pFLhX5CmDdQdlH9891Go6hvp_4q5W=s1000'
+        },
+        {
+          id: 10,
+          description: 'Pet place',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1-6TOUrma1oN1prvFkB8rnvOePzPWJDas=s1000'
+        },
+        {
+          id: 11,
+          description: 'Oficina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1MKkFhoifwPJebKz8FE7DzGtPxWoVZG8L=s1000'
+        },
+        {
+          id: 12,
+          description: 'Minimercado',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1scxpQq-Grh4BIRagGccr6ZNY43pwxX7T=s1000'
+        },
+        {
+          id: 13,
+          description: 'Lavanderia',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1O2FZiXeylFVi4aFFsBC1pwvwNNWiAhWv=s1000'
+        }
       ],
       planta: [
         {
@@ -1696,6 +1911,177 @@ export class PropertyService {
       isPromo: false,
       favorite: false,
       bookUrl: 'https://drive.google.com/uc?export=download&id=1Ynw7MgoOy6m5-Q6085aRXuLu2pKlNCmNE'
+    },
+    {
+      id: 11,
+      title: 'Raiz Home Clube',
+      subtitle: '',
+      description: '',
+      location: 'R. Cel. Euclides Machado, 705 - Jardim das Graças SP',
+      state: 'São Paulo',
+      region: 'Zona Norte',
+      price: 337000,
+      price_promo: 0,
+      towers: 9,
+      units_available: 838,
+      date: new Date('2028-12-31'),
+      specs: {
+        bedrooms: 2,
+        bathrooms: 1,
+        suits: 0,
+        balcony: true,
+        area: [34, 44],
+        garden: true,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'HALL SOCIAL', 'SALÃO DE FESTAS', 'CHURRASQUEIRA', 'BRINQUEDOTECA', 'QUADRA'],
+      type: 'Apartamento',
+      status: 'Lançamento',
+      category: ['HIS-2'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Fachada',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/146i1ECCOnNSK95yhkHvxlqL9bNy-KgE3=s1000'
+
+        },
+        {
+          id: 2,
+          description: 'Piscina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1Vg1iuUv66tgUHw6yPhen1k2wIdylvmne=s1000'
+
+        },
+        {
+          id: 3,
+          description: 'Oficina',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1PyqE44Gre74cWwAusnW1x5B98UoWNHY6=s1000'
+        },
+        {
+          id: 4,
+          description: 'Cinema',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/10HLeFEi8nhsW0GB4JrmT06Xbg5lwcrby=s1000'
+
+        }
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Tipo Meio',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 337000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [34],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1kfQnXFehCU2amCbo8MCA39e9BaYaMecW=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta Tipo Ponta',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 337000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [34],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1J4cUU_lRsEp7vw1nkZEoN9ZqcMzF5bC8=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta Tipo Estudio',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 337000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [34],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1IoCN8tilm7VrdnA8n_xLn8b_bM9Z4Qb8=s1000',
+          category: 'HIS-2'
+        },
+        {
+          id: 4,
+          description: 'Planta Tipo Terreo Garden',
+          location: {
+            towers: ['A', 'B', 'C'],
+            floor: [2, 8],
+          },
+          price: 359000,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: true,
+            area: [44],
+            garden: true,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1bLNwhUy85P3HfiJTStBe1zSDLu2uC99X=s1000',
+          category: 'HIS-2'
+        }
+      ],
+      isPromo: true,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1atAlq5JYhCUgLVME8aLLk4R70KDzBStr'
     }
   ]);
 
@@ -1726,16 +2112,21 @@ export class PropertyService {
       logo: [
         {
           id: 1,
-          imagesUrl: 'https://lh3.googleusercontent.com/d/1hczupSdDLW-VmW4ORo6uhzmMYBZIiKe3=s1000',
-          description: 'Prontos & planta'//max 18 character
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1crj6kBODBxAqSNGgBol6cuyZwldQsnf8=s1000',
+          description: 'Projetos na planta'//max 18 character
+        },
+        {
+          id: 2,
+          imagesUrl: 'https://lspace.nyc3.cdn.digitaloceanspaces.com/lp-riva-sp/content/uploads/riva-sp/2023/03/riva-logo-300x102-1.png',
+          description: 'Riva Incorporadora'//max 18 character
         }
       ],
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000',
       whatsappConfig:
       {
+        whatsappContactName: 'Consultor Freitas',
         whatsappNumber: '5511968159811',
-        whatsappMessage: 'Olá! Gostaria de obter mais informações',
-        whatsappContactName: 'Matheus'
+        whatsappMessage: 'Olá! Gostaria de obter mais informações'
       }
     }
   );

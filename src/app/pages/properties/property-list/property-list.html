@@ -2,30 +2,29 @@
   @if(isHome()){
   <app-property-slide></app-property-slide>
   }
-  <!-- Cabeçalho da Página -->
+
   <header class="list-header">
     <div class="header-main">
-      <div class="title-group" style="display: none;">
+      <div class="title-group">
         <h1 style="margin-bottom: 10px;" class="color-text">Catálogo de Imóveis</h1>
         <p>Consulte e gira as propriedades disponíveis no sistema.</p>
       </div>
-
-      <!-- Botão de Cadastro (Visível apenas em Desktop) -->
+<!-- 
       <button mat-flat-button color="primary" class="desktop-add-btn" (click)="irParaCadastro()">
         <mat-icon>add</mat-icon>
         NOVO IMÓVEL
-      </button>
+      </button> -->
     </div>
   </header>
 
-  <!-- Grelha de Imóveis -->
   @if(!isHome()){
   <div class="filter-container">
     <div class="zone-filters">
       <small>Filtrar por região:</small>
       <mat-chip-listbox aria-label="Seleção de Zona">
         @for (zona of zonas; track zona) {
-        <mat-chip-option class="mat-chip-option" [selected]="selectedZone() === zona" (selectionChange)="filterByZone(zona)">
+        <mat-chip-option class="mat-chip-option" [selected]="selectedZone() === zona"
+          (selectionChange)="filterByZone(zona)">
           {{ zona }}
         </mat-chip-option>
         }
@@ -42,22 +41,28 @@
     }
   </div>
   }
+
   @if(loadDetails){
   <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
   }
 
   <div class="property-grid">
-    @for (item of filteredAndSortedProperties();track item.id) {
+    @for (item of filteredAndSortedProperties(); track item.id) {
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
-      <!-- Imagem e Badge de Estado -->
+
       <div class="card-image-wrapper">
-        @for (imagens of item.imagesUrl; track imagens.id) {
-        <img mat-card-image [src]="imagens.imagesUrl" [alt]="item.title">
+        @if (item.imagesUrl && item.imagesUrl.length > 0) {
+        @for (img of item.imagesUrl; track img.id; let i = $index) {
+        <img mat-card-image [src]="img.imagesUrl" [alt]="item.title" [class.active]="i === getActiveIndex(item.id)"
+          class="slide-image">
         }
+        }
+
         <span class="status-badge"
-          [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento'?'':'rent2'">
+          [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento' ? '' : 'rent2'">
           {{ item.status }}
         </span>
+
         @if (item.isPromo) {
         <div class="promo-ribbon">
           <span>PREÇO PROMOCIONAL</span>
@@ -65,10 +70,10 @@
         }
       </div>
 
-      <!-- Conteúdo do Cartão -->
       <mat-card-content>
         <div class="price-row">
           <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+
           @for (category of item.category; track category) {
           <div class="spec-item">
             <span class="category">
@@ -76,14 +81,13 @@
             </span>
           </div>
           }
-          <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
-            (click)="item.favorite = !item.favorite" (click)="saveFavorite(item.id,item.favorite)" aria-label="Favorito"
-            [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
 
+          <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
+            (click)="$event.stopPropagation(); item.favorite = !item.favorite; saveFavorite(item.id, item.favorite)"
+            aria-label="Favorito" [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
             <mat-icon>
               {{ item.favorite ? 'favorite' : 'favorite_border' }}
             </mat-icon>
-
           </button>
         </div>
 
@@ -97,7 +101,6 @@
           {{ item.location }}
         </p>
 
-        <!-- Especificações Técnicas -->
         <div class="specs">
           @if(item?.specs?.bedrooms){
           <div class="spec-item">
@@ -130,12 +133,12 @@
             <mat-icon>directions_car</mat-icon>
           </div>
           }
-          @if( item?.specs?.pool ){
+          @if(item?.specs?.pool){
           <div class="spec-item">
             <mat-icon>pool</mat-icon>
           </div>
           }
-          @if( item?.specs?.area ){
+          @if(item?.specs?.area){
           <div class="spec-item">
             <mat-icon>square_foot</mat-icon>
             <span>{{ item?.specs?.area }}m²</span>
@@ -144,30 +147,20 @@
         </div>
       </mat-card-content>
 
-      <!-- Ações do Cartão -->
       <mat-card-actions align="end">
-        <button mat-flat-button color="primary" (click)="registrarInteresse(item.title)">
+        <button mat-flat-button color="primary" (click)="$event.stopPropagation(); registrarInteresse(item.title)">
           TENHO INTERESSE
         </button>
       </mat-card-actions>
     </mat-card>
     } @empty {
-    <!-- Estado Vazio Amigável -->
     <div class="empty-state shadow-sm">
       <div class="empty-icon-container">
         <mat-icon>home_work</mat-icon>
       </div>
       <h2>Ainda não existem imóveis registados</h2>
-      <!-- <p>Comece a sua jornada adicionando o seu primeiro imóvel ao catálogo.</p>
-      <button mat-raised-button color="primary" (click)="irParaCadastro()">
-        CADASTRAR MEU PRIMEIRO IMÓVEL
-      </button> -->
     </div>
     }
   </div>
 
-  <!-- Botão Flutuante (FAB) - Apenas para Mobile -->
   <button mat-fab color="primary" class="mobile-fab" (click)="irParaCadastro()" matTooltip="Cadastrar Novo Imóvel">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>

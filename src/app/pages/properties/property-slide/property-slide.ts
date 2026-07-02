@@ -35,6 +35,8 @@ export class PropertySlide {
   }
 
   images: string[] = [
+    '../../../../assets/promo/equale.png',
+    '../../../../assets/promo/sky.png',
     '../../../../assets/promo/Abytá Santo Amaro - 8.png',
     '../../../../assets/promo/BrooklinSky.png',
     '../../../../assets/promo/Holistic Residence.png',

@@ -15,6 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { PdfGenerationComponent } from '../../../shared/pdf-generation/pdf-generation';
 import { HttpClient } from '@angular/common/http';
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-associative',
@@ -38,8 +39,9 @@ import { HttpClient } from '@angular/common/http';
     MatNativeDateModule,
     CurrencyPipe,
     PercentPipe,
-    MatSliderModule
-  ],
+    MatSliderModule,
+    MatTooltip
+],
   templateUrl: './associative.html',
   styleUrl: './associative.scss'
 })
@@ -76,14 +78,16 @@ export class AssociativeComponent implements OnInit {
       valorAto: [0, [Validators.required, Validators.min(100)]],
       valorFinanciamento: [0, [Validators.required, Validators.min(1)]],
       possuiFgts: ['nao'],
-      valorFgts: [0, [Validators.min(1)]],
+      valorFgts: [0],
 
       desejaAnuais: [false],
-      qtdAnuais: [0, [Validators.min(1)]],
+      qtdAnuais: [0],
       // Regra 2: O valor de cada anual será validado no cálculo em relação ao salário
-      valorCadaAnual: [0, [Validators.min(1)]],
-      valorObra: [0, [Validators.min(1)]],
-      prazoMensais: [12, [Validators.min(1),Validators.max(84)]]
+      valorCadaAnual: [0],
+      progressoObra: [0],
+      valorObra: [0],
+      valorObraMaisParcela: [0],
+      prazoMensais: [12, [Validators.min(1), Validators.max(84)]]
     });
   }
 
@@ -95,6 +99,7 @@ export class AssociativeComponent implements OnInit {
 
   // Cálculo derivado reativo
   valorProporcional = computed(() => {
+    this.associativeForm.get('valorObraMaisParcela')?.setValue((this.associativeForm.value.valorMorando * (this.progress() / 100)) + this.calculation().valorMensal);
     return (this.associativeForm.value.valorMorando * (this.progress() / 100)) + this.calculation().valorMensal;
   });
 
@@ -107,6 +112,7 @@ export class AssociativeComponent implements OnInit {
   updateProgress(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.progress.set(Number(value));
+    this.associativeForm.get('progressoObra')?.setValue(Number(value));
   }
 
   selectAll(event: FocusEvent) {

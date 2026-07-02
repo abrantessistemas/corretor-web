@@ -1,11 +1,8 @@
-import { Component, inject, ChangeDetectionStrategy, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
-// O caminho foi ajustado para garantir que o Angular encontre o serviço corretamente
-// Certifique-se de que o arquivo existe em: src/app/services/property.service.ts
 import { PropertyService } from '../../../services/property';
 
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,79 +28,112 @@ import { filter, map } from 'rxjs/operators';
     PropertySlide,
     MatTooltipModule,
     MatProgressBarModule,
-    MatChipsModule,
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PropertyListComponent implements OnInit {
-  ngOnInit(): void {
+export class PropertyListComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  public propertyService = inject(PropertyService);
 
-    this.propertyService.properties().map(property => {
-      if (property.specs.area.length > 1) {
+  sortOrder = signal<'asc' | 'desc' | null>(null);
+  loadDetails = false;
+  selectedZone = signal<string | null>(null);
+  zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
+
+  // Sinais para controlar os índices ativos de imagem por imóvel
+  imageIndexes = signal<{ [key: number]: number }>({});
+  private autoplayIntervalId: any;
+  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
+  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
+  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
+
+  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+
+  ngOnInit(): void {
+    const propertiesList = this.propertyService.properties() || [];
+    propertiesList.forEach(property => {
+      if (property?.specs?.area && Array.isArray(property.specs.area) && property.specs.area.length > 1) {
         property.specs.area = [property.specs.area[0], property.specs.area[property.specs.area.length - 1]];
       }
     });
+
+    this.startImageAutoplay();
   }
-  // Utilizando a injeção de dependências moderna do Angular
-  private router = inject(Router);
-  /**
-   * Injeção do serviço de propriedades.
-   * Usando o padrão de injeção do Angular 21.
-   */
-  public propertyService = inject(PropertyService);
-  sortOrder = signal<'asc' | 'desc' | null>(null);
-  sortedProperties = computed(() => {
-    const list = [...this.propertyService.properties()]; // Copia a lista original
+
+  ngOnDestroy(): void {
+    if (this.autoplayIntervalId) {
+      clearInterval(this.autoplayIntervalId);
+    }
+  }
+
+  private startImageAutoplay(): void {
+    this.autoplayIntervalId = setInterval(() => {
+      const currentProperties = this.propertyService.properties() || [];
+      this.imageIndexes.update(indexes => {
+        const updatedIndexes = { ...indexes };
+
+        currentProperties.forEach(item => {
+          const totalImages = item.imagesUrl?.length || 0;
+          if (totalImages > 1) {
+            const currentIndex = updatedIndexes[item.id] || 0;
+            updatedIndexes[item.id] = (currentIndex + 1) % totalImages;
+          } else {
+            updatedIndexes[item.id] = 0;
+          }
+        });
+
+        return updatedIndexes;
+      });
+    }, 4000); // 4 segundos entre as trocas para acomodar a suavidade da animação
+  }
+
+  getActiveIndex(propertyId: number): number {
+    return this.imageIndexes()[propertyId] || 0;
+  }
+
+  filteredAndSortedProperties = computed(() => {
+    let list = [...(this.propertyService.properties() || [])];
+    const zone = this.selectedZone();
     const order = this.sortOrder();
 
-    if (!order) return list;
+    if (zone) {
+      list = list.filter(item => item.region === zone);
+    }
 
-    return list.sort((a, b) => {
-      return order === 'asc'
-        ? a.price - b.price
-        : b.price - a.price;
-    });
+    if (order) {
+      list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+    }
+
+    return list;
   });
 
   toggleSort() {
-    // Alterna entre Ascendente, Descendente e Original (opcional)
     this.sortOrder.update(current => current === 'asc' ? 'desc' : 'asc');
   }
 
-  /**
-   * Navega para o formulário de cadastro de um novo imóvel.
-   * Certifique-se de que a rota 'imoveis/novo' está configurada no app.routes.ts
-   */
   irParaCadastro(): void {
     this.router.navigate(['/imoveis/novo']);
   }
-  loadDetails = false;
-  /**
-   * Método para visualizar os detalhes de um imóvel específico.
-   * @param id Identificador único do imóvel.
-   */
+
   verDetalhes(id: number): void {
     this.loadDetails = true;
-    this.router.navigate(['/imoveis/' + id])
+    this.router.navigate(['/imoveis/' + id]);
   }
 
-  /**
-   * Método para registrar interesse em um imóvel.
-   * @param title Título do imóvel para referência.
-   */
   registrarInteresse(title: string): void {
-    console.log('Interesse registrado para:', title);
-    // Aqui poderíamos abrir um formulário de contato ou enviar um lead
+    this.whatsappMensagem = `Olá eu gostaria de mais detalhes sobre o projeto: ${title}`;
+    this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+    window.open(this.whatsappUrl, '_blank');
   }
+
   saveFavorite(id: number, favorite: boolean): void {
     if (favorite) {
       localStorage.setItem('favoriteProperties', id.toString());
     }
   }
 
-  // 1. Captura os eventos de navegação em um Signal
   private urlSignal = toSignal(
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -112,36 +142,9 @@ export class PropertyListComponent implements OnInit {
     { initialValue: this.router.url }
   );
 
-  // 2. Computed que retorna true apenas se for a home
   isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
 
-  // Signal para armazenar a zona selecionada
-selectedZone = signal<string | null>(null);
-
-// Lista de zonas disponíveis (pode vir do serviço ou ser estática)
-zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
-
-// Atualizamos o computed para filtrar E ordenar
-filteredAndSortedProperties = computed(() => {
-  let list = [...this.propertyService.properties()];
-  const zone = this.selectedZone();
-  const order = this.sortOrder();
-
-  // 1. Filtrar por Zona
-  if (zone) {
-    list = list.filter(item => item.region === zone);
+  filterByZone(zone: string) {
+    this.selectedZone.update(current => current === zone ? null : zone);
   }
-
-  // 2. Ordenar por Valor
-  if (order) {
-    list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
-  }
-
-  return list;
-});
-
-// Função para selecionar/deselecionar zona
-filterByZone(zone: string) {
-  this.selectedZone.update(current => current === zone ? null : zone);
-}
 }
