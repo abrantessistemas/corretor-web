@@ -2108,7 +2108,7 @@ export class PropertyService {
 
   readonly settings = signal<AppSettings>(
     {
-      siteTitle: 'Na Planta',
+      siteTitle: 'Projetos na planta',
       logo: [
         {
           id: 1,
@@ -2124,9 +2124,9 @@ export class PropertyService {
       backgroundImageUrl: 'https://lh3.googleusercontent.com/d/17R1oxneTdhbqAmC5DDK0rs69T4hYHu56=s1000',
       whatsappConfig:
       {
-        whatsappContactName: 'Consultor Freitas',
-        whatsappNumber: '5511968159811',
-        whatsappMessage: 'Olá! Gostaria de obter mais informações',
+        whatsappContactName: 'Consultor Adriano',
+        whatsappNumber: '5511940177792',
+        whatsappMessage: 'Olá! Gostaria de obter mais informações'
       }
     }
   );
