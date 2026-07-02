@@ -143,11 +143,11 @@
     <aside class="display-panel">
         <div class="panel-header">
             <span class="status-dot"></span>
-            <span class="title">RESUMO DO FLUXO TABELA INVESTIDOR</span>
-            @if(associativeForm.get('valorVenda')?.value > 0 && calculation().saldoParaMensais === 0){
-            <span hidden style="padding: 5px;background-color: red;border-radius: 6px;color: white;">Reprovado</span>
+            <span class="title">TABELA ASSOCIATIVA</span>
+            @if(calculation().parcelaAcimaSalario) {
+            <span style="padding: 5px;background-color: red;border-radius: 6px;color: white;">Reprovado</span>
+            } @else {
             <span style="padding: 5px;background-color: lime;border-radius: 6px;color: black;">Aprovado</span>
-
             }
             <span class="date">{{ today | date:'dd/MM/yyyy' }}</span>
         </div>
