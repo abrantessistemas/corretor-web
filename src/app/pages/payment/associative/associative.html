@@ -144,11 +144,13 @@
         <div class="panel-header">
             <span class="status-dot"></span>
             <span class="title">TABELA ASSOCIATIVA</span>
+            @if(associativeForm.get('valorVenda')?.value > 0 && calculation().saldoParaMensais === 0){
             @if(calculation().parcelaAcimaSalario) {
             <span style="padding: 5px;background-color: red;border-radius: 6px;color: white;">Reprovado</span>
             } @else {
             <span style="padding: 5px;background-color: lime;border-radius: 6px;color: black;">Aprovado</span>
             }
+        }
             <span class="date">{{ today | date:'dd/MM/yyyy' }}</span>
         </div>
 
