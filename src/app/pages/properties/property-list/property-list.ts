@@ -14,7 +14,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { PropertyFilter } from '../property-filter/property-filter';
 import { FormsModule } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -193,18 +192,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   filterByZone(zone: string) {
     this.selectedZone.update(current => current === zone ? null : zone);
   }
-
-  dialog = inject(Dialog);
-
-  openDialog() {
-    this.dialog.open(PropertyFilter, {
-      minWidth: '300px',
-      data: {
-        animal: 'panda',
-      },
-    });
-  }
-
 }
 
 @Component({
