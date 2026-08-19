@@ -30,6 +30,10 @@ export const routes: Routes = [
     path: 'imoveis/:id',
     loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
     data: { animation: 'DetailsPage' }
+  }, {
+    path: 'imoveis/select/:id',
+    loadComponent: () => import('./pages/properties/property-select/property-select').then(m => m.PropertySelect),
+    data: { animation: 'SelectPage' }
   },
   {
     path: 'ajustes',
@@ -55,6 +59,11 @@ export const routes: Routes = [
     path: 'payment',
     loadComponent: () => import('./pages/payment/payment/payment').then(m => m.Payment),
     data: { animation: 'PaymentPage' }
+  },
+  {
+    path: 'oferta',
+    loadComponent: () => import('./pages/outbound-offer/outbound-offer').then(m => m.OutboundOffer),
+    data: { animation: 'OfertaPage' }
   },
   // Rota de fallback para 404 ou redirecionamento
   {
