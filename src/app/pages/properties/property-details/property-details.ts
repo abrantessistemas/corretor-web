@@ -34,6 +34,7 @@ export class PropertyDetailsComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private propertyService = inject(PropertyService);
+  setting = this.propertyService.settings();
 
   // Input vindo da rota
   @Input() id?: string;
@@ -78,7 +79,7 @@ export class PropertyDetailsComponent implements OnInit {
         }
         this.whatsappMensagem = `Olá! Gostaria de mais detalhes sobre o imóvel 
         ${found.title} ${this.selectedPlanta()?.description || ''}, de ${this.selectedPlanta()?.specs.area}m²`;
-        
+
         this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
       } else {
@@ -125,6 +126,10 @@ export class PropertyDetailsComponent implements OnInit {
       width: '100%',
       height: '100%'
     });
+  }
+
+  irParaNegociacao(): void {
+    this.router.navigate(['/imoveis/select/' + this.id]);
   }
 }
 
