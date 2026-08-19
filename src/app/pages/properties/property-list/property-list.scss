@@ -218,7 +218,7 @@
   padding: 80px 40px;
   background: #f8fafc;
   border-radius: 24px;
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed var(--mat-sys-primary);
 
   .empty-icon-container {
     width: 100px;
@@ -260,12 +260,13 @@
   margin-bottom: 15px;
 }
 
-.zone-filters {
-  margin-top: 20px;
+.mat-chip-option {
+  background-color: white;
+}
 
-  .mat-chip-option {
-    background-color: white;
-  }
+.filter {
+  display: flex;
+  gap: 5px;
 }
 
 @media (max-width: 768px) {
@@ -294,10 +295,27 @@
     grid-template-columns: 1fr;
     gap: 20px;
   }
+
+  .filter {
+    flex-direction: column;
+    justify-content: center;
+    width: 85%;
+    margin-left: 20px;
+    margin-right: 5px;
+  }
 }
 
 @media (min-width: 769px) {
   .mobile-fab {
     display: none !important;
   }
+}
+
+.mobile-fab {
+  // display: none !important;
+}
+
+.btn-chip {
+  background-color: white;
+
 }
