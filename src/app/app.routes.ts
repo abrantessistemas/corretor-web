@@ -30,10 +30,6 @@ export const routes: Routes = [
     path: 'imoveis/:id',
     loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
     data: { animation: 'DetailsPage' }
-  }, {
-    path: 'imoveis/select/:id',
-    loadComponent: () => import('./pages/properties/property-select/property-select').then(m => m.PropertySelect),
-    data: { animation: 'SelectPage' }
   },
   {
     path: 'ajustes',
