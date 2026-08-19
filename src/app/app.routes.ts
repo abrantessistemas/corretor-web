@@ -30,6 +30,10 @@ export const routes: Routes = [
     path: 'imoveis/:id',
     loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
     data: { animation: 'DetailsPage' }
+  }, {
+    path: 'imoveis/select/:id',
+    loadComponent: () => import('./pages/properties/property-select/property-select').then(m => m.PropertySelect),
+    data: { animation: 'SelectPage' }
   },
   {
     path: 'ajustes',
@@ -40,16 +44,6 @@ export const routes: Routes = [
     path: 'indique-ganhe',
     loadComponent: () => import('./pages/indique-ganhe/indique-ganhe').then(m => m.IndiqueGanhe),
     data: { animation: 'IndiqueGanhePage' }
-  },
-  {
-    path: 'trabalhe-conosco',
-    loadComponent: () => import('./pages/trabalhe-conosco/trabalhe-conosco').then(m => m.TrabalheConosco),
-    data: { animation: 'TrabalheConoscoPage' }
-  },
-  {
-    path: 'planos',
-    loadComponent: () => import('./pages/planos/planos').then(m => m.PlanosComponent),
-    data: { animation: 'PlanosPage' }
   },
   {
     path: 'payment',
