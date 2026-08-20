@@ -6,63 +6,69 @@
   <header class="list-header">
     <div class="header-main">
       <div class="title-group">
-        <h1 style="margin-bottom: 10px;" class="color-text-inver">Catálogo de Imóveis</h1>
+        <h1 class="color-text-inver">Catálogo de Imóveis</h1>
         <p class="color-text-inver">Consulte e gira as propriedades disponíveis no sistema.</p>
       </div>
-      <!-- 
-      <button mat-flat-button color="primary" class="desktop-add-btn" (click)="irParaCadastro()">
-        <mat-icon>add</mat-icon>
-        NOVO IMÓVEL
-      </button> -->
     </div>
   </header>
 
-  <small class="color-text-inver">Filtrar por região:</small>
-  <div style="display: flex;justify-content: space-evenly;">
-    @if(!isHome()){
-    <mat-chip-listbox>
-      @for (zona of zonas; track zona) {
-      <mat-chip-option [selected]="selectedZone() === zona" (selectionChange)="filterByZone(zona)" class="btn-chip">
-        <span>{{ zona }}</span>
-      </mat-chip-option>
-      }
-    </mat-chip-listbox>
-    @if(filteredAndSortedProperties().length > 0) {
-    <button matButton="filled" (click)="toggleSort()">
-      <mat-icon>{{ sortOrder() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-      Ordenar por Valor
-    </button>
-    }
+  @if(!isHome()){
+  <div class="filter-wrapper">
+    <!-- Linha 1: Filtro por Região (Chips) e Botão de Ordenação -->
+    <div class="filter-row primary-row">
+      <div class="region-chips">
+        <span class="filter-label">Região:</span>
+        <mat-chip-listbox class="chip-filter-list">
+          @for (zona of zonas; track zona) {
+          <mat-chip-option [selected]="selectedZone() === zona" (selectionChange)="filterByZone(zona)">
+            {{ zona }}
+          </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
 
-    <mat-form-field>
-      <mat-label>Bairro</mat-label>
-      <mat-select [(ngModel)]="selectedBairro" name="bairro">
-        <mat-option [value]="">Todos</mat-option>
-        @for (bairro of bairros; track bairro) {
-        <mat-option [value]="bairro">{{bairro}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Metragem</mat-label>
-      <mat-select [(ngModel)]="selectedMetragem" name="metragem">
-        <mat-option [value]="">Todos</mat-option>
-        @for (metragem of metragens; track metragem) {
-        <mat-option [value]="metragem">{{metragem}}m²</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Dormitórios</mat-label>
-      <mat-select [(ngModel)]="selectedDormitorio" name="dormitorio">
-        <mat-option [value]="">Todos</mat-option>
-        @for (dormitorio of dormitorios; track dormitorio) {
-        <mat-option [value]="dormitorio">{{dormitorio}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    }
+      @if(filteredAndSortedProperties().length > 0) {
+      <button mat-flat-button class="sort-button" (click)="toggleSort()" [hidden]="!setting.exibirValor">
+        <mat-icon>{{ sortOrder() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+        Ordenar por Valor
+      </button>
+      }
+    </div>
+
+    <!-- Linha 2: Campos de Seleção (Bairro, Metragem, Dormitórios) -->
+    <div class="filter-row select-row">
+      <mat-form-field appearance="outline" class="custom-dark-field">
+        <mat-label>Bairro</mat-label>
+        <mat-select [ngModel]="selectedBairro()" (ngModelChange)="selectedBairro.set($event)" name="bairro">
+          <mat-option [value]="null">Todos os Bairros</mat-option>
+          @for (bairro of bairros(); track bairro) {
+          <mat-option [value]="bairro">{{bairro}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="custom-dark-field">
+        <mat-label>Metragem</mat-label>
+        <mat-select [ngModel]="selectedMetragem()" (ngModelChange)="selectedMetragem.set($event)" name="metragem">
+          <mat-option [value]="null">Todas</mat-option>
+          @for (metragem of metragens(); track metragem) {
+          <mat-option [value]="metragem">{{metragem}}m²</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="custom-dark-field">
+        <mat-label>Dormitórios</mat-label>
+        <mat-select [ngModel]="selectedDormitorio()" (ngModelChange)="selectedDormitorio.set($event)" name="dormitorio">
+          <mat-option [value]="null">Todos</mat-option>
+          @for (dormitorio of dormitorios(); track dormitorio) {
+          <mat-option [value]="dormitorio">{{dormitorio}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
+  }
 
   @if(loadDetails){
   <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
@@ -71,7 +77,6 @@
   <div class="property-grid">
     @for (item of filteredAndSortedProperties(); track item.id) {
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
-
       <div class="card-image-wrapper">
         @if (item.imagesUrl && item.imagesUrl.length > 0) {
         @for (img of item.imagesUrl; track img.id; let i = $index) {
@@ -100,18 +105,14 @@
 
           @for (category of item.category; track category) {
           <div class="spec-item">
-            <span class="category">
-              {{ category }}
-            </span>
+            <span class="category">{{ category }}</span>
           </div>
           }
 
           <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
             (click)="$event.stopPropagation(); item.favorite = !item.favorite; saveFavorite(item.id, item.favorite)"
             aria-label="Favorito" [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
-            <mat-icon>
-              {{ item.favorite ? 'favorite' : 'favorite_border' }}
-            </mat-icon>
+            <mat-icon>{{ item.favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
           </button>
         </div>
 
@@ -127,46 +128,28 @@
 
         <div class="specs">
           @if(item?.specs?.bedrooms){
-          <div class="spec-item">
-            <mat-icon>bed</mat-icon>
-            <span>{{ item?.specs?.bedrooms }}</span>
-          </div>
+          <div class="spec-item"><mat-icon>bed</mat-icon><span>{{ item?.specs?.bedrooms }}</span></div>
           }
           @if(item?.specs?.suits){
-          <div class="spec-item">
-            <mat-icon>bathtub</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>bathtub</mat-icon></div>
           }
           @if(item?.specs?.bathrooms){
-          <div class="spec-item">
-            <mat-icon>shower</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>shower</mat-icon></div>
           }
           @if(item?.specs?.garden){
-          <div class="spec-item">
-            <mat-icon>grass</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>grass</mat-icon></div>
           }
           @if(item?.specs?.balcony){
-          <div class="spec-item">
-            <mat-icon>balcony</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>balcony</mat-icon></div>
           }
           @if(item?.specs?.parking){
-          <div class="spec-item">
-            <mat-icon>directions_car</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>directions_car</mat-icon></div>
           }
           @if(item?.specs?.pool){
-          <div class="spec-item">
-            <mat-icon>pool</mat-icon>
-          </div>
+          <div class="spec-item"><mat-icon>pool</mat-icon></div>
           }
           @if(item?.specs?.area){
-          <div class="spec-item">
-            <mat-icon>square_foot</mat-icon>
-            <span>{{ item?.specs?.area }}m²</span>
-          </div>
+          <div class="spec-item"><mat-icon>square_foot</mat-icon><span>{{ item?.specs?.area }}m²</span></div>
           }
         </div>
       </mat-card-content>
@@ -187,6 +170,7 @@
     }
   </div>
 
-  <button mat-fab color="primary" class="mobile-fab" (click)="irParaCadastro()" matTooltip="Cadastrar Novo Imóvel">
+  <!-- <button mat-fab color="primary" class="mobile-fab" (click)="irParaCadastro()" matTooltip="Cadastrar Novo Imóvel">
     <mat-icon>add</mat-icon>
-  </button>
+  </button> -->
+</div>

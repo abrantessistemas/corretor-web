@@ -1,30 +1,31 @@
 import { Component, inject, ChangeDetectionStrategy, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-
-import { PropertyService } from '../../../services/property';
+import { Router, NavigationEnd } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { NavigationEnd, Router } from '@angular/router';
-import { PropertySlide } from "../property-slide/property-slide";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs/operators';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { FormsModule } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
+
+import { PropertyService } from '../../../services/property';
+import { PropertySlide } from '../property-slide/property-slide';
+import { PropertyFilter } from '../property-filter/property-filter';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -37,11 +38,8 @@ import { MatSelect } from '@angular/material/select';
     DialogModule,
     MatFormField,
     MatLabel,
-    MatSelect,
-    MatOption,
-    MatInputModule,
-    FormsModule
-
+    MatSelectModule,
+    MatInputModule
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
@@ -50,47 +48,86 @@ import { MatSelect } from '@angular/material/select';
 export class PropertyListComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   public propertyService = inject(PropertyService);
+  private dialog = inject(Dialog);
+
   setting = this.propertyService.settings();
 
+  // Filtros em Signals
   sortOrder = signal<'asc' | 'desc' | null>(null);
-  loadDetails = false;
   selectedZone = signal<string | null>(null);
   selectedBairro = signal<string | null>(null);
   selectedDormitorio = signal<number | null>(null);
   selectedMetragem = signal<number | null>(null);
+
+  loadDetails = false;
   zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
 
-
-  // Sinais para controlar os índices ativos de imagem por imóvel
+  // Carrossel de imagens
   imageIndexes = signal<{ [key: number]: number }>({});
   private autoplayIntervalId: any;
 
-  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
-  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
-  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
+  // Listas derivadas dinamicamente
+  bairros = computed(() => {
+    const list = this.propertyService.properties() || [];
+    return [...new Set(list.map(p => p.location?.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  });
 
-  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+  metragens = computed(() => {
+    const list = this.propertyService.properties() || [];
+    const areas = list.flatMap(p => Array.isArray(p.specs?.area) ? p.specs.area : [p.specs?.area]).filter(Boolean);
+    return [...new Set(areas)].sort((a, b) => a - b);
+  });
 
-  bairros: any = [];
-  metragens: any = [];
-  dormitorios: any = [];
+  dormitorios = computed(() => {
+    const list = this.propertyService.properties() || [];
+    const bedrooms = list.map(p => p.specs?.bedrooms).filter(Boolean);
+    return [...new Set(bedrooms)].sort((a, b) => a - b);
+  });
 
+  private urlSignal = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.router.url)
+    ),
+    { initialValue: this.router.url }
+  );
+
+  isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
+
+  filteredAndSortedProperties = computed(() => {
+    let list = [...(this.propertyService.properties() || [])];
+    const zone = this.selectedZone();
+    const order = this.sortOrder();
+    const bairro = this.selectedBairro();
+    const area = this.selectedMetragem();
+    const dormitorios = this.selectedDormitorio();
+
+    if (zone) {
+      list = list.filter(item => item.location?.regiao === zone);
+    }
+
+    if (bairro) {
+      list = list.filter(item => item.location?.bairro === bairro);
+    }
+
+    if (area) {
+      list = list.filter(item =>
+        Array.isArray(item.specs?.area) ? item.specs.area.includes(area) : item.specs?.area === area
+      );
+    }
+
+    if (dormitorios) {
+      list = list.filter(item => item.specs?.bedrooms === dormitorios);
+    }
+
+    if (order) {
+      list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+    }
+
+    return list;
+  });
 
   ngOnInit(): void {
-    const propertiesList = this.propertyService.properties() || [];
-    propertiesList.forEach(property => {
-      if (property?.specs?.area && Array.isArray(property.specs.area) && property.specs.area.length > 1) {
-        property.specs.area = [property.specs.area[0], property.specs.area[property.specs.area.length - 1]];
-      }
-    });
-    this.bairros = propertiesList.map(property => property.location.bairro).filter((value, index, self) => self.indexOf(value) === index);
-    this.bairros.sort((a: string, b: string) => a.localeCompare(b)); // Ordena alfabeticamente
-    this.metragens = [
-      ...new Set(
-        propertiesList.flatMap(property => property.specs.area)
-      )
-    ].sort((a, b) => a - b); // .sort() é opcional, caso queira ordenar os números
-    this.dormitorios = propertiesList.map(property => property.specs.bedrooms).filter((value, index, self) => self.indexOf(value) === index); // Remove duplicatas
     this.startImageAutoplay();
   }
 
@@ -118,44 +155,19 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
         return updatedIndexes;
       });
-    }, 4000); // 4 segundos entre as trocas para acomodar a suavidade da animação
+    }, 4000);
   }
 
   getActiveIndex(propertyId: number): number {
     return this.imageIndexes()[propertyId] || 0;
   }
 
-  filteredAndSortedProperties = computed(() => {
-    let list = [...(this.propertyService.properties() || [])];
-    const zone = this.selectedZone();
-    const order = this.sortOrder();
-    const bairro = this.selectedBairro();
-    const area = this.selectedMetragem();
-    const dormitorios = this.selectedDormitorio();
-
-    if (zone) {
-      list = list.filter(item => item.location?.regiao === zone);
-    }
-
-    if (order) {
-      list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
-    }
-
-    if (bairro) {
-      list = list.filter(item => item.location?.bairro === bairro);
-    }
-
-    if (area) {
-      list = list.filter(item => item.specs.area.find(a => a === area));
-    }
-    if (dormitorios) {
-      list = list.filter(item => item.specs.bedrooms === this.dormitorios);
-    }
-    return list;
-  });
-
-  toggleSort() {
+  toggleSort(): void {
     this.sortOrder.update(current => current === 'asc' ? 'desc' : 'asc');
+  }
+
+  filterByZone(zone: string): void {
+    this.selectedZone.update(current => current === zone ? null : zone);
   }
 
   irParaCadastro(): void {
@@ -164,13 +176,15 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
   verDetalhes(id: number): void {
     this.loadDetails = true;
-    this.router.navigate(['/imoveis/' + id]);
+    this.router.navigate(['/imoveis', id]);
   }
 
   registrarInteresse(title: string): void {
-    this.whatsappMensagem = `Olá eu gostaria de mais detalhes sobre o projeto: ${title}`;
-    this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
-    window.open(this.whatsappUrl, '_blank');
+    const config = this.propertyService.settings().whatsappConfig;
+    const phone = config?.whatsappNumber || '';
+    const message = `Olá, gostaria de mais detalhes sobre o projeto: ${title}`;
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   }
 
   saveFavorite(id: number, favorite: boolean): void {
@@ -179,30 +193,10 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private urlSignal = toSignal(
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.router.url)
-    ),
-    { initialValue: this.router.url }
-  );
-
-  isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
-
-  filterByZone(zone: string) {
-    this.selectedZone.update(current => current === zone ? null : zone);
+  openDialog(): void {
+    this.dialog.open(PropertyFilter, {
+      minWidth: '300px',
+      data: { animal: 'panda' }
+    });
   }
-}
-
-@Component({
-  selector: 'cdk-dialog-data-example-dialog',
-  template: `
-    <div class="container" style="background-color: #f5f5f5; padding: 2rem; border-radius: 8px;">
-      <h1>Meu Título</h1>
-      <p>Este HTML está direto no arquivo .ts!</p>
-    </div>
-  `,
-})
-export class CdkDialogDataExampleDialog {
-  // data = inject(DIALOG_DATA);
 }
