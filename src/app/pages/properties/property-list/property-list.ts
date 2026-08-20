@@ -18,7 +18,6 @@ import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 import { PropertyService } from '../../../services/property';
 import { PropertySlide } from '../property-slide/property-slide';
-import { PropertyFilter } from '../property-filter/property-filter';
 
 @Component({
   selector: 'app-property-list',
@@ -191,12 +190,5 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     if (favorite) {
       localStorage.setItem('favoriteProperties', id.toString());
     }
-  }
-
-  openDialog(): void {
-    this.dialog.open(PropertyFilter, {
-      minWidth: '300px',
-      data: { animal: 'panda' }
-    });
   }
 }
