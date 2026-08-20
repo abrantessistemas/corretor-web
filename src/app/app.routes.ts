@@ -30,20 +30,11 @@ export const routes: Routes = [
     path: 'imoveis/:id',
     loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
     data: { animation: 'DetailsPage' }
-  }, {
-    path: 'imoveis/select/:id',
-    loadComponent: () => import('./pages/properties/property-select/property-select').then(m => m.PropertySelect),
-    data: { animation: 'SelectPage' }
   },
   {
     path: 'ajustes',
     loadComponent: () => import('./pages/ajustes/ajustes').then(m => m.AjustesComponent),
     data: { animation: 'AjustesPage' }
-  },
-  {
-    path: 'indique-ganhe',
-    loadComponent: () => import('./pages/indique-ganhe/indique-ganhe').then(m => m.IndiqueGanhe),
-    data: { animation: 'IndiqueGanhePage' }
   },
   {
     path: 'payment',
