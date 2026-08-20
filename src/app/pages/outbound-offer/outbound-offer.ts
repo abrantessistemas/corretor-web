@@ -1,23 +1,25 @@
-import { Component, inject, signal, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, inject, signal, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatIconModule } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { PropertyService } from '../../services/property';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatSelectModule } from '@angular/material/select';
+
+import { PropertyService } from '../../services/property';
 
 export interface Lead {
   id: string;
   nome: string;
   telefone: string;
   projeto?: string;
-  enviado?: boolean; // Marca o estado de envio
+  enviado?: boolean;
 }
 
 export interface ColumnConfig {
@@ -30,6 +32,7 @@ export interface ColumnConfig {
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
@@ -38,41 +41,45 @@ export interface ColumnConfig {
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule,
     MatSelectModule
   ],
   templateUrl: './outbound-offer.html',
   styleUrl: './outbound-offer.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OutboundOffer implements AfterViewInit {
+  public propertyService = inject(PropertyService);
+
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },
     { key: 'acoes', label: 'Chamar' }
   ];
 
   readonly displayedColumns = this.columns.map(c => c.key);
-  public propertyService = inject(PropertyService);
-
   readonly dataSource = new MatTableDataSource<Lead>([]);
 
   mensagem = new FormControl('Olá');
   intervalo = new FormControl(5);
-  iniciado = false;
   mensagens = new FormControl('');
 
-  mensagemList: string[] = [];
+  colunaNome = new FormControl(0);
+  colunaContato = new FormControl(1);
+
+  iniciado = signal(false);
+  mensagemList = signal<string[]>([]);
+  selectedFile = signal<File | null>(null);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  // Marca o lead individualmente como enviado
-  chamarAgora(lead: Lead) {
-    if (!lead.telefone.length || lead.enviado) return;
+  chamarAgora(lead: Lead): void {
+    if (!lead.telefone || lead.enviado) return;
 
-    lead.enviado = true; // Desabilita o botão e muda o estilo
+    lead.enviado = true;
+    this.dataSource.data = [...this.dataSource.data];
 
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(this.mensagem.value || '')}`;
     window.open(whatsappUrl, '_blank');
@@ -82,90 +89,85 @@ export class OutboundOffer implements AfterViewInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async autoEnvio() {
+  async autoEnvio(): Promise<void> {
     const tempoSegundos = Number(this.intervalo.value) || 0;
 
-    if (tempoSegundos <= 4) {
-      console.warn('O intervalo deve ser superior a 4 segundos.');
+    if (tempoSegundos < 5) {
+      console.warn('O intervalo deve ser de no mínimo 5 segundos.');
       return;
     }
 
     const tempoEsperaMs = tempoSegundos * 1000;
-    // Filtra limpando o telefone e checando se sobrou um número válido
+
     const leadsParaEnviar = this.dataSource.data.filter(l => {
       const telefoneLimpo = this.limparTelefone(l.telefone);
       return telefoneLimpo.length > 0 && !l.enviado;
     });
 
-    if (!this.iniciado) {
-      this.iniciado = true;
+    if (!this.iniciado() && leadsParaEnviar.length > 0) {
+      this.iniciado.set(true);
 
       for (let index = 0; index < leadsParaEnviar.length; index++) {
-        const lead = leadsParaEnviar[index];
+        if (!this.iniciado()) break;
 
-        // Dispara o whatsapp e atualiza o estado visual
+        const lead = leadsParaEnviar[index];
         this.chamarAgora(lead);
 
         if (index < leadsParaEnviar.length - 1) {
           await this.delay(tempoEsperaMs);
         }
       }
+
+      this.iniciado.set(false);
     }
-    console.log('Disparos em massa concluídos!');
-    this.iniciado = false;
   }
 
-  // Helper para limpar e formatar o telefone
   private limparTelefone(telefone: string): string {
     if (!telefone) return '';
 
-    // 1. Remove qualquer caractere que NÃO seja número (espaços, parênteses, hífens, sinal +)
     let apenasNumeros = telefone.replace(/\D/g, '');
 
-    // 2. Remove o prefixo 55 do início (se existir)
-    if (apenasNumeros.startsWith('55')) {
+    if (apenasNumeros.startsWith('55') && apenasNumeros.length > 11) {
       apenasNumeros = apenasNumeros.substring(2);
     }
 
     return apenasNumeros;
   }
 
-  addMensagem() {
-    this.mensagemList.push(this.mensagem.value || '');
+  addMensagem(): void {
+    const texto = this.mensagem.value?.trim();
+    if (texto) {
+      this.mensagemList.update(list => [...list, texto]);
+    }
   }
 
-  onMensagemSelecionada(mensagemSelecionada: string) {
+  onMensagemSelecionada(mensagemSelecionada: string): void {
     if (mensagemSelecionada) {
       this.mensagem.setValue(mensagemSelecionada);
     }
   }
 
-  removerMensagem(event: Event, index: number, itemRemovido: string) {
-    // Impede que o clique no botão selecione a opção no mat-select
+  removerMensagem(event: Event, index: number, itemRemovido: string): void {
     event.stopPropagation();
 
-    // Remove o item do array
-    this.mensagemList.splice(index, 1);
+    this.mensagemList.update(list => list.filter((_, i) => i !== index));
 
-    // Se a mensagem excluída era a que estava selecionada no momento, limpa o select e o textarea
     if (this.mensagens.value === itemRemovido) {
       this.mensagens.setValue('');
       this.mensagem.setValue('');
     }
   }
-  selectedFile: File | null = null;
-  // Manipula a seleção do arquivo
+
   onFileSelected(event: Event): void {
-    this.dataSource.data = [];
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.processarArquivo(this.selectedFile);
+      const file = input.files[0];
+      this.selectedFile.set(file);
+      this.processarArquivo(file);
     }
   }
 
-  // Lê o arquivo e converte para Lead[]
   private processarArquivo(file: File): void {
     const reader = new FileReader();
 
@@ -173,41 +175,33 @@ export class OutboundOffer implements AfterViewInit {
       const conteudo = e.target?.result as string;
       if (conteudo) {
         const novosLeads = this.converterTextoParaLeads(conteudo);
-
-        // Atualiza a fonte de dados da MatTable
-        this.dataSource.data = [...this.dataSource.data, ...novosLeads];
+        this.dataSource.data = novosLeads;
       }
     };
 
     reader.readAsText(file);
   }
 
-  colunaNome = new FormControl(0);
-  colunaContato = new FormControl(1);
-
-  // Converte o texto no formato CSV/delimitado para o tipo Lead[]
   private converterTextoParaLeads(texto: string): Lead[] {
     const linhas = texto.split(/\r?\n/).filter(linha => linha.trim() !== '');
 
     if (linhas.length === 0) return [];
 
-    // Descobre o separador (vírgula ou ponto e vírgula)
     const separador = linhas[0].includes(';') ? ';' : ',';
-
-    // Mapeamento assumindo a ordem: id, nome, telefone, projeto, enviado
-    // Ignora a primeira linha se for cabeçalho (ex: contiver "nome" ou "id")
-    const primeiraLinhaEhCabecalho = linhas[0].toLowerCase().includes('nome');
+    const primeiraLinhaEhCabecalho = linhas[0].toLowerCase().includes('nome') || linhas[0].toLowerCase().includes('contato');
     const dadosLinhas = primeiraLinhaEhCabecalho ? linhas.slice(1) : linhas;
+
+    const idxNome = this.colunaNome.value ?? 0;
+    const idxContato = this.colunaContato.value ?? 1;
 
     return dadosLinhas.map((linha, index) => {
       const colunas = linha.split(separador).map(col => col.trim().replace(/^"|"$/g, ''));
 
       return {
-        id: colunas[0] || (this.dataSource.data.length + index + 1).toString(),
-        nome: colunas[this.colunaNome.value || 0] || 'Sem Nome',
-        telefone: this.limparTelefone(colunas[this.colunaContato.value || 1] || ''),
-        projeto: colunas[3] || undefined,
-        enviado: colunas[4] !== undefined ? colunas[4].toLowerCase() === 'true' : false
+        id: (index + 1).toString(),
+        nome: colunas[idxNome] || 'Sem Nome',
+        telefone: this.limparTelefone(colunas[idxContato] || ''),
+        enviado: false
       };
     });
   }

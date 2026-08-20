@@ -1,162 +1,182 @@
 .container {
-    padding: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .list-header {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    .title-group h1 {
-        margin: 0 0 6px 0;
-        font-size: 1.6rem;
-        font-weight: 700;
-    }
+  .title-group h1 {
+    margin: 0 0 6px 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
 }
 
 /* Painel de Ajustes */
 .config-accordion {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 
-    .example-headers-align {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 10px;
+  .config-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px 0;
+  }
 
-        .full-width {
-            flex: 1;
-        }
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .flex-grow {
+      flex: 1;
+      min-width: 250px;
     }
+
+    .full-width {
+      flex: 2;
+      min-width: 300px;
+    }
+  }
+
+  .action-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Upload de Arquivos */
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #334155;
+    font-weight: 500;
+  }
 }
 
 /* Botão WhatsApp */
 .whatsapp-button {
-    background-color: #25d366 !important;
-    color: #ffffff !important;
-    transition: all 0.2s ease-in-out;
+  background-color: #25d366 !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease-in-out;
 
-    &:hover:not([disabled]) {
-        background-color: #128c7e !important;
-        transform: scale(1.05);
-    }
+  &:hover:not([disabled]) {
+    background-color: #128c7e !important;
+    transform: scale(1.05);
+  }
 
-    /* Estado Desabilitado / Inativo */
-    &[disabled] {
-        background-color: #e2e8f0 !important;
-        color: #94a3b8 !important;
-        cursor: not-allowed;
-    }
+  &[disabled] {
+    background-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+  }
 }
 
-/* Estilos de perfil */
+/* Estilos de perfil do Lead */
 .lead-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--mat-sys-primary, #0f172a);
+    color: #ffffff;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    transition: background 0.3s;
 
-    .avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: var(--mat-sys-primary, #0f172a);
-        color: #ffffff;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.3s;
+    &.avatar-enviado {
+      background: #94a3b8;
+    }
+  }
 
-        &.avatar-enviado {
-            background: #94a3b8;
-        }
+  .lead-info {
+    display: flex;
+    flex-direction: column;
+
+    .lead-name {
+      font-weight: 600;
+      color: #0f172a;
     }
 
-    .lead-info {
-        display: flex;
-        flex-direction: column;
-
-        .lead-name {
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .status-badge {
-            font-size: 0.72rem;
-            color: #166534;
-            font-weight: 600;
-        }
+    .status-badge {
+      font-size: 0.72rem;
+      color: #166534;
+      font-weight: 600;
     }
+  }
 }
 
-/* Destaque Visual do Lead Utilizado/Contactado */
+/* Status do Lead Contactado */
 .lead-row {
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 
-    /* REGISTRO FICA EVIDENTE COMO UTILIZADO */
-    &.lead-enviado {
-        background-color: #cffeb6 !important;
-        opacity: 0.65; // Opacidade reduzida para criar o efeito visual de elemento "concluído/utilizado"
+  &.lead-enviado {
+    background-color: #f0fdf4 !important;
 
-        .lead-name {
-            text-decoration: line-through;
-            color: #64748b;
-        }
+    .lead-name {
+      text-decoration: line-through;
+      color: #64748b;
     }
+  }
 }
 
 .table-responsive-wrapper {
-    background: #c8c8c8;
-    border: 2px solid;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    margin-top: 5px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-top: 12px;
+
+  .no-data {
+    text-align: center;
+    padding: 32px;
+    color: #64748b;
+    font-weight: 500;
+  }
 }
 
 /* Estilização para o item do Select com Ação */
-::v-deep .mat-mdc-option.option-with-action {
-    .mdc-list-item__primary-text {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        width: 100%;
-        gap: 12px;
-    }
-
-    .option-text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1;
-    }
-}
-
-.btn-excluir:hover {
-    color: red;
-}
-
-btn-add:hover {
-    background-color: var(--mat-sys-primary);
-}
-
-btn-play:hover {
-    background-color: var(--mat-sys-primary);
-}
-
-.file-upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+::ng-deep .mat-mdc-option.option-with-action {
+  .mdc-list-item__primary-text {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100%;
     gap: 12px;
-    margin: 16px 0;
-}
+  }
 
-.file-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    font-size: 14px;
-    color: #333;
+  .option-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+
+  .btn-excluir {
+    color: #ef4444;
+
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+    }
+  }
 }
