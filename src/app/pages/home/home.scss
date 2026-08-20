@@ -22,7 +22,7 @@
 
 .grid {
     // display: grid;
-    display: none;
+    display: flex;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 24px;
 }
