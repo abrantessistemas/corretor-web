@@ -52,7 +52,7 @@ export class OutboundOffer implements AfterViewInit {
 
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },
-    { key: 'acoes', label: 'Chamar' }
+    { key: 'acoes', label: 'Ações' }
   ];
 
   readonly displayedColumns = this.columns.map(c => c.key);
@@ -204,5 +204,12 @@ export class OutboundOffer implements AfterViewInit {
         enviado: false
       };
     });
+  }
+  // Dispara a ligação telefônica diretamente
+  ligarAgora(lead: Lead): void {
+    if (!lead.telefone) return;
+
+    // Abre o discador padrão do sistema/dispositivo
+    window.location.href = `tel:${lead.telefone}`;
   }
 }

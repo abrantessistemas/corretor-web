@@ -46,8 +46,8 @@
                         <mat-select [formControl]="mensagens" (selectionChange)="onMensagemSelecionada($event.value)">
                             <mat-select-trigger>
                                 <span class="additional-selection">
-                                    {{ mensagens.value ? (mensagens.value.substring(0, 30) + '...') : 'Selecione uma
-                                    mensagem' }}
+                                    {{ mensagens.value ? (mensagens.value.substring(0, 30) + '...') :
+                                    'Selecione uma mensagem' }}
                                 </span>
                             </mat-select-trigger>
 
@@ -125,10 +125,21 @@
 
                     @case ('acoes') {
                     <div class="action-buttons">
+                        <!-- Botão WhatsApp -->
                         <button mat-icon-button class="whatsapp-button" [disabled]="element.enviado"
                             (click)="chamarAgora(element)"
                             [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
-                            <mat-icon>{{ element.enviado ? 'check' : 'chat' }}</mat-icon>
+                            @if (element.enviado) {
+                            <mat-icon>check</mat-icon>
+                            } @else {
+                            <i class="fa fa-whatsapp"></i>
+                            }
+                        </button>
+
+                        <!-- Botão para Ligar Direitamente -->
+                        <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
+                            (click)="ligarAgora(element)" matTooltip="Ligar para o contato">
+                            <mat-icon>call</mat-icon>
                         </button>
                     </div>
                     }
