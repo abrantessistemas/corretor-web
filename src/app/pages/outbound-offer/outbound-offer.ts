@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, ViewChild, AfterViewInit, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -47,8 +47,9 @@ export interface ColumnConfig {
   styleUrl: './outbound-offer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OutboundOffer implements AfterViewInit {
+export class OutboundOffer implements AfterViewInit, OnInit {
   public propertyService = inject(PropertyService);
+  private readonly LOCAL_STORAGE_KEY = 'mensagens_outbound_list';
 
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },
@@ -57,6 +58,17 @@ export class OutboundOffer implements AfterViewInit {
 
   readonly displayedColumns = this.columns.map(c => c.key);
   readonly dataSource = new MatTableDataSource<Lead>([]);
+
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  // Lista de mensagens padrão caso não exista nada salvo no navegador
+  private readonly mensagensPadrao: string[] = [
+    'Olá! Gostaria de obter mais informações sobre o imóvel.',
+    'Oi! Temos condições especiais de pagamento este mês.',
+    'Olá! Gostaria de agendar uma visita ao decorado?'
+  ];
 
   mensagem = new FormControl('Olá');
   intervalo = new FormControl(5);
@@ -127,9 +139,13 @@ export class OutboundOffer implements AfterViewInit {
   private limparTelefone(telefone: string): string {
     if (!telefone) return '';
 
+    // 1. Remove tudo que não for número (espaços, hífens, parênteses, sinal de +, etc)
     let apenasNumeros = telefone.replace(/\D/g, '');
 
-    if (apenasNumeros.startsWith('55') && apenasNumeros.length > 11) {
+    // 2. Só remove o DDI '55' se o número for longo (12 ou 13 dígitos no total)
+    // Exemplo de 13 dígitos: 5511987654321 -> vira 11987654321 (Mantém o DDD 11 completo!)
+    // Exemplo de 11 dígitos: 11987654321   -> Mantém 11987654321 intacto!
+    if (apenasNumeros.startsWith('55') && apenasNumeros.length >= 12) {
       apenasNumeros = apenasNumeros.substring(2);
     }
 
@@ -139,6 +155,7 @@ export class OutboundOffer implements AfterViewInit {
   addMensagem(): void {
     const texto = this.mensagem.value?.trim();
     if (texto) {
+      localStorage.setItem('msn', texto);
       this.mensagemList.update(list => [...list, texto]);
     }
   }
