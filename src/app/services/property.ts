@@ -2727,7 +2727,7 @@ export class PropertyService {
       whatsappConfig:
       {
         whatsappContactName: 'Consultor Adriano',
-        whatsappNumber: '5511940177792',
+        whatsappNumber: '11940177792',
         whatsappMessage: 'Olá! Gostaria de obter mais informações'
       },
       exibirValor: false

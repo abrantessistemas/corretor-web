@@ -19,14 +19,13 @@
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
-        @if(item.enable){
-        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
-          <mat-icon>{{ item.icon }}</mat-icon>
-          <span>{{ item.label }}</span>
-        </a>
+          @if(item.enable){
+            <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </a>
+          }
         }
-        }
-        <a href="{{whatsappUrl}}" mat-flat-button color="accent" target="_blank">Falar com Consultor</a>
       </div>
     </div>
   </mat-toolbar>

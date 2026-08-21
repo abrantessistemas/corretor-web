@@ -81,7 +81,9 @@ export class OutboundOffer implements AfterViewInit {
     lead.enviado = true;
     this.dataSource.data = [...this.dataSource.data];
 
-    const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(this.mensagem.value || '')}`;
+    var preLead = 'Olá ' + lead.nome;
+
+    const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(preLead + ' ' + this.mensagem.value || '')}`;
     window.open(whatsappUrl, '_blank');
   }
 
