@@ -1,18 +1,18 @@
 <div class="container" #value>
-  @if(isHome()){
+  <!-- @if(isHome()){
   <app-property-slide></app-property-slide>
-  }
+  } -->
 
   <header class="list-header">
     <div class="header-main">
       <div class="title-group">
-        <h1 class="color-text-inver">Catálogo de Imóveis</h1>
-        <p class="color-text-inver">Consulte e gira as propriedades disponíveis no sistema.</p>
+        <h1 class="color-text-inver">Imóveis na planta</h1>
+        <!-- <p class="color-text-inver">Consulte e gira as propriedades disponíveis no sistema.</p> -->
       </div>
     </div>
   </header>
 
-  @if(!isHome()){
+  <!-- @if(!isHome()){ -->
   <div class="filter-wrapper">
     <!-- Linha 1: Filtro por Região (Chips) e Botão de Ordenação -->
     <div class="filter-row primary-row">
@@ -68,7 +68,7 @@
       </mat-form-field>
     </div>
   </div>
-  }
+  <!-- } -->
 
   @if(loadDetails){
   <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>

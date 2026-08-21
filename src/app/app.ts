@@ -58,14 +58,14 @@ export class App {
   // Itens do menu usando Signals (v21)
   menuItems = signal([
     { path: '/home', label: 'Home', icon: 'dashboard', enable: true },
-    { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent', enable: true },
+    { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent', enable: false },
     { path: '/payment', label: 'Simulador', icon: 'payment', enable: false },
     { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: false },
     { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: false },
     { path: '/planos', label: 'Planos', icon: 'payments', enable: false },
     { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: false },
     { path: '/perfil', label: 'Perfil', icon: 'person', enable: false },
-    { path: '/oferta', label: 'Oferta Ativa', icon: 'check', enable: true }
+    { path: '/oferta', label: 'Oferta Ativa', icon: 'check', enable: false }
   ]);
 
   public propertyService = inject(PropertyService);
