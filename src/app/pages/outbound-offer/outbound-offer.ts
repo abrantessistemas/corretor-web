@@ -139,13 +139,9 @@ export class OutboundOffer implements AfterViewInit, OnInit {
   private limparTelefone(telefone: string): string {
     if (!telefone) return '';
 
-    // 1. Remove tudo que não for número (espaços, hífens, parênteses, sinal de +, etc)
     let apenasNumeros = telefone.replace(/\D/g, '');
 
-    // 2. Só remove o DDI '55' se o número for longo (12 ou 13 dígitos no total)
-    // Exemplo de 13 dígitos: 5511987654321 -> vira 11987654321 (Mantém o DDD 11 completo!)
-    // Exemplo de 11 dígitos: 11987654321   -> Mantém 11987654321 intacto!
-    if (apenasNumeros.startsWith('55') && apenasNumeros.length >= 12) {
+    if (apenasNumeros.startsWith('55') && apenasNumeros.length > 11) {
       apenasNumeros = apenasNumeros.substring(2);
     }
 
