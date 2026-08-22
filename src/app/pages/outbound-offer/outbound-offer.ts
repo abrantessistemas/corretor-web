@@ -59,10 +59,6 @@ export class OutboundOffer implements AfterViewInit, OnInit {
   readonly displayedColumns = this.columns.map(c => c.key);
   readonly dataSource = new MatTableDataSource<Lead>([]);
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
   // Lista de mensagens padrão caso não exista nada salvo no navegador
   private readonly mensagensPadrao: string[] = [
     'Olá! Gostaria de obter mais informações sobre o imóvel.',
@@ -78,7 +74,7 @@ export class OutboundOffer implements AfterViewInit, OnInit {
   colunaContato = new FormControl(1);
 
   iniciado = signal(false);
-  mensagemList = signal<string[]>([]);
+  mensagemList: string[] = [];
   selectedFile = signal<File | null>(null);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -147,28 +143,58 @@ export class OutboundOffer implements AfterViewInit, OnInit {
     return apenasNumeros;
   }
 
-  addMensagem(): void {
-    const texto = this.mensagem.value?.trim();
-    if (texto) {
-      localStorage.setItem('msn', texto);
-      this.mensagemList.update(list => [...list, texto]);
+  ngOnInit() {
+    this.carregarMensagens();
+  }
+
+  // 1. Carrega do localStorage ou inicializa com a lista padrão
+  private carregarMensagens() {
+    const dadosSalvos = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+
+    if (dadosSalvos) {
+      try {
+        this.mensagemList = JSON.parse(dadosSalvos);
+      } catch (e) {
+        console.error('Erro ao ler mensagens do localStorage:', e);
+        this.mensagemList = [...this.mensagensPadrao];
+      }
+    } else {
+      this.mensagemList = [...this.mensagensPadrao];
+      this.salvarNoLocalStorage(); // Garante o salvamento inicial
     }
   }
 
-  onMensagemSelecionada(mensagemSelecionada: string): void {
-    if (mensagemSelecionada) {
-      this.mensagem.setValue(mensagemSelecionada);
-    }
+  // 2. Método centralizado para persistir as alterações
+  private salvarNoLocalStorage() {
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(this.mensagemList));
   }
 
-  removerMensagem(event: Event, index: number, itemRemovido: string): void {
-    event.stopPropagation();
+  // 3. Método para adicionar uma nova mensagem e salvar
+  adicionarMensagem() {
+    this.mensagemList.push(this.mensagem.value || '');
+    this.salvarNoLocalStorage();
+  }
 
-    this.mensagemList.update(list => list.filter((_, i) => i !== index));
+  // 4. Método de remoção atualizado para atualizar o localStorage
+  removerMensagem(event: Event, index: number, itemRemovido: string) {
+    event.stopPropagation(); // Impede a seleção do item ao clicar em excluir
 
+    // Remove do array local
+    this.mensagemList.splice(index, 1);
+
+    // Persiste a exclusão no localStorage
+    this.salvarNoLocalStorage();
+
+    // Se o item removido estava selecionado nos controls, limpa
     if (this.mensagens.value === itemRemovido) {
       this.mensagens.setValue('');
       this.mensagem.setValue('');
+    }
+  }
+
+  onMensagemSelecionada(mensagemSelecionada: string) {
+    if (mensagemSelecionada) {
+      this.mensagem.setValue(mensagemSelecionada);
     }
   }
 
@@ -226,9 +252,9 @@ export class OutboundOffer implements AfterViewInit, OnInit {
 
     if (lead.telefone.startsWith('55')) {
       numero = lead.telefone.substring(2);
-      window.location.href = `tel:${numero}`;
+      window.location.href = `tel: 0${numero}`;
     } else {
-      window.location.href = `tel:${lead.telefone}`;
+      window.location.href = `tel: 0${lead.telefone}`;
 
     }
     // Abre o discador padrão do sistema/dispositivo

@@ -51,7 +51,7 @@
                                 </span>
                             </mat-select-trigger>
 
-                            @for (item of mensagemList(); track $index) {
+                            @for (item of mensagemList; track $index) {
                             <mat-option [value]="item" class="option-with-action">
                                 <span class="option-text">{{ item }}</span>
                                 <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
@@ -69,7 +69,7 @@
                     </mat-form-field>
 
                     <div class="action-buttons-group">
-                        <button mat-mini-fab color="primary" class="btn-add" (click)="addMensagem()"
+                        <button mat-mini-fab color="primary" class="btn-add" (click)="adicionarMensagem()"
                             matTooltip="Adicionar à lista">
                             <mat-icon>add</mat-icon>
                         </button>
