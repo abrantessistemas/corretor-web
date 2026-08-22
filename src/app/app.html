@@ -12,11 +12,6 @@
           18).toUpperCase()}}</span>
       </div>
 
-      <a class="phone-menu" href="tel:+{{whatsappUrl}}" mat-flat-button color="accent">
-        <mat-icon>phone</mat-icon>
-        <span>Ligue</span>
-      </a>
-
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
           @if(item.enable){

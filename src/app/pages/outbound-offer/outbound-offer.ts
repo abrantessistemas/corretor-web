@@ -141,8 +141,8 @@ export class OutboundOffer implements AfterViewInit, OnInit {
 
     let apenasNumeros = telefone.replace(/\D/g, '');
 
-    if (apenasNumeros.startsWith('55') && apenasNumeros.length > 11) {
-      apenasNumeros = apenasNumeros.substring(2);
+    if (!apenasNumeros.startsWith('55')) {
+      apenasNumeros = '55' + apenasNumeros;
     }
 
     return apenasNumeros;
