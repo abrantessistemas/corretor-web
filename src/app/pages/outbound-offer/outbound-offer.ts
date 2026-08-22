@@ -92,7 +92,6 @@ export class OutboundOffer implements AfterViewInit, OnInit {
 
     lead.enviado = true;
     this.dataSource.data = [...this.dataSource.data];
-
     var preLead = 'Olá ' + lead.nome;
 
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(preLead + ' ' + this.mensagem.value || '')}`;
@@ -223,8 +222,15 @@ export class OutboundOffer implements AfterViewInit, OnInit {
   // Dispara a ligação telefônica diretamente
   ligarAgora(lead: Lead): void {
     if (!lead.telefone) return;
+    var numero = '';
 
+    if (lead.telefone.startsWith('55')) {
+      numero = lead.telefone.substring(2);
+      window.location.href = `tel:${numero}`;
+    } else {
+      window.location.href = `tel:${lead.telefone}`;
+
+    }
     // Abre o discador padrão do sistema/dispositivo
-    window.location.href = `tel:${lead.telefone}`;
   }
 }
