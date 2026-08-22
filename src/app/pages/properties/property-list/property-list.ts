@@ -191,4 +191,15 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       localStorage.setItem('favoriteProperties', id.toString());
     }
   }
+
+  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
+  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
+  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
+
+  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+
+
+  openWhatspp() {
+    window.open(this.whatsappUrl, '_blank');
+  }
 }

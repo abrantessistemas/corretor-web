@@ -14,12 +14,12 @@
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
-          @if(item.enable){
-            <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
-              <mat-icon>{{ item.icon }}</mat-icon>
-              <span>{{ item.label }}</span>
-            </a>
-          }
+        @if(item.enable){
+        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+        }
         }
       </div>
     </div>
@@ -28,10 +28,6 @@
   <main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
     <router-outlet #outlet="outlet"></router-outlet>
   </main>
-
-  <a href="{{whatsappUrl}}" class="whatsapp-button" target="_blank">
-    <i class="fa fa-whatsapp"></i>
-  </a>
 
   <!-- Navegação Inferior (Mobile) -->
   <nav class="bottom-nav">
@@ -46,9 +42,4 @@
     }
     }
   </nav>
-
-  <div class="desktop-menu" style="padding: 14px;">
-    Copyright © 2026 {{propertyService.settings().siteTitle}}. Todos os direitos reservados.
-    <a href="{{whatsappUrl}}">Desenvolvido por Abrantes Sistemas</a>.
-  </div>
 </div>

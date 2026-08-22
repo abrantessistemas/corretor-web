@@ -14,7 +14,7 @@
   }
 }
 
-/* Painel de Ajustes */
+/* Painel de Configuração */
 .config-accordion {
   margin-bottom: 24px;
 
@@ -42,57 +42,24 @@
     }
   }
 
-  /* Grupo de Botões de Ação */
-  .action-buttons {
+  .action-buttons-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
   }
 }
 
-/* Botão WhatsApp */
-.whatsapp-button {
-  background-color: #25d366 !important;
-  color: #ffffff !important;
-  transition: all 0.2s ease-in-out;
-
-  &:hover:not([disabled]) {
-    background-color: #128c7e !important;
-    transform: scale(1.05);
-  }
-
-  &[disabled] {
-    background-color: #e2e8f0 !important;
-    color: #94a3b8 !important;
-    cursor: not-allowed;
-  }
-}
-
-/* Botão de Ligação Telefônica */
-.phone-button {
-  background-color: #3b82f6 !important;
-  color: #ffffff !important;
-  transition: all 0.2s ease-in-out;
-  margin-left: 5px;
-
-  &:hover:not([disabled]) {
-    background-color: #1d4ed8 !important;
-    transform: scale(1.05);
-  }
-
-  &[disabled] {
-    background-color: #e2e8f0 !important;
-    color: #94a3b8 !important;
-    cursor: not-allowed;
-  }
-}
-
-/* Upload de Arquivos */
+/* Upload de Arquivos & Loading */
 .file-upload-container {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-top: 8px;
+
+  .spinner-btn {
+    display: inline-block;
+    margin-right: 8px;
+  }
 
   .file-info {
     display: flex;
@@ -104,7 +71,48 @@
   }
 }
 
-/* Estilos de perfil do Lead */
+/* Botões de Ação na Tabela */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .whatsapp-button {
+    background-color: #25d366 !important;
+    color: #ffffff !important;
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not([disabled]) {
+      background-color: #128c7e !important;
+      transform: scale(1.05);
+    }
+
+    &[disabled] {
+      background-color: #e2e8f0 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+    }
+  }
+
+  .phone-button {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not([disabled]) {
+      background-color: #1d4ed8 !important;
+      transform: scale(1.05);
+    }
+
+    &[disabled] {
+      background-color: #e2e8f0 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Perfil do Lead */
 .lead-profile {
   display: flex;
   align-items: center;
@@ -144,15 +152,13 @@
   }
 }
 
-/* Status do Lead Contactado */
+/* Status do Lead na Tabela */
 .lead-row {
   transition: background-color 0.3s ease;
 
   &.lead-enviado {
-    background-color: var(--mat-sys-primary) !important;
-    /* Tom escuro (Slate/Dark) */
+    background-color: var(--mat-sys-primary, #1e293b) !important;
 
-    /* Ajusta a cor do texto para manter a leitura no fundo escuro */
     .lead-name,
     td {
       color: #f8fafc !important;
@@ -160,18 +166,36 @@
 
     .status-badge {
       color: #4ade80 !important;
-      /* Verde claro para contraste */
     }
   }
 }
 
+/* Estrutura de Loading da Tabela */
 .table-responsive-wrapper {
+  position: relative;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   margin-top: 12px;
+
+  .table-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 10;
+    font-weight: 600;
+    color: #334155;
+  }
 
   .no-data {
     text-align: center;
@@ -181,7 +205,7 @@
   }
 }
 
-/* Estilização para o item do Select com Ação */
+/* Customização do Select */
 ::ng-deep .mat-mdc-option.option-with-action {
   .mdc-list-item__primary-text {
     display: flex !important;

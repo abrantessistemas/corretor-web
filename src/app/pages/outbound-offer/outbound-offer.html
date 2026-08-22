@@ -51,7 +51,7 @@
                                 </span>
                             </mat-select-trigger>
 
-                            @for (item of mensagemList; track $index) {
+                            @for (item of mensagemList(); track $index) {
                             <mat-option [value]="item" class="option-with-action">
                                 <span class="option-text">{{ item }}</span>
                                 <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
@@ -84,9 +84,16 @@
                 <div class="file-upload-container">
                     <input type="file" #fileInput (change)="onFileSelected($event)" accept=".csv, .xlsx, .txt"
                         style="display: none" />
-                    <button mat-raised-button color="primary" (click)="fileInput.click()">
+
+                    <button mat-raised-button color="primary" [disabled]="carregandoArquivo()"
+                        (click)="fileInput.click()">
+                        @if (carregandoArquivo()) {
+                        <mat-spinner diameter="20" class="spinner-btn"></mat-spinner>
+                        <span> Processando...</span>
+                        } @else {
                         <mat-icon>upload_file</mat-icon>
-                        Carregar Arquivo (.csv)
+                        <span> Carregar Arquivo (.csv)</span>
+                        }
                     </button>
 
                     @if (selectedFile()) {
@@ -102,6 +109,13 @@
     </mat-accordion>
 
     <div class="table-responsive-wrapper">
+        @if (carregandoArquivo()) {
+        <div class="table-loading-overlay">
+            <mat-spinner diameter="40"></mat-spinner>
+            <span>Carregando dados dos leads...</span>
+        </div>
+        }
+
         <table mat-table [dataSource]="dataSource" class="responsive-card-table">
             @for (col of columns; track col.key) {
             <ng-container [matColumnDef]="col.key">
@@ -125,7 +139,6 @@
 
                     @case ('acoes') {
                     <div class="action-buttons">
-                        <!-- Botão WhatsApp -->
                         <button mat-icon-button class="whatsapp-button" [disabled]="element.enviado"
                             (click)="chamarAgora(element)"
                             [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
@@ -136,7 +149,6 @@
                             }
                         </button>
 
-                        <!-- Botão para Ligar Direitamente -->
                         <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
                             (click)="ligarAgora(element)" matTooltip="Ligar para o contato">
                             <mat-icon>call</mat-icon>
@@ -163,7 +175,10 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecione a página de leads">
+        <!-- Mantenha todo o seu HTML anterior e atualize a tag mat-paginator no final do arquivo -->
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" (page)="onPageChange($event)" showFirstLastButtons
+            aria-label="Selecione a página de leads">
         </mat-paginator>
     </div>
 </div>

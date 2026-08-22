@@ -70,13 +70,7 @@ export class App {
 
   public propertyService = inject(PropertyService);
 
-  imageBackgroundUrl = this.propertyService.backgroundImageUrl;;
-  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
-  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
-  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
-
-  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
-
+  imageBackgroundUrl = this.propertyService.backgroundImageUrl;
   logoSetting = signal(this.propertyService.settings().logo);
 
   /**
@@ -84,9 +78,5 @@ export class App {
    */
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
-  }
-
-  openWhatspp() {
-    window.open(this.whatsappUrl, '_blank');
   }
 }
