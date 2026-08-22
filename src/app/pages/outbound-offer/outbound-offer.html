@@ -35,6 +35,15 @@
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
+                        <mat-label>Período</mat-label>
+                        <select matNativeControl required [formControl]="periodo" style="text-align: center;">
+                            <option value="Bom dia">Manhã</option>
+                            <option value="Boa tarde">Tarde</option>
+                            <option value="Boa noite">Noite</option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
                         <mat-label>Intervalo (segundos)</mat-label>
                         <input matInput type="number" [formControl]="intervalo" min="5" />
                     </mat-form-field>
@@ -65,7 +74,7 @@
 
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Mensagem para Envio</mat-label>
-                        <textarea matInput [formControl]="mensagem" rows="2"></textarea>
+                        <textarea matInput [formControl]="mensagem" rows="5"></textarea>
                     </mat-form-field>
 
                     <div class="action-buttons-group">

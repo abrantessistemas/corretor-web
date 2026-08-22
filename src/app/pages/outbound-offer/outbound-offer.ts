@@ -69,9 +69,9 @@ export class OutboundOffer implements OnInit, AfterViewInit {
   private readonly STORAGE_ESTADO_KEY = 'oferta_ativa_estado';
 
   private readonly MENSAGENS_PADRAO: string[] = [
-    'Olá! Gostaria de obter mais informações sobre o imóvel.',
-    'Oi! Temos condições especiais de pagamento este mês.',
-    'Olá! Gostaria de agendar uma visita ao decorado?'
+    'temos novidades especiais para você.',
+    'temos condições especiais de pagamento este mês.',
+    'venha conferir o feirão de imoveis da caixa neste final de semana.'
   ];
 
   readonly columns: ColumnConfig[] = [
@@ -87,6 +87,7 @@ export class OutboundOffer implements OnInit, AfterViewInit {
   mensagens = new FormControl('');
   colunaNome = new FormControl(0);
   colunaContato = new FormControl(1);
+  periodo = new FormControl('Bom dia');
 
   // State Signals
   iniciado = signal(false);
@@ -252,7 +253,7 @@ export class OutboundOffer implements OnInit, AfterViewInit {
     this.dataSource.data = [...this.dataSource.data];
     this.salvarEstadoLocalStorage();
 
-    const textoFormatado = `Olá ${lead.nome} ${this.mensagem.value || ''}`.trim();
+    const textoFormatado = `${this.periodo.value} ${lead.nome} ${this.mensagem.value || ''}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
     window.open(whatsappUrl, '_blank');
   }
