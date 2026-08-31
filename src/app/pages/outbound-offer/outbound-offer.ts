@@ -85,8 +85,8 @@ export class OutboundOffer implements OnInit, AfterViewInit {
   mensagem = new FormControl('Olá');
   intervalo = new FormControl(5);
   mensagens = new FormControl('');
-  colunaNome = new FormControl(0);
-  colunaContato = new FormControl(1);
+  colunaNome = new FormControl(1);
+  colunaContato = new FormControl(2);
   periodo = new FormControl('Bom dia');
 
   // State Signals
@@ -180,8 +180,8 @@ export class OutboundOffer implements OnInit, AfterViewInit {
     const primeiraLinhaValida = linhasBrutas.find(l => l.trim().length > 0) || '';
     const separador = primeiraLinhaValida.includes(';') ? ';' : ',';
 
-    const idxNome = this.colunaNome.value ?? 0;
-    const idxContato = this.colunaContato.value ?? 1;
+    const idxNome = (this.colunaNome.value ?? 1) - 1;
+    const idxContato = (this.colunaContato.value ?? 2) - 1;
 
     const leads: Lead[] = [];
     let leadId = 1;

@@ -26,17 +26,17 @@
                 <div class="form-row">
                     <mat-form-field appearance="outline">
                         <mat-label>Coluna Nome (Índice)</mat-label>
-                        <input matInput type="number" [formControl]="colunaNome" min="0" />
+                        <input matInput type="number" [formControl]="colunaNome" min="1" />
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Coluna Contato (Índice)</mat-label>
-                        <input matInput type="number" [formControl]="colunaContato" min="0" />
+                        <input matInput type="number" [formControl]="colunaContato" min="2" />
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
-                        <mat-label>Período</mat-label>
-                        <select matNativeControl required [formControl]="periodo" style="text-align: center;">
+                        <mat-label> <mat-icon>wb_sunny</mat-icon> Período</mat-label>
+                        <select matNativeControl required [formControl]="periodo">
                             <option value="Bom dia">Manhã</option>
                             <option value="Boa tarde">Tarde</option>
                             <option value="Boa noite">Noite</option>
