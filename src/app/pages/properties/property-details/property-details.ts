@@ -38,6 +38,7 @@ export class PropertyDetailsComponent implements OnInit {
 
   // Input vindo da rota
   @Input() id?: string;
+  private found = this.propertyService.getPropertyById(Number(this.id));
 
   // Signals de Estado
   readonly property = signal<Property | null>(null);
@@ -63,22 +64,29 @@ export class PropertyDetailsComponent implements OnInit {
     return this.property()?.imagesUrl[0] || '';
   });
 
+  // Computed para facilitar o acesso à imagem logo
+  readonly currentImageUrlLogo = computed(() => {
+    const i = this.property()?.idealization;
+    if (i) return i.imagesUrl;
+    return '';
+  });
+
   ngOnInit() {
     if (this.id) {
-      const found = this.propertyService.getPropertyById(Number(this.id));
+      this.found = this.propertyService.getPropertyById(Number(this.id));
 
-      if (found) {
-        this.property.set(found);
+      if (this.found) {
+        this.property.set(this.found);
         // Inicializa com a primeira planta se disponível
-        if (found.planta && found.planta.length > 0) {
-          this.selectedPlanta.set(found.planta[0]);
+        if (this.found.planta && this.found.planta.length > 0) {
+          this.selectedPlanta.set(this.found.planta[0]);
         }
         // Inicializa com a primeira implantacao se disponível
-        if (found.imagesUrl && found.imagesUrl.length > 0) {
-          this.selectedImplantacao.set(found.imagesUrl[0]);
+        if (this.found.imagesUrl && this.found.imagesUrl.length > 0) {
+          this.selectedImplantacao.set(this.found.imagesUrl[0]);
         }
         this.whatsappMensagem = `Olá! Gostaria de mais detalhes sobre o imóvel 
-        ${found.title} ${this.selectedPlanta()?.description || ''}, de ${this.selectedPlanta()?.specs.area}m²`;
+        ${this.found.title} ${this.selectedPlanta()?.description || ''}, de ${this.selectedPlanta()?.specs.area}m²`;
 
         this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
 
@@ -92,7 +100,12 @@ export class PropertyDetailsComponent implements OnInit {
    * Altera a planta selecionada e atualiza todos os dados da tela
    */
   selectPlanta(planta: Planta) {
+    const projeto = this.propertyService.getPropertyById(Number(this.id));
     this.selectedPlanta.set(planta);
+    this.whatsappMensagem = `Olá! Gostaria de mais detalhes sobre o imóvel 
+        ${projeto?.title} ${planta?.description || ''}, de ${planta?.specs.area}m²`;
+    this.whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
+
   }
 
   /**

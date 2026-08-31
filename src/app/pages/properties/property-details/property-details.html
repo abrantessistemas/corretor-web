@@ -16,6 +16,8 @@
     <div class="content-grid">
         <!-- Coluna Esquerda: Visualizador de Plantas -->
         <section class="gallery-column">
+            <img src="{{currentImageUrlLogo()}}" alt="" [srcset]=""
+                style="display: flexbox;position: absolute;width: 8%;z-index: 999;margin-left: 10px;margin-top: 10px;">
             <div class="main-viewer shadow-lg" (click)="openImage()">
                 <img [src]="currentImageUrl()" [alt]="selectedPlanta()?.description || projeto.title" loading="eager">
                 @if (selectedPlanta(); as sp) {
