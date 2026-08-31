@@ -8,7 +8,7 @@ export interface Property {
   title: string;
   subtitle: string;
   description: string;
-  idealization?: Construtora | Incorporador[],
+  idealization?: Construtora,
   location: endereco;
   state: string;
   price: number;
@@ -69,20 +69,9 @@ export interface Planta {
   category: 'HIS-1' | 'HIS-2' | 'R2V' | 'HMP'
 }
 
-export interface Incorporador {
-  id: number;
-  imagesUrl: string,
-  title: string;
-  cnpj: string;
-  description: string;
-  location: string;
-  date?: Date;
-  site: string;
-}
-
 export interface Construtora {
   id: number;
-  imagesUrl: string,
+  imagesUrl: string;
   title: string;
   cnpj: string;
   description: string;
@@ -127,6 +116,37 @@ export interface AppSettings {
   providedIn: 'root' // Isso torna o serviço disponível em toda a aplicação
 })
 export class PropertyService {
+
+  construtoras = [
+    {
+      id: 1,
+      imagesUrl: 'https://conx.com.br/wp-content/themes/conx/svg/logo-padrao.svg',
+      title: 'CONX',
+      cnpj: '',
+      description: '',
+      location: '',
+      site: ''
+    },
+    {
+      id: 2,
+      imagesUrl: 'https://lspace.nyc3.cdn.digitaloceanspaces.com/lp-riva-sp/content/uploads/riva-sp/2023/03/riva-logo-300x102-1.png',
+      title: 'RIVA INCORPORADORA',
+      cnpj: '',
+      description: '',
+      location: '',
+      site: ''
+    },
+    {
+      id: 3,
+      imagesUrl: 'https://grupodirecional.com/wp-content/uploads/2025/04/logo-gd-cinza.png.webp',
+      title: 'DIRECIONAL',
+      cnpj: '',
+      description: '',
+      location: '',
+      site: ''
+    }
+  ]
+
   /**
    * Lista de imóveis mockados usando Signals (Angular 21)
    */
@@ -136,6 +156,8 @@ export class PropertyService {
       title: 'Brooklin Sky Home Tower',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Princesa Isabel',
@@ -409,28 +431,8 @@ export class PropertyService {
       title: 'Abytá Santo Amaro',
       subtitle: '',
       description: '',
-      idealization: [
-        {
-          id: 1,
-          imagesUrl: '',
-          title: 'Riva Incorporadora',
-          cnpj: '',
-          description: '',
-          location: '',
-          date: new Date('2026-12-31'),
-          site: '',
-        },
-        {
-          id: 1,
-          imagesUrl: '',
-          title: 'Direcional Engenharia',
-          cnpj: '',
-          description: '',
-          location: '',
-          date: new Date('2026-12-31'),
-          site: '',
-        }
-      ],
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Herbert Alfred Landsberg',
@@ -554,6 +556,8 @@ export class PropertyService {
       title: '011 Brooklin Residence',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Caetano José Batista',
@@ -644,27 +648,27 @@ export class PropertyService {
           imagesUrl: 'https://lh3.googleusercontent.com/d/12a_D9NldKCpfcFDLug1BFnpeESV_Uts5=s1000'
         },
         {
-          id: 2,
+          id: 3,
           description: 'Sport Bar',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1OGNSEn_fMpTUYibMMXNxFrcfWvpY3JOU=s1000'
         },
         {
-          id: 3,
+          id: 4,
           description: 'Spa e Sala de Massagem',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1LcG4ppajKpKiktFYtYzvQWPPuT74dG-z=s1000'
         },
         {
-          id: 4,
+          id: 5,
           description: 'Quadra Recreativa',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1JIdAX2CTe1J8fO7ctAFVNIpWviRSUTSh=s1000'
         },
         {
-          id: 5,
+          id: 6,
           description: 'Portaria',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1tGDExQfFxBuc-EPEGUrDzuupFGJYg-8F=s1000'
         },
         {
-          id: 6,
+          id: 7,
           description: 'Playground',
           imagesUrl: 'https://lh3.googleusercontent.com/d/1IAV6WAPYNcKFDgDSzOLvBa5IyeujeYld=s1000'
         }
@@ -766,6 +770,8 @@ export class PropertyService {
       title: 'Pátio Central',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Junqueira Freire',
@@ -922,6 +928,8 @@ export class PropertyService {
       title: 'Equale Condominio Clube',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Rodrigo Fernandes',
@@ -1148,6 +1156,8 @@ export class PropertyService {
       title: 'Signature Barra Funda Residences',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Robert Bosch',
@@ -1271,6 +1281,8 @@ export class PropertyService {
       title: 'Holistic Residence',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Av. Santa Marina',
@@ -1387,6 +1399,8 @@ export class PropertyService {
       title: 'Estilo Lapa',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Lapa',
@@ -1694,6 +1708,8 @@ export class PropertyService {
       title: 'Line Barra Funda Residence',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Rua Inocêncio Tobias',
@@ -1865,6 +1881,8 @@ export class PropertyService {
       title: 'Conquista Clube Itaim Paulista',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'Avenida marechal Tito',
@@ -2030,6 +2048,8 @@ export class PropertyService {
       title: 'Raiz Home Clube',
       subtitle: '',
       description: '',
+      idealization:
+        this.construtoras[2],
       location: {
         id: 1,
         rua: 'R. Cel. Euclides Machado',
@@ -2209,6 +2229,8 @@ export class PropertyService {
       title: 'Alfredo Santo Amaro',
       subtitle: 'Venha viver em um bairro com tudo que você precisa',
       description: 'Proximo a estação de trem Santo Amaro, o empreendimento oferece apartamentos de 2 dormitórios com varanda e lazer completo. O bairro conta com escolas, supermercados, farmácias, restaurantes e muito mais.',
+      idealization:
+        this.construtoras[0],
       location: {
         id: 1,
         rua: 'Rua João Alfredo',
@@ -2429,15 +2451,7 @@ export class PropertyService {
       subtitle: 'Venha viver em um bairro com tudo que você precisa',
       description: 'Ao lado da estação de metro A|dolfo pinheiros, o empreendimento oferece apartamentos de 1, 2 e 3 dormitórios com varanda e lazer completo. O bairro conta com escolas, supermercados, farmácias, restaurantes e muito mais.',
       idealization:
-      {
-        id: 1,
-        imagesUrl: 'https://conx.com.br/wp-content/themes/conx/svg/logo-padrao.svg',
-        title: 'CONX',
-        cnpj: '',
-        description: '',
-        location: '',
-        site: ''
-      },
+        this.construtoras[0],
       location: {
         id: 1,
         rua: 'R Dr. Antônio Bento',
