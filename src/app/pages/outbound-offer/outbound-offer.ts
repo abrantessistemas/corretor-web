@@ -5,7 +5,8 @@ import {
   ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
-  OnInit
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +25,9 @@ import * as QRCode from 'qrcode';
 
 import { PropertyService } from '../../services/property';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Subject } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { takeUntil } from 'rxjs/operators';
 
 export interface Lead {
   id: string;
@@ -66,7 +70,13 @@ interface EstadoPaginacao {
   styleUrl: './outbound-offer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OutboundOffer implements OnInit, AfterViewInit {
+export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
+  private breakpointObserver = inject(BreakpointObserver);
+  private destroy$ = new Subject<void>();
+
+  // Signal para indicar se o dispositivo atual é Mobile
+  isMobile = signal<boolean>(false);
+
   public readonly propertyService = inject(PropertyService);
 
   private readonly STORAGE_MENSAGENS_KEY = 'mensagens_outbound_list';
@@ -105,8 +115,23 @@ export class OutboundOffer implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.Small])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        this.isMobile.set(result.matches);
+        if (this.isMobile()) {
+          this.exibirQrCode.set(false);
+        }
+      });
+
     this.carregarMensagens();
     this.carregarEstadoLocalStorage();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit(): void {
