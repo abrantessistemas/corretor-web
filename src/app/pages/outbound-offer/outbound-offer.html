@@ -11,83 +11,67 @@
     <mat-accordion multi class="config-accordion">
         <mat-expansion-panel>
             <mat-expansion-panel-header>
-                <mat-panel-title> Configurações de Envio </mat-panel-title>
-                <mat-panel-description>
-                    Parâmetros de automação
-                    @if (!iniciado()) {
-                    <mat-icon class="color-text">play_arrow</mat-icon>
-                    } @else {
-                    <mat-icon class="color-text">pause</mat-icon>
-                    }
-                </mat-panel-description>
+
+                <mat-panel-title><mat-icon class="color-text">settings</mat-icon> Configurações de Envio
+                </mat-panel-title>
             </mat-expansion-panel-header>
 
             <div class="config-grid">
+                <mat-checkbox [checked]="exibirQrCode()" (change)="toggleQrCode()">
+                    QRCODE
+                </mat-checkbox>
                 <div class="form-row">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Coluna Nome (Índice)</mat-label>
-                        <input matInput type="number" [formControl]="colunaNome" min="1" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>Coluna Contato (Índice)</mat-label>
-                        <input matInput type="number" [formControl]="colunaContato" min="2" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label> <mat-icon>wb_sunny</mat-icon> Período</mat-label>
-                        <select matNativeControl required [formControl]="periodo">
-                            <option value="Bom dia">Manhã</option>
-                            <option value="Boa tarde">Tarde</option>
-                            <option value="Boa noite">Noite</option>
-                        </select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>Intervalo (segundos)</mat-label>
-                        <input matInput type="number" [formControl]="intervalo" min="5" />
-                    </mat-form-field>
                 </div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Coluna Nome (Índice)</mat-label>
+                    <input matInput type="number" [formControl]="colunaNome" min="1" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Coluna Contato (Índice)</mat-label>
+                    <input matInput type="number" [formControl]="colunaContato" min="2" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label> <mat-icon>wb_sunny</mat-icon> Período</mat-label>
+                    <select matNativeControl required [formControl]="periodo">
+                        <option value="Bom dia">Manhã</option>
+                        <option value="Boa tarde">Tarde</option>
+                        <option value="Boa noite">Noite</option>
+                    </select>
+                </mat-form-field>
+
+                <button mat-mini-fab color="primary" class="btn-add" (click)="adicionarMensagem()"
+                    matTooltip="Adicionar à lista">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <mat-form-field appearance="outline" class="flex-grow">
+                    <mat-label>Mensagens Pré-definidas</mat-label>
+                    <mat-select [formControl]="mensagens" (selectionChange)="onMensagemSelecionada($event.value)">
+                        <mat-select-trigger>
+                            <span class="additional-selection">
+                                {{ mensagens.value ? (mensagens.value.substring(0, 30) + '...') :
+                                'Selecione uma mensagem' }}
+                            </span>
+                        </mat-select-trigger>
+
+                        @for (item of mensagemList(); track $index) {
+                        <mat-option [value]="item" class="option-with-action">
+                            <span class="option-text">{{ item }}</span>
+                            <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
+                                (click)="removerMensagem($event, $index, item)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
 
                 <div class="form-row">
-                    <mat-form-field appearance="outline" class="flex-grow">
-                        <mat-label>Mensagens Pré-definidas</mat-label>
-                        <mat-select [formControl]="mensagens" (selectionChange)="onMensagemSelecionada($event.value)">
-                            <mat-select-trigger>
-                                <span class="additional-selection">
-                                    {{ mensagens.value ? (mensagens.value.substring(0, 30) + '...') :
-                                    'Selecione uma mensagem' }}
-                                </span>
-                            </mat-select-trigger>
-
-                            @for (item of mensagemList(); track $index) {
-                            <mat-option [value]="item" class="option-with-action">
-                                <span class="option-text">{{ item }}</span>
-                                <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
-                                    (click)="removerMensagem($event, $index, item)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Mensagem para Envio</mat-label>
                         <textarea matInput [formControl]="mensagem" rows="5"></textarea>
                     </mat-form-field>
-
-                    <div class="action-buttons-group">
-                        <button mat-mini-fab color="primary" class="btn-add" (click)="adicionarMensagem()"
-                            matTooltip="Adicionar à lista">
-                            <mat-icon>add</mat-icon>
-                        </button>
-
-                        <button mat-mini-fab color="accent" class="btn-play" (click)="autoEnvio()"
-                            [disabled]="iniciado()" matTooltip="Iniciar Envio Automático">
-                            <mat-icon>{{ iniciado() ? 'pause' : 'play_arrow' }}</mat-icon>
-                        </button>
-                    </div>
                 </div>
 
                 <div class="file-upload-container">
@@ -115,79 +99,114 @@
                 </div>
             </div>
         </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>@if (!iniciado()) {
+                    <mat-icon class="color-text">play_arrow</mat-icon>
+                    } @else {
+                    <mat-icon class="color-text">stop</mat-icon>
+                    } Parâmetros de automação</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline">
+                <mat-label>Intervalo (segundos)</mat-label>
+                <input matInput type="number" [formControl]="intervalo" min="5" />
+            </mat-form-field>
+
+            <button mat-mini-fab style="display: flex;align-items: center;" color="accent" class="btn-play"
+                (click)="autoEnvio()" matTooltip="Iniciar Envio Automático">
+                <mat-icon>{{ iniciado() ? 'stop' : 'play_arrow' }}</mat-icon>
+            </button>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>@if (!iniciado()) {
+                    <mat-icon class="color-text">play_arrow</mat-icon>
+                    } @else {
+                    <mat-icon class="color-text">stop</mat-icon>
+                    } Parâmetros de automação</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="table-responsive-wrapper">
+                @if (carregandoArquivo()) {
+                <div class="table-loading-overlay">
+                    <mat-spinner diameter="40"></mat-spinner>
+                    <span>Carregando dados dos leads...</span>
+                </div>
+                }
+
+                <table mat-table [dataSource]="dataSource" class="responsive-card-table">
+                    @for (col of columns; track col.key) {
+                    <ng-container [matColumnDef]="col.key">
+                        <th mat-header-cell *matHeaderCellDef class="title-table"> {{ col.label }} </th>
+
+                        <td mat-cell *matCellDef="let element" [attr.data-label]="col.label">
+                            @switch (col.key) {
+                            @case ('nome') {
+                            <div class="lead-profile">
+                                @if (!exibirQrCode()) {
+                                <div class="avatar" [class.avatar-enviado]="element.enviado">
+                                    {{ element.nome ? element.nome.charAt(0).toUpperCase() : '?' }}
+                                </div>
+                                <div class="lead-info">
+                                    <span class="lead-name">{{ element.nome }}</span>
+                                    @if (element.enviado) {
+                                    <span class="status-badge">Contato Realizado</span>
+                                    }
+                                </div>
+                                }
+                                @if (exibirQrCode() && element.qrCode) {
+                                <div style="margin-left: 25%;width: 100%;text-align: center;">
+                                    <img [src]="element.qrCode"
+                                        style="width: 10rem;margin-bottom: 1rem;margin-top: 1rem;" />
+                                </div>
+                                }
+                            </div>
+                            }
+
+                            @case ('acoes') {
+                            @if (!exibirQrCode()) {
+                            <div class="action-buttons">
+                                <button mat-icon-button class="whatsapp-button" [disabled]="element.enviado"
+                                    (click)="chamarAgora(element)"
+                                    [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
+                                    @if (element.enviado) {
+                                    <mat-icon>check</mat-icon>
+                                    } @else {
+                                    <i class="fa fa-whatsapp"></i>
+                                    }
+                                </button>
+
+                                <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
+                                    (click)="ligarAgora(element)" matTooltip="Ligar para o contato">
+                                    <mat-icon>call</mat-icon>
+                                </button>
+                            </div>
+                            }
+                            }
+                            @default {
+                            {{ element[col.key] }}
+                            }
+                            }
+                        </td>
+                    </ng-container>
+                    }
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="lead-row"
+                        [class.lead-enviado]="row.enviado"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
+                            Nenhum lead encontrado. Carregue um arquivo de contatos.
+                        </td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" (page)="onPageChange($event)"
+                    showFirstLastButtons aria-label="Selecione a página de leads">
+                </mat-paginator>
+            </div>
+        </mat-expansion-panel>
     </mat-accordion>
 
-    <div class="table-responsive-wrapper">
-        @if (carregandoArquivo()) {
-        <div class="table-loading-overlay">
-            <mat-spinner diameter="40"></mat-spinner>
-            <span>Carregando dados dos leads...</span>
-        </div>
-        }
-
-        <table mat-table [dataSource]="dataSource" class="responsive-card-table">
-            @for (col of columns; track col.key) {
-            <ng-container [matColumnDef]="col.key">
-                <th mat-header-cell *matHeaderCellDef class="title-table"> {{ col.label }} </th>
-
-                <td mat-cell *matCellDef="let element" [attr.data-label]="col.label">
-                    @switch (col.key) {
-                    @case ('nome') {
-                    <div class="lead-profile">
-                        <div class="avatar" [class.avatar-enviado]="element.enviado">
-                            {{ element.nome ? element.nome.charAt(0).toUpperCase() : '?' }}
-                        </div>
-                        <div class="lead-info">
-                            <span class="lead-name">{{ element.nome }}</span>
-                            @if (element.enviado) {
-                            <span class="status-badge">Contato Realizado</span>
-                            }
-                        </div>
-                    </div>
-                    }
-
-                    @case ('acoes') {
-                    <div class="action-buttons">
-                        <button mat-icon-button class="whatsapp-button" [disabled]="element.enviado"
-                            (click)="chamarAgora(element)"
-                            [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
-                            @if (element.enviado) {
-                            <mat-icon>check</mat-icon>
-                            } @else {
-                            <i class="fa fa-whatsapp"></i>
-                            }
-                        </button>
-
-                        <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
-                            (click)="ligarAgora(element)" matTooltip="Ligar para o contato">
-                            <mat-icon>call</mat-icon>
-                        </button>
-                    </div>
-                    }
-
-                    @default {
-                    {{ element[col.key] }}
-                    }
-                    }
-                </td>
-            </ng-container>
-            }
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="lead-row"
-                [class.lead-enviado]="row.enviado"></tr>
-
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
-                    Nenhum lead encontrado. Carregue um arquivo de contatos.
-                </td>
-            </tr>
-        </table>
-
-        <!-- Mantenha todo o seu HTML anterior e atualize a tag mat-paginator no final do arquivo -->
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" (page)="onPageChange($event)" showFirstLastButtons
-            aria-label="Selecione a página de leads">
-        </mat-paginator>
-    </div>
 </div>

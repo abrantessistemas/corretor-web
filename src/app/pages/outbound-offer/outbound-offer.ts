@@ -20,14 +20,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import * as QRCode from 'qrcode';
 
 import { PropertyService } from '../../services/property';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export interface Lead {
   id: string;
   nome: string;
   telefone: string;
   projeto?: string;
+  qrCode?: string;
   enviado?: boolean;
 }
 
@@ -56,7 +59,8 @@ interface EstadoPaginacao {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
   templateUrl: './outbound-offer.html',
   styleUrl: './outbound-offer.scss',
@@ -146,8 +150,10 @@ export class OutboundOffer implements OnInit, AfterViewInit {
         const conteudo = e.target?.result as string;
         if (conteudo) {
           const novosLeads = this.converterTextoParaLeads(conteudo);
-          this.dataSource.data = novosLeads;
-
+          // Exemplo alternativo com .then() se o contexto não for async:
+          this.converterTextoParaLeads(conteudo).then(novosLeads => {
+            this.dataSource.data = novosLeads;
+          });
           // Reset da paginação para a primeira página ao carregar novo arquivo
           if (this.paginator) {
             this.paginator.firstPage();
@@ -171,12 +177,10 @@ export class OutboundOffer implements OnInit, AfterViewInit {
     reader.readAsText(file, 'UTF-8');
   }
 
-  private converterTextoParaLeads(texto: string): Lead[] {
-    // Normaliza quebras de linha
+  private async converterTextoParaLeads(texto: string): Promise<Lead[]> {
     const linhasBrutas = texto.split(/\r\n|\n|\r/);
     if (linhasBrutas.length === 0) return [];
 
-    // Descobre o separador baseado na primeira linha não vazia
     const primeiraLinhaValida = linhasBrutas.find(l => l.trim().length > 0) || '';
     const separador = primeiraLinhaValida.includes(';') ? ';' : ',';
 
@@ -188,13 +192,9 @@ export class OutboundOffer implements OnInit, AfterViewInit {
 
     for (let index = 0; index < linhasBrutas.length; index++) {
       const linha = linhasBrutas[index].trim();
-
-      // Ignora linhas totalmente vazias
       if (!linha) continue;
 
       const colunas = this.parseCSVLine(linha, separador);
-
-      // Detecta e pula cabeçalhos
       const primeiraColuna = (colunas[idxNome] || '').toLowerCase();
       const segundaColuna = (colunas[idxContato] || '').toLowerCase();
 
@@ -203,15 +203,17 @@ export class OutboundOffer implements OnInit, AfterViewInit {
       }
 
       const nome = colunas[idxNome] ? colunas[idxNome].trim() : 'Sem Nome';
-      const telefoneBruto = colunas[idxContato] ? colunas[idxContato].trim() : '';
-      const telefone = this.limparTelefone(telefoneBruto);
+      const telefone = this.limparTelefone(colunas[idxContato] || '');
 
-      // Garante que só adiciona se tiver ao menos nome ou telefone preenchidos
       if (nome !== 'Sem Nome' || telefone.length > 2) {
+        // Gera o QR Code individual apontando para o WhatsApp com a mensagem
+        const qrCodeBase64 = await this.gerarQrCodeWhatsApp(nome, telefone);
+
         leads.push({
           id: leadId.toString(),
           nome: nome,
           telefone: telefone,
+          qrCode: qrCodeBase64,
           enviado: false
         });
         leadId++;
@@ -220,7 +222,6 @@ export class OutboundOffer implements OnInit, AfterViewInit {
 
     return leads;
   }
-
   // Realiza o parse respeitando aspas internas no CSV
   private parseCSVLine(line: string, separator: string): string[] {
     const result: string[] = [];
@@ -273,10 +274,17 @@ export class OutboundOffer implements OnInit, AfterViewInit {
       return tel.length > 0 && !l.enviado;
     });
 
+    var totalLeads = leadsParaEnviar.length;
+
+    if (this.iniciado()) {
+      this.iniciado.set(false);
+      totalLeads = 0;
+    }
+
     if (!this.iniciado() && leadsParaEnviar.length > 0) {
       this.iniciado.set(true);
 
-      for (let index = 0; index < leadsParaEnviar.length; index++) {
+      for (let index = 0; index < totalLeads; index++) {
         if (!this.iniciado()) break;
 
         this.chamarAgora(leadsParaEnviar[index]);
@@ -290,9 +298,14 @@ export class OutboundOffer implements OnInit, AfterViewInit {
     }
   }
 
+  desligar() {
+    this.iniciado.set(false);
+  }
   // --- Persistência em LocalStorage ---
 
   private salvarEstadoLocalStorage(): void {
+    // if (!isPlatformBrowser(this.platformId)) return;
+
     const estado = {
       leads: this.dataSource.data,
       mensagem: this.mensagem.value,
@@ -300,7 +313,8 @@ export class OutboundOffer implements OnInit, AfterViewInit {
       colunaNome: this.colunaNome.value,
       colunaContato: this.colunaContato.value,
       mensagemList: this.mensagemList(),
-      paginacao: this.paginacaoSalva
+      paginacao: this.paginacaoSalva,
+      exibirQrCode: this.exibirQrCode() // <--- Salva a preferência
     };
 
     localStorage.setItem(this.STORAGE_ESTADO_KEY, JSON.stringify(estado));
@@ -383,5 +397,28 @@ export class OutboundOffer implements OnInit, AfterViewInit {
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  // Método auxiliar para criar a imagem do QR Code com Link do WhatsApp
+  async gerarQrCodeWhatsApp(nome: string, telefone: string): Promise<string> {
+    if (!telefone) return '';
+
+    const textoMensagem = `Olá ${nome} ${this.mensagem.value || ''}`.trim();
+    const whatsappUrl = `https://wa.me/${telefone}?text=${encodeURIComponent(textoMensagem)}`;
+
+    try {
+      return await QRCode.toDataURL(whatsappUrl, { width: 100, margin: 1 });
+    } catch (err) {
+      console.error('Erro ao gerar QR Code para o lead:', err);
+      return '';
+    }
+  }
+
+  // Signal para controlar a exibição do QR Code
+  exibirQrCode = signal<boolean>(true);
+
+  // Alterne o valor do QR Code
+  toggleQrCode(): void {
+    this.exibirQrCode.update(v => !v);
+    this.salvarEstadoLocalStorage();
   }
 }
