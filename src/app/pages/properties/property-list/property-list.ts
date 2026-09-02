@@ -185,11 +185,25 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   }
-
   saveFavorite(id: number, favorite: boolean): void {
+    // 1. Obtém a lista atual de favoritos do localStorage
+    const savedFavorites = localStorage.getItem('favoriteProperties');
+
+    // 2. Converte para array de números (ou cria um array vazio se não existir)
+    let favoritesList: number[] = savedFavorites ? JSON.parse(savedFavorites) : [];
+
     if (favorite) {
-      localStorage.setItem('favoriteProperties', id.toString());
+      // 3. Adiciona o ID se ainda não estiver na lista
+      if (!favoritesList.includes(id)) {
+        favoritesList.push(id);
+      }
+    } else {
+      // 4. Remove o ID se o usuário desmarcar o favorito
+      favoritesList = favoritesList.filter(favId => favId !== id);
     }
+
+    // 5. Salva a lista atualizada de volta no localStorage
+    localStorage.setItem('favoriteProperties', JSON.stringify(favoritesList));
   }
 
   whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
