@@ -338,6 +338,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       colunaNome: this.colunaNome.value,
       colunaContato: this.colunaContato.value,
       mensagemList: this.mensagemList(),
+      periodo: this.periodo.value,
       paginacao: this.paginacaoSalva,
       exibirQrCode: this.exibirQrCode() // <--- Salva a preferência
     };
@@ -356,6 +357,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       if (estado.intervalo) this.intervalo.setValue(estado.intervalo);
       if (estado.colunaNome !== undefined) this.colunaNome.setValue(estado.colunaNome);
       if (estado.colunaContato !== undefined) this.colunaContato.setValue(estado.colunaContato);
+      if (estado.periodo !== undefined) this.periodo.setValue(estado.periodo);
       if (estado.mensagemList) this.mensagemList.set(estado.mensagemList);
       if (estado.paginacao) this.paginacaoSalva = estado.paginacao;
     } catch (e) {
