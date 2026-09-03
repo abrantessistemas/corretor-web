@@ -1,0 +1,122 @@
+<div class="container" #value>
+  <header class="list-header">
+    <div class="header-main">
+      <div class="title-group">
+        <h1 class="color-text-inver">Lista de favoritos</h1>
+      </div>
+    </div>
+  </header>
+
+  @if(loadDetails){
+  <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
+  }
+
+  <div class="property-grid">
+    @for (item of listaFavoritos(); track item.id) {
+    <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
+      <div class="card-image-wrapper">
+        @if (item.imagesUrl && item.imagesUrl.length > 0) {
+        @for (img of item.imagesUrl; track img.id; let i = $index) {
+        <img mat-card-image [src]="img.imagesUrl" [alt]="item.title" [class.active]="i === getActiveIndex(item.id)"
+          class="slide-image">
+        }
+        }
+
+        <span class="status-badge"
+          [class]="item.status === 'Pronto' ? 'rent' : item.status === 'Lançamento' ? '' : 'rent2'">
+          {{ item.status }}
+        </span>
+
+        @if (item.isPromo) {
+        <div class="promo-ribbon">
+          <span>PREÇO PROMOCIONAL</span>
+        </div>
+        }
+      </div>
+
+      <mat-card-content>
+        <div class="price-row">
+          @if(setting.exibirValor){
+          <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+          }
+
+          @for (category of item.category; track category) {
+          <div class="spec-item">
+            <span class="category">{{ category }}</span>
+          </div>
+          }
+
+          <button mat-icon-button [style.color]="item.favorite ? 'red' : null" [color]="item.favorite ? null : 'accent'"
+            (click)="$event.stopPropagation(); item.favorite = !item.favorite; saveFavorite(item.id, item.favorite)"
+            aria-label="Favorito" [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
+            <mat-icon>{{ item.favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+          </button>
+        </div>
+
+        <h3 class="title">{{ item.title }}
+          <mat-chip-set>
+            <mat-chip class="date-chip">Entrega: {{ item.date | date: 'MM/yyyy' }}</mat-chip>
+          </mat-chip-set>
+        </h3>
+        <p class="location">
+          <mat-icon>place</mat-icon>
+          {{ item.location?.bairro }}
+        </p>
+
+        <div class="specs">
+          @if(item?.specs?.bedrooms){
+          <div class="spec-item"><mat-icon>bed</mat-icon><span>{{ item?.specs?.bedrooms }}</span></div>
+          }
+          @if(item?.specs?.suits){
+          <div class="spec-item"><mat-icon>bathtub</mat-icon></div>
+          }
+          @if(item?.specs?.bathrooms){
+          <div class="spec-item"><mat-icon>shower</mat-icon></div>
+          }
+          @if(item?.specs?.garden){
+          <div class="spec-item"><mat-icon>grass</mat-icon></div>
+          }
+          @if(item?.specs?.balcony){
+          <div class="spec-item"><mat-icon>balcony</mat-icon></div>
+          }
+          @if(item?.specs?.parking){
+          <div class="spec-item"><mat-icon>directions_car</mat-icon></div>
+          }
+          @if(item?.specs?.pool){
+          <div class="spec-item"><mat-icon>pool</mat-icon></div>
+          }
+          @if(item?.specs?.area){
+          <div class="spec-item"><mat-icon>square_foot</mat-icon><span>{{ item?.specs?.area }}m²</span></div>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-flat-button color="primary" (click)="$event.stopPropagation(); registrarInteresse(item.title)">
+          TENHO INTERESSE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    } @empty {
+    <div class="empty-state shadow-sm">
+      <div class="empty-icon-container">
+        <mat-icon>home_work</mat-icon>
+      </div>
+      <h2>Ainda não existem imóveis favoritos. <a href="#">Adiconar agora</a></h2>
+    </div>
+    }
+  </div>
+
+  <!-- <button mat-fab color="primary" class="mobile-fab" (click)="irParaCadastro()" matTooltip="Cadastrar Novo Imóvel">
+    <mat-icon>add</mat-icon>
+  </button> -->
+
+  <a href="{{whatsappUrl}}" class="whatsapp-button" target="_blank">
+    <i class="fa fa-whatsapp"></i>
+  </a>
+
+  <div class="desktop-menu" style="padding: 14px;">
+    Copyright © 2026 {{propertyService.settings().siteTitle}}. Todos os direitos reservados.
+    <a href="{{whatsappUrl}}">Desenvolvido por Abrantes Sistemas</a>.
+  </div>
+</div>
