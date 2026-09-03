@@ -9,6 +9,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PropertyService } from './services/property';
+import { MatTooltip } from "@angular/material/tooltip";
 
 /**
  * Definição da animação de transição entre páginas
@@ -49,7 +50,8 @@ const slideInAnimation = trigger('routeAnimations', [
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
-  ],
+    MatTooltip
+],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   animations: [slideInAnimation]
@@ -57,8 +59,9 @@ const slideInAnimation = trigger('routeAnimations', [
 export class App {
   // Itens do menu usando Signals (v21)
   menuItems = signal([
-    { path: '/home', label: 'Home', icon: 'dashboard', enable: true },
+    { path: '/home', label: 'Empreendimentos', icon: 'apartment', enable: true },
     { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent', enable: false },
+    { path: '/favorites', label: 'Favoritos', icon: 'favorite', enable: true },
     { path: '/payment', label: 'Simulador', icon: 'payment', enable: false },
     { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: false },
     { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: false },
