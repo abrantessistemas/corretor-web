@@ -50,7 +50,8 @@
   font-size: 20px;
 
   &.active-link {
-    color: var(--primary-color);
+    color: black;
+    background-color: white;
 
     &::after {
       content: '';
@@ -99,9 +100,9 @@
 }
 
 
-  .phone-menu {
-    display: none;
-  }
+.phone-menu {
+  display: none;
+}
 
 /* Media Queries para alternar os menus */
 @media (max-width: 768px) {

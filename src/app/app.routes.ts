@@ -32,6 +32,11 @@ export const routes: Routes = [
     data: { animation: 'DetailsPage' }
   },
   {
+    path: 'favorites',
+    loadComponent: () => import('./pages/properties/property-favorite/property-favorite').then(m => m.PropertyFavoriteComponent),
+    data: { animation: 'FavoritesPage' }
+  },
+  {
     path: 'ajustes',
     loadComponent: () => import('./pages/ajustes/ajustes').then(m => m.AjustesComponent),
     data: { animation: 'AjustesPage' }

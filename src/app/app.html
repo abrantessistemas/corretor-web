@@ -11,11 +11,12 @@
           style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0,
           18).toUpperCase()}}</span>
       </div>
+      <a matMiniFab matTooltip="Compartilhar"><mat-icon>share</mat-icon></a>
 
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
         @if(item.enable){
-        <a mat-button [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+        <a matFab extended [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
           <mat-icon>{{ item.icon }}</mat-icon>
           <span>{{ item.label }}</span>
         </a>
