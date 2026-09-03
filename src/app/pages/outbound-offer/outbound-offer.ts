@@ -6,7 +6,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -70,12 +72,17 @@ interface EstadoPaginacao {
   styleUrl: './outbound-offer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
+export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.salvarEstadoLocalStorage();
+  }
   private breakpointObserver = inject(BreakpointObserver);
   private destroy$ = new Subject<void>();
 
   // Signal para indicar se o dispositivo atual é Mobile
   isMobile = signal<boolean>(false);
+  // Signal para controlar a exibição do QR Code
+  exibirQrCode = signal<boolean>(false);
 
   public readonly propertyService = inject(PropertyService);
 
@@ -102,6 +109,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   colunaNome = new FormControl(1);
   colunaContato = new FormControl(2);
   periodo = new FormControl('Bom dia');
+
+  tando = signal(0);
+  de = signal(0);
+  ultimoContato = signal('');
 
   // State Signals
   iniciado = signal(false);
@@ -130,6 +141,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.salvarEstadoLocalStorage();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -167,6 +179,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private processarArquivo(file: File): void {
+    this.tando.set(0);
+    this.ultimoContato.set('');
+
     this.carregandoArquivo.set(true);
     const reader = new FileReader();
 
@@ -178,6 +193,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
           // Exemplo alternativo com .then() se o contexto não for async:
           this.converterTextoParaLeads(conteudo).then(novosLeads => {
             this.dataSource.data = novosLeads;
+            this.de.set(novosLeads.length);
           });
           // Reset da paginação para a primeira página ao carregar novo arquivo
           if (this.paginator) {
@@ -282,12 +298,17 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     const textoFormatado = `${this.periodo.value} ${lead.nome} ${this.mensagem.value || ''}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
     window.open(whatsappUrl, '_blank');
+    this.ultimoContato.set(lead.nome);
+    this.tando.set(this.tando() + 1);
+    this.salvarEstadoLocalStorage();
   }
 
   ligarAgora(lead: Lead): void {
     if (!lead.telefone) return;
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
+    this.ultimoContato.set(lead.nome);
+    this.tando.set(this.tando() + 1);
   }
 
   async autoEnvio(): Promise<void> {
@@ -329,8 +350,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   // --- Persistência em LocalStorage ---
 
   private salvarEstadoLocalStorage(): void {
-    // if (!isPlatformBrowser(this.platformId)) return;
-
     const estado = {
       leads: this.dataSource.data,
       mensagem: this.mensagem.value,
@@ -340,7 +359,11 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       mensagemList: this.mensagemList(),
       periodo: this.periodo.value,
       paginacao: this.paginacaoSalva,
-      exibirQrCode: this.exibirQrCode() // <--- Salva a preferência
+      exibirQrCode: this.exibirQrCode(),
+      tando: this.tando(),
+      de: this.de(),
+      ultimoContato: this.ultimoContato()
+      // <--- Salva a preferência
     };
 
     localStorage.setItem(this.STORAGE_ESTADO_KEY, JSON.stringify(estado));
@@ -360,6 +383,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       if (estado.periodo !== undefined) this.periodo.setValue(estado.periodo);
       if (estado.mensagemList) this.mensagemList.set(estado.mensagemList);
       if (estado.paginacao) this.paginacaoSalva = estado.paginacao;
+      if (estado.exibirQrCode) this.exibirQrCode.set(estado.exibirQrCode);
+      if (estado.tando !== undefined) this.tando.set(estado.tando);
+      if (estado.de !== undefined) this.de.set(estado.de);
+      if (estado.ultimoContato !== undefined) this.ultimoContato.set(estado.ultimoContato);
     } catch (e) {
       console.error('Erro ao restaurar estado do aplicativo:', e);
     }
@@ -390,7 +417,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   adicionarMensagem(): void {
-    const texto = this.mensagem.value?.trim();
+    const texto = this.mensagem.value;
     if (!texto) return;
 
     this.mensagemList.update(list => [...list, texto]);
@@ -440,12 +467,19 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // Signal para controlar a exibição do QR Code
-  exibirQrCode = signal<boolean>(true);
-
   // Alterne o valor do QR Code
   toggleQrCode(): void {
     this.exibirQrCode.update(v => !v);
     this.salvarEstadoLocalStorage();
+  }
+
+  // No TypeScript
+  cortaTexto(texto: string): string {
+    if (!texto) return '';
+    const indexEspaco = texto.indexOf(' ');
+    if (indexEspaco === -1) return texto; // Se não tiver espaço, retorna o texto todo
+
+    // Corta do início (0) até o espaço + 3 letras (somando 1 do espaço + 3 letras = 4)
+    return texto.substring(0, indexEspaco + 4);
   }
 }
