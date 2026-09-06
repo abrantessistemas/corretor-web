@@ -2466,7 +2466,7 @@ export class PropertyService {
       price: 321000,
       price_promo: 0,
       towers: 1,
-      units_available: 450,
+      units_available: 451,
       date: new Date('2031-12-30'),
       specs: {
         bedrooms: 3,
@@ -2712,10 +2712,10 @@ export class PropertyService {
         regiao: 'Zona Sul'
       },
       state: 'São Paulo',
-      price: 321000,
+      price: 289000,
       price_promo: 0,
-      towers: 4,
-      units_available: 473,
+      towers: 2,
+      units_available: 476,
       date: new Date('2028-12-30'),
       specs: {
         bedrooms: 3,
@@ -2723,7 +2723,7 @@ export class PropertyService {
         suits: 1,
         balcony: true,
         area: [32, 51],
-        garden: true,
+        garden: false,
         parking: 1,
         pool: true
       },
@@ -2816,6 +2816,210 @@ export class PropertyService {
           description: 'Salão de Jogos',
           imagesUrl: 'https://conx.com.br/wp-content/uploads/2024/07/IMA-CONX_MISSIONARIO-SALAO_DE_JOGOS-ALTA-R02_Easy-Resize.com_.png'
         }
+      ],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta 32',
+          location: {
+            towers: ['A'],
+            floor: [4, 10],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 2,
+            bathrooms: 1,
+            suits: 0,
+            balcony: false,
+            area: [32],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação natual'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2024/07/PLANTA-APTO.-2-DORMS-1.png',
+          category: 'HIS-2'
+        },
+        {
+          id: 2,
+          description: 'Planta 51',
+          location: {
+            towers: ['A'],
+            floor: [2, 8],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 2,
+            suits: 1,
+            balcony: true,
+            area: [51],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://conx.com.br/produto/connect-estacao-joao-dias/#plantas-2',
+          category: 'HIS-2'
+        },
+        {
+          id: 3,
+          description: 'Planta 51',
+          location: {
+            towers: ['A'],
+            floor: [2, 8],
+          },
+          price: 0,
+          price_promo: 0,
+          specs: {
+            bedrooms: 1,
+            bathrooms: 3,
+            suits: 1,
+            balcony: true,
+            area: [51],
+            garden: false,
+            parking: 0
+          },
+          features: [
+            'Ponto para Ar-Condicionado',
+            'Tomadas USB',
+            'Varanda com ponto grill',
+            'Ventilação Exaustiva'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://conx.com.br/produto/connect-estacao-joao-dias/#plantas-3',
+          category: 'R2V'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1atAlq5JYhCUgLVME8aLLk4R70KDzBStr'
+    },
+    {
+      id: 15,
+      title: 'Dream Fit Vila Mariana',
+      subtitle: 'Venha viver em um bairro com tudo que você precisa',
+      description: 'Ao 3 min. da estação de metro Vila Marina, o empreendimento oferece apartamentos de Studios, 1 e 2 dormitórios com varanda e lazer completo. O bairro conta com escolas, supermercados, farmácias, restaurantes e muito mais.',
+      idealization:
+        this.construtoras[0],
+      location: {
+        id: 1,
+        rua: 'R. Vieira Fazenda',
+        numero: 39,
+        bairro: 'Vila Mariana',
+        cidade: 'São Paulo',
+        estado: 'SP',
+        cep: '04117-030',
+        regiao: 'Zona Sul'
+      },
+      state: 'São Paulo',
+      price: 373000,
+      price_promo: 0,
+      towers: 1,
+      units_available: 166,
+      date: new Date('2027-8-30'),
+      specs: {
+        bedrooms: 2,
+        bathrooms: 2,
+        suits: 1,
+        balcony: true,
+        area: [29, 44],
+        garden: false,
+        parking: 0,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado', 'Tomadas USB', 'Varanda com ponto grill', 'Gerador'],
+      amenities: ['PORTARIA', 'COWORKING', 'DELIVERY', 'LAVANDERIA', 'PISCINA', 'LOOBY', 'SALÃO DE FESTAS', 'MINIMARKET', 'BRINQUEDOTECA', 'FITNESS', 'SOLÁRIO'],
+      type: 'Apartamento',
+      status: 'Em obras',
+      category: ['HIS-2', 'NR', 'R2V'],
+      imagesUrl: [
+        {
+          id: 1,
+          description: 'Torre',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-FACHADA-ALTA-R03_Easy-Resize.com_.png'
+        },
+        {
+          id: 2,
+          description: 'Portaria',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-PORTARIA-ALTA-R03_Easy-Resize.com_.png'
+        },
+        {
+          id: 3,
+          description: 'Lobby',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-LOBBY-ALTA_Easy-Resize.com_.png'
+        },
+        {
+          id: 4,
+          description: 'Salão de Festas',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-SALAO_DE_FESTAS-ALTA-R01_Easy-Resize.com_.png'
+
+        },
+        {
+          id: 5,
+          description: 'Piscina',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-PISCINA-ALTA-R03_Easy-Resize.com_.png'
+
+        },
+        {
+          id: 6,
+          description: 'Fitness',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-FITNESS-ALTA-R01_Easy-Resize.com_.png'
+        },
+        {
+          id: 7,
+          description: 'Churrasqueira',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-CHURRASQUEIRA-ALTA_Easy-Resize.com_.png'
+
+        },
+        {
+          id: 8,
+          description: 'Coworking',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-COWORKING-ALTA_Easy-Resize.com_.png'
+        },
+        {
+          id: 9,
+          description: 'Lavanderia',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-LAVANDERIA-ALTA_Easy-Resize.com_.png'
+        },
+        {
+          id: 10,
+          description: 'Bicicletario',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX_VIEIRA_FAZENDA-BICICLETARIO-ALTA_Easy-Resize.com-1.png'
+        },
+        {
+          id: 11,
+          description: 'Mini marketing',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-MINI_MARKET-ALTA_Easy-Resize.com_.png'
+        },
+        {
+          id: 12,
+          description: 'Pet Place',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-PET_PLACE-ALTA_Easy-Resize.com_.png'
+        },
+        {
+          id: 13,
+          description: 'Salão de Jogos',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2024/07/IMA-CONX_MISSIONARIO-SALAO_DE_JOGOS-ALTA-R02_Easy-Resize.com_.png'
+        },
+        {
+          id: 14,
+          description: 'Espaço Delivery',
+          imagesUrl: 'https://conx.com.br/wp-content/uploads/2023/05/IMA-CONX-VIEIRA_FAZENDA-DELIVERY-ALTA-R01_Easy-Resize.com_.png'
+        }
+
       ],
       planta: [
         {
