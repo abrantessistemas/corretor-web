@@ -51,13 +51,6 @@
         gap: 16px;
         margin-bottom: 32px;
 
-        mat-icon {
-            font-size: 40px;
-            width: 40px;
-            height: 40px;
-            color: #2563eb;
-        }
-
         h1 {
             margin: 0;
             font-size: 1.8rem;
@@ -116,10 +109,6 @@
         font-weight: 700;
         color: #334155;
         min-width: 160px;
-
-        mat-icon {
-            color: #64748b;
-        }
     }
 
     .inline-input {
@@ -370,10 +359,6 @@
         gap: 8px;
         font-weight: 700;
         color: #1e293b;
-
-        mat-icon {
-            color: #3b82f6;
-        }
     }
 
     .badge {
@@ -469,7 +454,6 @@
     }
 
     .no-print,
-    .mat-icon,
     .print-trigger {
         display: none !important;
     }

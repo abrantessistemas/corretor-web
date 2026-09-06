@@ -2,7 +2,9 @@
 
     <section class="form-container">
         <header class="form-header">
-            <mat-icon>calculate</mat-icon>
+            <button matMiniFab>
+                <mat-icon>calculate</mat-icon>
+            </button>
             <div>
                 <h1>{{ associativeForm.value.nomeTabelaCalculo }}</h1>
                 <p>Preencha os campos para ajustar as parcelas</p>
@@ -67,7 +69,9 @@
 
             <div class="row-toggle full">
                 <div class="label-group">
-                    <mat-icon>account_balance_wallet</mat-icon>
+                    <button matMiniFab>
+                        <mat-icon>account_balance_wallet</mat-icon>
+                    </button>
                     <span>Utilizar FGTS?</span>
                 </div>
                 <mat-radio-group formControlName="possuiFgts">
@@ -103,13 +107,17 @@
             <mat-form-field appearance="outline" class="full highlight-field">
                 <mat-label>Prazo para pagar a entrada (Meses)</mat-label>
                 <input matInput type="number" formControlName="prazoMensais" (focus)="selectAll($event)">
-                <mat-icon matSuffix>calendar_today</mat-icon>
+                <button matMiniFab>
+                    <mat-icon>calendar_today</mat-icon>
+                </button>
             </mat-form-field>
         </div>
         <div class="progress-card">
             <div class="header">
                 <div class="title-group">
-                    <mat-icon>engineering</mat-icon>
+                    <button matMiniFab>
+                        <mat-icon>engineering</mat-icon>
+                    </button>
                     <span>Evolução de Obras</span>
                 </div>
                 <div class="badge" matTooltip="Mensalidade">{{ valorProporcional() | currency:'BRL' }}</div>
@@ -150,7 +158,7 @@
             } @else {
             <span style="padding: 5px;background-color: lime;border-radius: 6px;color: black;">Aprovado</span>
             }
-        }
+            }
             <span class="date">{{ today | date:'dd/MM/yyyy' }}</span>
         </div>
 
