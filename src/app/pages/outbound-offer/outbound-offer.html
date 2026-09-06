@@ -157,7 +157,8 @@
                 @if(!isMobile()){ Lista de contatos}
             </mat-panel-title>
             <p style="margin-right: 10px;">
-              <span style="margin-right: 3px;"><mat-icon color="warn">sports_score</mat-icon> {{ tando() }}/{{ de() }}</span>
+                <span style="margin-right: 3px;"><mat-icon color="warn">sports_score</mat-icon> {{ tando() }}/{{ de()
+                    }}</span>
                 @if(!isMobile() && ultimoContato().length > 0){Último contato:}
                 @if(ultimoContato()){{{ultimoContato().substring(0, 15)}}}
             </p>
@@ -203,8 +204,7 @@
                         @case ('acoes') {
                         @if (!exibirQrCode()) {
                         <div class="action-buttons">
-                            <button matMiniFab [disabled]="element.enviado"
-                                (click)="chamarAgora(element)"
+                            <button matMiniFab [disabled]="element.enviado" (click)="chamarAgora(element,false)"
                                 [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
                                 @if (element.enviado) {
                                 <mat-icon>check</mat-icon>

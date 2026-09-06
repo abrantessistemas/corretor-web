@@ -288,27 +288,53 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
 
   // --- Ações Principais ---
 
-  chamarAgora(lead: Lead): void {
+  // 1. Crie o signal para o índice atual (adicione junto aos seus outros signals)
+  mensagemIndex = signal<number>(0);
+
+  chamarAgora(lead: Lead, auto: boolean): void {
     if (!lead.telefone || lead.enviado) return;
+
+    // 2. Seleciona a mensagem com base no parâmetro 'auto'
+    let mensagemAtual = this.mensagem.value || '';
+
+    if (auto) {
+      const lista = this.mensagemList();
+      if (lista.length > 0) {
+        const idx = this.mensagemIndex();
+        mensagemAtual = lista[idx];
+
+        // Avança para a próxima mensagem da lista (e volta para 0 no final)
+        this.mensagemIndex.set((idx + 1) % lista.length);
+      }
+    }
 
     lead.enviado = true;
     this.dataSource.data = [...this.dataSource.data];
     this.salvarEstadoLocalStorage();
 
-    const textoFormatado = `${this.periodo.value} ${lead.nome} ${this.mensagem.value || ''}`.trim();
+    // 3. Monta o texto usando a mensagem selecionada
+    const textoFormatado = `${this.periodo.value} ${lead.nome} ${mensagemAtual}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
+
     window.open(whatsappUrl, '_blank');
+
     this.ultimoContato.set(lead.nome);
     this.tando.set(this.tando() + 1);
     this.salvarEstadoLocalStorage();
   }
+
+  ultimaLigacao = signal<Lead | null>(null);
 
   ligarAgora(lead: Lead): void {
     if (!lead.telefone) return;
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
     this.ultimoContato.set(lead.nome);
-    this.tando.set(this.tando() + 1);
+
+    if (lead.id !== this.ultimaLigacao()?.id) {
+      this.tando.set(this.tando() + 1);
+      this.ultimaLigacao.set(lead);
+    }
   }
 
   async autoEnvio(): Promise<void> {
@@ -333,7 +359,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       for (let index = 0; index < totalLeads; index++) {
         if (!this.iniciado()) break;
 
-        this.chamarAgora(leadsParaEnviar[index]);
+        this.chamarAgora(leadsParaEnviar[index], true);
 
         if (index < leadsParaEnviar.length - 1) {
           await this.delay(tempoSegundos * 1000);
