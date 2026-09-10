@@ -1,6 +1,3 @@
-// ==========================================
-// VARIÁVEIS LOCAIS E CONFIGURAÇÕES
-// ==========================================
 :host {
   --card-radius: 16px;
   --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -10,28 +7,21 @@
   padding: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
-  contain: layout style; // Melhora performance de reflow do navegador
+  contain: layout style;
 }
 
-.list-header {
-  margin-bottom: 1.5rem;
-
-  h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    margin: 0 0 0.5rem 0;
-  }
+.list-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  margin: 0 0 0.5rem;
 }
 
-// ==========================================
-// FILTROS (GLASSMORPHISM)
-// ==========================================
+// FILTROS
 .filter-wrapper {
   background: rgba(15, 42, 19, 0.55);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--card-radius);
   padding: 1.25rem;
@@ -52,7 +42,7 @@
       gap: 1rem;
 
       .sort-button {
-        background-color: #fff;
+        background: #fff;
         color: #0f172a;
         font-weight: 600;
         border-radius: 8px;
@@ -65,19 +55,18 @@
       gap: 1rem;
     }
   }
-  // Overrides limpos do Angular Material MDC usando M3 CSS Variables
+
   .chip-option {
-    background-color: #ffffff;
+    background-color: #fff;
     --mdc-chip-label-text-color: #0f172a;
-  
+
     &.mat-mdc-chip-selected {
       --mdc-chip-elevated-container-color: var(--mat-sys-primary, #1976d2);
-      --mdc-chip-selected-chip-label-text-color: #ffffff;
-      --mdc-chip-with-icon-selected-icon-color: #ffffff;
+      --mdc-chip-selected-chip-label-text-color: #fff;
+      --mdc-chip-with-icon-selected-icon-color: #fff;
     }
   }
 }
-
 
 .custom-field {
   width: 100%;
@@ -85,9 +74,7 @@
   --mdc-outlined-text-field-outline-color: transparent;
 }
 
-// ==========================================
-// GRID E CARDS DE IMÓVEIS
-// ==========================================
+// GRID E CARDS
 .property-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -138,30 +125,15 @@
     text-transform: uppercase;
     z-index: 2;
 
-    &.rent {
-      background: #10b981;
-    }
-
-    &.rent2 {
-      background: #fffb00;
-      color: #000;
-    }
-
-    &.rent3 {
-      background: #f59e0b;
-      color: #000;
-    }
-
-    &.rent4 {
-      background: #000000;
-      color: #ffffff;
-    }
+    &.rent { background: #10b981; }
+    &.rent2 { background: #fffb00; color: #000; }
+    &.rent3 { background: #f59e0b; color: #000; }
+    &.rent4 { background: #000; color: #fff; }
   }
 
   .promo-ribbon {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0 auto auto 0;
     width: 130px;
     height: 130px;
     overflow: hidden;
@@ -173,7 +145,7 @@
       display: block;
       width: 180px;
       padding: 6px 0;
-      background-color: #ffd600;
+      background: #ffd600;
       color: #000;
       font-size: 0.65rem;
       font-weight: 800;
@@ -293,16 +265,14 @@
   }
 }
 
-// ==========================================
-// ELEMENTOS FIXOS E RODAPÉ
-// ==========================================
+// FIXOS E FOOTER
 .whatsapp-button {
   position: fixed;
   width: 56px;
   height: 56px;
   right: 24px;
   bottom: 24px;
-  background-color: #25d366;
+  background: #25d366;
   color: #fff;
   border-radius: 50%;
   display: flex;
@@ -330,9 +300,7 @@
   }
 }
 
-// ==========================================
-// RESPONSIVIDADE
-// ==========================================
+// RESPONSIVO
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
