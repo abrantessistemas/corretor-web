@@ -73,17 +73,17 @@
     @for (item of filteredAndSortedProperties(); track item.id) {
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
 
-      <!-- Otimização da Imagem: Carrega APENAS a imagem ativa por card -->
       <div class="card-image-wrapper">
         @if (item.imagesUrl && item.imagesUrl.length > 0) {
         @let activeIdx = getActiveIndex(item.id);
+
         <img mat-card-image [src]="item.imagesUrl[activeIdx].imagesUrl" [alt]="item.title" loading="lazy"
-          decoding="async" class="slide-image active">
+          decoding="async" class="slide-image fade-in">
         }
 
-        <span class="status-badge" [class.rent]="item.status === 'Pronto'"
-          [class.rent2]="item.status !== 'Pronto' && item.status !== 'Lançamento'"
-          [class.rent3]="item.status === 'Em Breve'" [class.rent4]="item.status === '100% Vendido'">
+        <span class="status-badge" [class.rent]="item.status === 'Pronto'" [class.rent1]="item.status === 'Lançamento'"
+          [class.rent2]="item.status === 'Em obras'" [class.rent3]="item.status === 'Em Breve'"
+          [class.rent4]="item.status === '100% Vendido'">
           {{ item.status }}
         </span>
 
@@ -169,16 +169,16 @@
     </div>
     }
   </div>
-
-  <!-- Botão Flutuante WhatsApp -->
-  <a [href]="whatsappUrl()" class="whatsapp-button" target="_blank" rel="noopener noreferrer"
-    aria-label="Contato via WhatsApp">
-    <i class="fa fa-whatsapp"></i>
-  </a>
-
+  
   <!-- Footer Rodapé -->
   <footer class="desktop-footer">
     Copyright © 2026 {{ propertyService.settings().siteTitle }}. Todos os direitos reservados.
     <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">Desenvolvido por Abrantes Sistemas</a>.
   </footer>
 </div>
+
+  <!-- Botão Flutuante WhatsApp -->
+  <a [href]="whatsappUrl()" class="whatsapp-button" target="_blank" rel="noopener noreferrer"
+    aria-label="Contato via WhatsApp">
+    <i class="fa fa-whatsapp"></i>
+  </a>
