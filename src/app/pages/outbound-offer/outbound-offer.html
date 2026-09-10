@@ -76,14 +76,14 @@
                 <mat-select [formControl]="mensagens" (selectionChange)="onMensagemSelecionada($event.value)">
                     <mat-select-trigger>
                         <span class="additional-selection">
-                            {{ mensagens.value ? (mensagens.value.substring(0, 30) + '...') :
+                            {{ mensagens.value ? (mensagens.value.titulo) :
                             'Selecione uma mensagem' }}
                         </span>
                     </mat-select-trigger>
 
                     @for (item of mensagemList(); track $index) {
                     <mat-option [value]="item" class="option-with-action">
-                        <span class="option-text">{{ item }}</span>
+                        <span class="option-text">{{ item.titulo }}</span>
                         <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
                             (click)="removerMensagem($event, $index, item)">
                             <mat-icon>delete</mat-icon>
@@ -138,15 +138,17 @@
                 </button>
                 } Parâmetros de automação</mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-form-field appearance="outline">
-            <mat-label>Intervalo (segundos)</mat-label>
-            <input matInput type="number" [formControl]="intervalo" min="5" />
-        </mat-form-field>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <mat-form-field appearance="outline">
+                <mat-label>Intervalo (segundos)</mat-label>
+                <input matInput type="number" [formControl]="intervalo" min="5" />
+            </mat-form-field>
 
-        <button mat-mini-fab style="display: flex;align-items: center;" color="accent" class="btn-play"
-            (click)="autoEnvio()" matTooltip="Iniciar Envio Automático">
-            <mat-icon>{{ iniciado() ? 'stop' : 'play_arrow' }}</mat-icon>
-        </button>
+            <button mat-mini-fab color="accent" class="btn-play" (click)="autoEnvio()"
+                matTooltip="Iniciar Envio Automático">
+                <mat-icon>{{ iniciado() ? 'stop' : 'play_arrow' }}</mat-icon>
+            </button>
+        </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -157,8 +159,9 @@
                 @if(!isMobile()){ Lista de contatos}
             </mat-panel-title>
             <p style="margin-right: 10px;">
-                <span style="margin-right: 3px;"><mat-icon color="warn">sports_score</mat-icon> {{ tando() }}/{{ de()
-                    }}</span>
+                <mat-icon>sports_score</mat-icon> 
+                <span style="margin-right: 3px;">
+                    {{ tando() }}/{{ de()}}</span>
                 @if(!isMobile() && ultimoContato().length > 0){Último contato:}
                 @if(ultimoContato()){{{ultimoContato().substring(0, 15)}}}
             </p>

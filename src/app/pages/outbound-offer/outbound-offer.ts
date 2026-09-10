@@ -25,7 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import * as QRCode from 'qrcode';
 
-import { PropertyService } from '../../services/property';
+import { MensagemPadrao, PropertyService } from '../../services/property';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subject } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -89,11 +89,46 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   private readonly STORAGE_MENSAGENS_KEY = 'mensagens_outbound_list';
   private readonly STORAGE_ESTADO_KEY = 'oferta_ativa_estado';
 
-  private readonly MENSAGENS_PADRAO: string[] = [
-    'temos novidades especiais para você.',
-    'temos condições especiais de pagamento este mês.',
-    'venha conferir o feirão de imoveis da caixa neste final de semana.'
-  ];
+  private readonly MENSAGENS_PADRAO = this.propertyService.mensagensPadrao();
+
+  // string[] = [
+  //   'tudo bem com você?\n' +
+  //   'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
+  //   'Eu e a Conx temos condições especiais para você e sua familia.\n' +
+  //   'Apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+  //   'Em qual região você esta buscando hoje?\n' +
+  //   'Digite (sair) caso não queira receber mais mensagens.',
+
+  //   'tudo bem com você?\n\n' +
+  //   'Meu nome é Adriano Abrantes sou consultor imobiliário.\n' +
+  //   'Você esteve buscando por apartamento na planta recentemente.\n' +
+  //   'Você já fechou com alguem ou ainda esta buscando?\n' +
+  //   'Facilitamos na entrada durante as obras.\n O financiamento você começa a pagar na entrega da chave.\n' +
+  //   'Saia do aluguel em alguns meses com seu apartamento novo.\n' +
+  //   'Digite (sair) para não receber mais mensagens.',
+
+  //   'tudo bem com você?\n' +
+  //   'Aqui é o Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
+  //   'Estamos participando de um grande feirão de imoveis junto com a caixa economica federal.\n' +
+  //   'Imóveis 100% financiados pelo programa minha casa minha vida.\n' +
+  //   'Gostaria de convidar você para conhecer nossos projetos estamos por toda a cidade de São Paulo.\n' +
+  //   'Voce pode me informar em qual região você esta buscando seu apartamento novo?\n' +
+  //   'Digite (sair) para não receber mais mensagens.',
+
+  //   'tudo bem com você?\n' +
+  //   'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
+  //   'Você tem um cadastro com a gente com interesse em apartamento na planta\nVocê ainda esta buscando?\n' +
+  //   'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+  //   'Em qual região você gostaria de morar?\n' +
+  //   'caso não queira receber mais mensagens digite (sair).',
+
+  //   'tudo bem com você?\n' +
+  //   'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
+  //   'Você busca por apartamento na planta para moradia ou investimento?\nVocê ainda esta buscando?\n' +
+  //   'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+  //   'Em qual região você esta buscando?\n' +
+  //   'Se não quiser receber mais mensagens digite (sair).',
+  // ];
 
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },
@@ -103,9 +138,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   readonly dataSource = new MatTableDataSource<Lead>([]);
 
   // Controls
-  mensagem = new FormControl('Olá');
+  mensagem = new FormControl();
   intervalo = new FormControl(5);
-  mensagens = new FormControl('');
+  mensagens = new FormControl();
   colunaNome = new FormControl(1);
   colunaContato = new FormControl(2);
   periodo = new FormControl('Bom dia');
@@ -118,7 +153,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   iniciado = signal(false);
   carregandoArquivo = signal(false);
   selectedFile = signal<File | null>(null);
-  mensagemList = signal<string[]>([]);
+  mensagemList = signal<any[]>([]);
 
   // Estado da Paginacao recuperado
   private paginacaoSalva: EstadoPaginacao = { pageIndex: 0, pageSize: 5 };
@@ -286,9 +321,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     return result;
   }
 
-  // --- Ações Principais ---
-
-  // 1. Crie o signal para o índice atual (adicione junto aos seus outros signals)
   mensagemIndex = signal<number>(0);
 
   chamarAgora(lead: Lead, auto: boolean): void {
@@ -301,7 +333,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       const lista = this.mensagemList();
       if (lista.length > 0) {
         const idx = this.mensagemIndex();
-        mensagemAtual = lista[idx];
+        mensagemAtual = lista[idx].mensagem || '';
 
         // Avança para a próxima mensagem da lista (e volta para 0 no final)
         this.mensagemIndex.set((idx + 1) % lista.length);
@@ -388,7 +420,8 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       exibirQrCode: this.exibirQrCode(),
       tando: this.tando(),
       de: this.de(),
-      ultimoContato: this.ultimoContato()
+      ultimoContato: this.ultimoContato(),
+      mensagemIndex: this.mensagemIndex()
       // <--- Salva a preferência
     };
 
@@ -413,6 +446,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       if (estado.tando !== undefined) this.tando.set(estado.tando);
       if (estado.de !== undefined) this.de.set(estado.de);
       if (estado.ultimoContato !== undefined) this.ultimoContato.set(estado.ultimoContato);
+      if (estado.mensagemIndex !== undefined) this.mensagemIndex.set(estado.mensagemIndex);
     } catch (e) {
       console.error('Erro ao restaurar estado do aplicativo:', e);
     }
@@ -462,9 +496,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     }
   }
 
-  onMensagemSelecionada(mensagemSelecionada: string): void {
+  onMensagemSelecionada(mensagemSelecionada: any): void {
     if (mensagemSelecionada) {
-      this.mensagem.setValue(mensagemSelecionada);
+      this.mensagem.setValue(mensagemSelecionada.mensagem);
     }
   }
 
@@ -508,4 +542,4 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     // Corta do início (0) até o espaço + 3 letras (somando 1 do espaço + 3 letras = 4)
     return texto.substring(0, indexEspaco + 4);
   }
-}
+} 
