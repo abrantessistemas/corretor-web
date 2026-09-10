@@ -241,6 +241,26 @@
   }
 }
 
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+
+  .nav-btn {
+    background: #fff;
+    opacity: 0.85;
+    transition: transform var(--transition-normal);
+
+    &:hover {
+      transform: scale(1.05);
+      background: #f1f5f9;
+    }
+  }
+
+}
+
 .whatsapp-button {
   position: fixed;
   background: #25d366;

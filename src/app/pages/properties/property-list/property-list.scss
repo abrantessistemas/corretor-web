@@ -1,6 +1,7 @@
 :host {
   --card-radius: 16px;
   --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
 }
 
 .container {
@@ -10,14 +11,6 @@
   contain: layout style;
 }
 
-.list-header h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-  margin: 0 0 0.5rem;
-}
-
 // FILTROS
 .filter-wrapper {
   background: rgba(15, 42, 19, 0.55);
@@ -25,7 +18,7 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--card-radius);
   padding: 1.25rem;
-  margin-bottom: 2rem;
+  margin: 3.5rem 0 1.5rem 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
@@ -96,25 +89,25 @@
 
 .card-image-wrapper {
   position: relative;
-  height: 220px;
+  height: 14rem;
   background-color: #f1f5f9;
   overflow: hidden;
 
-  .slide-image {
-    position: absolute;
-    inset: 0;
+  swiper-container {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    will-change: opacity, transform;
-    transition: transform var(--transition-fast, 0.25s ease);
+    --swiper-pagination-bullet-inactive-color: #fff;
+    --swiper-pagination-bullet-size: 6px;
+  }
 
-    &.fade-in {
-      animation: fadeIn 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
+  swiper-slide {
+    width: 100%;
+    height: 100%;
 
-    &:hover {
-      transform: scale(1.03);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
@@ -129,7 +122,8 @@
     font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
-    z-index: 2;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
     &.rent {
       background: #10b981;
@@ -161,7 +155,7 @@
     height: 130px;
     overflow: hidden;
     pointer-events: none;
-    z-index: 2;
+    z-index: 10;
 
     span {
       position: absolute;
@@ -177,17 +171,8 @@
       left: -40px;
       top: 24px;
       transform: rotate(-45deg);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     }
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }
 
@@ -197,10 +182,17 @@
   align-items: center;
   margin-top: 1rem;
 
+  .price-and-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
   .price {
     color: #1a237e;
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     margin: 0;
   }
 
@@ -210,7 +202,7 @@
 }
 
 .title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   margin: 0.75rem 0 0.5rem;
   color: #1e293b;
@@ -231,7 +223,7 @@
   align-items: center;
   gap: 4px;
   color: #64748b;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 
   mat-icon {
@@ -244,10 +236,10 @@
 .category {
   font-weight: 700;
   border-radius: 20px;
-  padding: 4px 10px;
+  padding: 2px 8px;
   color: #fff;
   background-color: var(--mat-sys-primary, #1976d2);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 
 .specs {
@@ -300,13 +292,25 @@
 
 .whatsapp-button {
   position: fixed;
+  right: 24px;
+  bottom: 24px;
+  font-size: 3rem;
   background: #25d366;
   color: #fff;
   border-radius: 50%;
-  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   z-index: 100;
   transition: transform var(--transition-fast);
+  text-decoration: none;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
 
   &:hover {
     transform: scale(1.08);
@@ -342,6 +346,6 @@
 
   .whatsapp-button {
     right: 16px;
-    bottom: 72px;
+    bottom: 70px;
   }
 }

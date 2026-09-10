@@ -1,35 +1,35 @@
+import { CommonModule } from '@angular/common';
 import {
-  Component,
-  inject,
-  signal,
-  ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
+  Component,
+  inject,
   OnChanges,
-  SimpleChanges
+  OnDestroy,
+  OnInit,
+  signal,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import * as QRCode from 'qrcode';
 
-import { MensagemPadrao, PropertyService } from '../../services/property';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subject } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
+import { PropertyService } from '../../services/property';
 
 export interface Lead {
   id: string;
@@ -90,45 +90,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   private readonly STORAGE_ESTADO_KEY = 'oferta_ativa_estado';
 
   private readonly MENSAGENS_PADRAO = this.propertyService.mensagensPadrao();
-
-  // string[] = [
-  //   'tudo bem com você?\n' +
-  //   'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
-  //   'Eu e a Conx temos condições especiais para você e sua familia.\n' +
-  //   'Apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-  //   'Em qual região você esta buscando hoje?\n' +
-  //   'Digite (sair) caso não queira receber mais mensagens.',
-
-  //   'tudo bem com você?\n\n' +
-  //   'Meu nome é Adriano Abrantes sou consultor imobiliário.\n' +
-  //   'Você esteve buscando por apartamento na planta recentemente.\n' +
-  //   'Você já fechou com alguem ou ainda esta buscando?\n' +
-  //   'Facilitamos na entrada durante as obras.\n O financiamento você começa a pagar na entrega da chave.\n' +
-  //   'Saia do aluguel em alguns meses com seu apartamento novo.\n' +
-  //   'Digite (sair) para não receber mais mensagens.',
-
-  //   'tudo bem com você?\n' +
-  //   'Aqui é o Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
-  //   'Estamos participando de um grande feirão de imoveis junto com a caixa economica federal.\n' +
-  //   'Imóveis 100% financiados pelo programa minha casa minha vida.\n' +
-  //   'Gostaria de convidar você para conhecer nossos projetos estamos por toda a cidade de São Paulo.\n' +
-  //   'Voce pode me informar em qual região você esta buscando seu apartamento novo?\n' +
-  //   'Digite (sair) para não receber mais mensagens.',
-
-  //   'tudo bem com você?\n' +
-  //   'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
-  //   'Você tem um cadastro com a gente com interesse em apartamento na planta\nVocê ainda esta buscando?\n' +
-  //   'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-  //   'Em qual região você gostaria de morar?\n' +
-  //   'caso não queira receber mais mensagens digite (sair).',
-
-  //   'tudo bem com você?\n' +
-  //   'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
-  //   'Você busca por apartamento na planta para moradia ou investimento?\nVocê ainda esta buscando?\n' +
-  //   'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-  //   'Em qual região você esta buscando?\n' +
-  //   'Se não quiser receber mais mensagens digite (sair).',
-  // ];
 
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },

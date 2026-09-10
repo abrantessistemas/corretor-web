@@ -1,14 +1,4 @@
 <div class="container" #value>
-
-  <!-- Header -->
-  <header class="list-header">
-    <div class="header-main">
-      <div class="title-group">
-        <h1 class="color-text-inver">Apartamentos na Planta</h1>
-      </div>
-    </div>
-  </header>
-
   <!-- Filtros -->
   <div class="filter-wrapper">
     <div class="filter-row primary-row">
@@ -74,13 +64,21 @@
     <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
 
       <div class="card-image-wrapper">
+        <!-- Swiper Slider de Imagens -->
         @if (item.imagesUrl && item.imagesUrl.length > 0) {
-        @let activeIdx = getActiveIndex(item.id);
+        <swiper-container autoplay="true" autoplay-delay="3000" autoplay-disable-on-interaction="false" loop="true"
+          pagination="true" inject-styles="[':host .swiper-pagination-bullet-active { background-color: #ffd600; }']">
 
-        <img mat-card-image [src]="item.imagesUrl[activeIdx].imagesUrl" [alt]="item.title" loading="lazy"
-          decoding="async" class="slide-image fade-in">
+          @for (img of item.imagesUrl; track img.imagesUrl) {
+          <swiper-slide>
+            <img mat-card-image [src]="img.imagesUrl" [alt]="item.title" loading="lazy" decoding="async"
+              class="slide-image">
+          </swiper-slide>
+          }
+        </swiper-container>
         }
 
+        <!-- Elementos de Status e Promoção Fixos -->
         <span class="status-badge" [class.rent]="item.status === 'Pronto'" [class.rent1]="item.status === 'Lançamento'"
           [class.rent2]="item.status === 'Em obras'" [class.rent3]="item.status === 'Em Breve'"
           [class.rent4]="item.status === '100% Vendido'">
@@ -96,17 +94,19 @@
 
       <mat-card-content>
         <div class="price-row">
-          @if (setting.exibirValor) {
-          <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
-          }
+          <div class="price-and-tags">
+            @if (setting.exibirValor && item.price) {
+            <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+            }
 
-          @for (category of item.category; track category) {
-          <span class="category">{{ category }}</span>
-          }
+            @for (category of item.category; track category) {
+            <span class="category">{{ category }}</span>
+            }
+          </div>
 
-          <button mat-icon-button [class.is-favorite]="favoriteIds().includes(item.id)"
-            (click)="onToggleFavorite($event, item)" aria-label="Favorito">
-            <mat-icon>{{ favoriteIds().includes(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+          <button mat-icon-button [class.is-favorite]="isFavorite(item.id)" (click)="onToggleFavorite($event, item)"
+            aria-label="Favorito">
+            <mat-icon>{{ isFavorite(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
           </button>
         </div>
 
@@ -169,7 +169,7 @@
     </div>
     }
   </div>
-  
+
   <!-- Footer Rodapé -->
   <footer class="desktop-footer">
     Copyright © 2026 {{ propertyService.settings().siteTitle }}. Todos os direitos reservados.
@@ -177,8 +177,8 @@
   </footer>
 </div>
 
-  <!-- Botão Flutuante WhatsApp -->
-  <a [href]="whatsappUrl()" class="whatsapp-button" target="_blank" rel="noopener noreferrer"
-    aria-label="Contato via WhatsApp">
-    <i class="fa fa-whatsapp"></i>
-  </a>
+<!-- Botão Flutuante WhatsApp -->
+<a [href]="whatsappUrl()" class="whatsapp-button" target="_blank" rel="noopener noreferrer"
+  aria-label="Contato via WhatsApp">
+  <i class="fa fa-whatsapp"></i>
+</a>

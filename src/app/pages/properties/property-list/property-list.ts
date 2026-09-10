@@ -4,9 +4,8 @@ import {
   Component,
   computed,
   inject,
-  OnDestroy,
-  OnInit,
-  signal
+  signal,
+  CUSTOM_ELEMENTS_SCHEMA
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -22,8 +21,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { register } from 'swiper/element/bundle';
 import { PropertyService } from '../../../services/property';
+
+// Registrar Swiper Web Components
+register();
 
 @Component({
   selector: 'app-property-list',
@@ -44,17 +46,18 @@ import { PropertyService } from '../../../services/property';
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PropertyListComponent implements OnInit, OnDestroy {
+export class PropertyListComponent {
   private readonly router = inject(Router);
   public readonly propertyService = inject(PropertyService);
   private readonly dialog = inject(Dialog);
 
-  // Cache das configurações para evitar re-computações
+  // Cache das configurações do sistema
   readonly setting = this.propertyService.settings();
 
-  // Filtros em Signals leves
+  // Filtros em Signals
   readonly sortOrder = signal<'asc' | 'desc' | null>(null);
   readonly selectedZone = signal<string | null>(null);
   readonly selectedBairro = signal<string | null>(null);
@@ -63,10 +66,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
   loadDetails = false;
   readonly zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
-
-  // Carrossel de imagens com controle de memória otimizado
-  private readonly imageIndexes = signal<Map<number, number>>(new Map());
-  private autoplayIntervalId: ReturnType<typeof setInterval> | null = null;
 
   // Listas derivadas dinamicamente com filtros seguros
   readonly bairros = computed(() => {
@@ -116,10 +115,9 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     return url === '/' || url === '/home';
   });
 
-  // 1. Crie um Signal para controlar a lista de IDs favoritados (iniciando com o localStorage)
+  // Signal dos Favoritos
   readonly favoriteIds = signal<number[]>(this.getInitialFavorites());
 
-  // Helper para carregar os favoritos iniciais com segurança
   private getInitialFavorites(): number[] {
     try {
       const saved = localStorage.getItem('favoriteProperties');
@@ -156,32 +154,24 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       list = [...list].sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
     }
 
-    // Retorna a lista diretamente sem criar cópias com .map()
     return list;
   });
 
-  // Helper para verificar o favorito diretamente no Template
   isFavorite(propertyId: number): boolean {
     return this.favoriteIds().includes(propertyId);
   }
 
-  // 3. Método atualizado para favoritar/desfavoritar e notificar o Signal + localStorage
   onToggleFavorite(event: Event, item: any): void {
     event.stopPropagation();
     const currentFavs = this.favoriteIds();
     const isFav = currentFavs.includes(item.id);
 
-    let updatedFavs: number[];
-    if (isFav) {
-      updatedFavs = currentFavs.filter(id => id !== item.id);
-    } else {
-      updatedFavs = [...currentFavs, item.id];
-    }
+    const updatedFavs = isFav
+      ? currentFavs.filter(id => id !== item.id)
+      : [...currentFavs, item.id];
 
-    // Atualiza o Signal para re-computar a interface reativamente
     this.favoriteIds.set(updatedFavs);
 
-    // Persiste no localStorage
     try {
       localStorage.setItem('favoriteProperties', JSON.stringify(updatedFavs));
     } catch (e) {
@@ -189,53 +179,13 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Propriedades do WhatsApp calculadas dinamicamente
+  // URL do WhatsApp calculada dinamicamente
   readonly whatsappUrl = computed(() => {
     const config = this.setting?.whatsappConfig;
     const phone = config?.whatsappNumber || '';
     const msg = config?.whatsappMessage || 'Olá! Gostaria de obter mais informações';
     return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
   });
-
-  ngOnInit(): void {
-    this.startImageAutoplay();
-  }
-
-  ngOnDestroy(): void {
-    this.stopImageAutoplay();
-  }
-
-  // Timer otimizado: Roda apenas nos itens filtrados/visíveis no DOM
-  private startImageAutoplay(): void {
-    this.autoplayIntervalId = setInterval(() => {
-      const visibleItems = this.filteredAndSortedProperties();
-      if (!visibleItems.length) return;
-
-      this.imageIndexes.update(map => {
-        const nextMap = new Map(map);
-        for (let i = 0; i < visibleItems.length; i++) {
-          const item = visibleItems[i];
-          const totalImages = item.imagesUrl?.length || 0;
-          if (totalImages > 1) {
-            const currentIdx = nextMap.get(item.id) || 0;
-            nextMap.set(item.id, (currentIdx + 1) % totalImages);
-          }
-        }
-        return nextMap;
-      });
-    }, 4000);
-  }
-
-  private stopImageAutoplay(): void {
-    if (this.autoplayIntervalId) {
-      clearInterval(this.autoplayIntervalId);
-      this.autoplayIntervalId = null;
-    }
-  }
-
-  getActiveIndex(propertyId: number): number {
-    return this.imageIndexes().get(propertyId) || 0;
-  }
 
   toggleSort(): void {
     this.sortOrder.update(current => current === 'asc' ? 'desc' : 'asc');
@@ -260,23 +210,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     const message = `Olá, gostaria de mais detalhes sobre o projeto: ${title}`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
-  }
-
-  saveFavorite(id: number, favorite: boolean): void {
-    try {
-      const savedFavorites = localStorage.getItem('favoriteProperties');
-      let favoritesList: number[] = savedFavorites ? JSON.parse(savedFavorites) : [];
-
-      if (favorite) {
-        if (!favoritesList.includes(id)) favoritesList.push(id);
-      } else {
-        favoritesList = favoritesList.filter(favId => favId !== id);
-      }
-
-      localStorage.setItem('favoriteProperties', JSON.stringify(favoritesList));
-    } catch (e) {
-      console.error('Erro ao acessar localStorage:', e);
-    }
   }
 
   openWhatspp(): void {

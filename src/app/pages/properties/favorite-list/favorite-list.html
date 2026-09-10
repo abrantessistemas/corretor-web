@@ -3,19 +3,12 @@
     <!-- Header da Página -->
     <header class="list-header">
         <div class="header-main">
-            <div class="title-group">
-                <button mat-icon-button class="back-btn" (click)="voltarParaBusca()" aria-label="Voltar">
+            <!-- Topo com Navegação -->
+            <header class="top-nav">
+                <button mat-icon-button (click)="voltar()" class="nav-btn" aria-label="Voltar">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
-                <h1>Meus Imóveis Favoritos</h1>
-            </div>
-
-            @if (favoriteProperties().length > 0) {
-            <button matFab extended (click)="limparTodos()">
-                <mat-icon>delete_sweep</mat-icon>
-                Limpar Lista
-            </button>
-            }
+            </header>
         </div>
     </header>
 
@@ -121,7 +114,7 @@
             </div>
             <h2>Sua lista de favoritos está vazia</h2>
             <p>Você ainda não guardou nenhum imóvel. Explore nossas opções e clique no coração para salvar aqui.</p>
-            <button mat-flat-button color="primary" (click)="voltarParaBusca()">
+            <button mat-flat-button color="primary" (click)="voltar()">
                 EXPLORAR IMÓVEIS
             </button>
         </div>

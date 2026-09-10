@@ -3,30 +3,63 @@
     --accent: #25d366;
     --border: #e2e8f0;
     --surface: #f8fafc;
+    --card-radius: 20px;
+    --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+    position: relative;
 }
 
-.details-container {
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
+// Background Image Hero
+.hero-bg-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 460px;
+    z-index: 0;
+    overflow: hidden;
 
-    @media (max-width: 768px) {
-        max-width: 100%;
-        padding: 20px 0;
+    .hero-bg-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.4);
+        will-change: transform;
     }
 }
 
+.details-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+// Topbar Mobile / Nav
 .top-nav {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    margin-bottom: 0.5rem;
+
+    .nav-btn {
+        background: #fff;
+        opacity: 0.9;
+        transition: transform var(--transition-normal);
+
+        &:hover {
+            transform: scale(1.05);
+            background: #f1f5f9;
+        }
+    }
 
     .project-header-mobile {
         .status-tag {
             background: var(--primary);
-            color: white;
+            color: #fff;
             padding: 2px 8px;
             font-size: 0.65rem;
             font-weight: 800;
@@ -37,19 +70,21 @@
         h2 {
             margin: 0;
             font-size: 1.2rem;
+            color: #fff;
         }
     }
 }
 
+// Grid principal
 .content-grid {
     display: grid;
     grid-template-columns: 1fr 420px;
-    gap: 40px;
+    gap: 2.5rem;
     align-items: start;
 
     @media (max-width: 992px) {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 1.5rem;
     }
 }
 
@@ -58,13 +93,28 @@
     width: 100%;
 }
 
-/* Galeria de Plantas */
-.main-viewer {
+.main-viewer-wrapper {
+    position: relative;
+
+    .brand-logo {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 8%;
+        min-width: 48px;
+        z-index: 10;
+        pointer-events: none;
+    }
+}
+
+// Visualizadores de Plantas e Implantação
+.main-viewer,
+.main-viewer-implantacao {
     position: relative;
     width: 100%;
     aspect-ratio: 4 / 3;
-    background: white;
-    border-radius: 24px;
+    background: #fff;
+    border-radius: var(--card-radius);
     overflow: hidden;
     border: 1px solid var(--border);
     display: flex;
@@ -72,36 +122,30 @@
     justify-content: center;
     cursor: zoom-in;
 
-    @media (max-width: 768px) {
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-    }
-
     img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 95%;
+        max-height: 95%;
         object-fit: contain;
-        transition: transform 0.5s ease;
+        transition: transform var(--transition-normal);
     }
 
     &:hover img {
-        transform: scale(1.05);
+        transform: scale(1.04);
     }
 
     .planta-label {
         position: absolute;
-        bottom: 20px;
-        left: 20px;
+        bottom: 16px;
+        left: 16px;
         background: rgba(15, 23, 42, 0.85);
-        color: white;
-        padding: 8px 16px;
+        color: #fff;
+        padding: 6px 14px;
         border-radius: 30px;
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: 0.8rem;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(8px);
 
         mat-icon {
             font-size: 18px;
@@ -111,33 +155,39 @@
     }
 }
 
+.main-viewer-implantacao {
+    height: auto;
+    max-height: 60vh;
+}
+
+// Carrossel Thumbnails
 .planta-selector-wrapper {
-    margin-top: 24px;
+    margin-top: 1.5rem;
 
     h3 {
         font-size: 0.9rem;
         color: #64748b;
         font-weight: 700;
-        margin-bottom: 12px;
+        margin-bottom: 0.75rem;
     }
 }
 
 .planta-thumbnails {
     display: flex;
-    gap: 12px;
+    gap: 0.75rem;
     overflow-x: auto;
-    padding-bottom: 10px;
+    padding-bottom: 0.5rem;
     scrollbar-width: thin;
 
     .planta-thumb-card {
         flex: 0 0 120px;
         cursor: pointer;
-        background: white;
+        background: #fff;
         border: 2px solid transparent;
         border-radius: 12px;
         padding: 8px;
-        transition: 0.2s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: border-color var(--transition-normal), background var(--transition-normal);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 
         .img-box {
             height: 60px;
@@ -153,7 +203,7 @@
         }
 
         .thumb-info {
-            margin-top: 8px;
+            margin-top: 6px;
             text-align: center;
 
             .area {
@@ -170,57 +220,56 @@
 
         &.active {
             border-color: var(--primary);
-            background: #d3d3d3;
+            background: #f1f5f9;
         }
     }
 }
 
-/* Coluna de Informações */
-.info-column {
-    .desktop-header {
-        @media (max-width: 992px) {
-            display: none;
-        }
+// Coluna de Informações
+.info-column .desktop-header {
+    @media (max-width: 992px) {
+        display: none;
+    }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin: 16px 0;
-        }
+    h1 {
+        font-size: 2.25rem;
+        font-weight: 900;
+        line-height: 1.15;
+        margin: 12px 0;
+        color: #fff;
+    }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #ffffff;
-        }
+    .subtitle,
+    .location {
+        color: #f1f5f9;
+    }
 
-        .location {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            color: #ffffff;
-            margin-top: 12px;
-        }
+    .location {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.9rem;
+        margin-top: 8px;
     }
 }
 
+// Card Preço
 .pricing-card {
-    background: var(--surface);
-    border-radius: 20px;
-    padding: 24px;
-    margin: 24px 0;
+    background: #fff;
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
     border: 1px solid var(--border);
 
     .main-price {
-        font-size: 2.2rem;
+        font-size: 2rem;
         font-weight: 900;
         color: var(--primary);
         margin: 4px 0;
     }
 
     .old-price {
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         color: #94a3b8;
         text-decoration: line-through;
     }
@@ -228,7 +277,7 @@
     .label {
         font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         color: #64748b;
         font-weight: 700;
     }
@@ -237,7 +286,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-top: 16px;
+        margin-top: 1rem;
         font-size: 0.8rem;
         font-weight: 600;
         color: #16a34a;
@@ -250,17 +299,18 @@
     }
 }
 
+// Especificações Grid
 .specs-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 32px;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
 
     .spec-tile {
-        background: white;
+        background: #fff;
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 16px;
+        border-radius: 14px;
+        padding: 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -268,11 +318,11 @@
 
         mat-icon {
             color: var(--mat-sys-primary);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         strong {
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         span {
@@ -284,43 +334,44 @@
     }
 }
 
+// Ações CTA
 .actions-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
 
     .main-cta {
         background: var(--accent) !important;
-        color: white !important;
+        color: #fff !important;
     }
 }
 
-/* Abas Inferiores */
+// Abas de Conteúdo
 .extra-tabs {
-    margin-top: 40px;
-    background: white;
-    border-radius: 20px;
+    margin-top: 2.5rem;
+    background: #fff;
+    border-radius: var(--card-radius);
     border: 1px solid var(--border);
-    padding: 8px;
+    padding: 0.5rem;
 }
 
 .tab-content {
-    padding: 32px 16px;
+    padding: 1.5rem 1rem;
 }
 
 .feature-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
 
     .feature-item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         font-weight: 500;
         color: #334155;
 
-        mat-icon {
+        .icon-accent {
             color: var(--accent);
         }
     }
@@ -328,21 +379,21 @@
 
 .amenities-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
 
     .amenity-card {
         background: var(--surface);
-        padding: 20px 10px;
-        border-radius: 16px;
+        padding: 1.25rem 0.5rem;
+        border-radius: 14px;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
 
-        mat-icon {
-            color: var(--primary);
+        .icon-star {
+            color: #eab308;
         }
 
         span {
@@ -352,79 +403,33 @@
     }
 }
 
+.no-data {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+}
+
+// Utilitários
 .my-4 {
-    margin: 24px 0;
+    margin: 1.5rem 0;
 }
 
-.custom-chip {
-    background-color: white !important;
+.my-8 {
+    margin: 2.5rem 0;
 }
 
+.custom-chip,
 .date-chip {
-    background-color: white !important;
+    background-color: #fff !important;
 }
 
-.nav-btn {
-    display: flex;
-    background: white;
-    opacity: 0.7;
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    z-index: 5;
-    padding: 8px;
-
-    &:hover {
-        background: #f0f0f0;
-        padding: 10px;
-    }
-}
-
-/* Galeria de Implantação */
-.main-viewer-implantacao {
-    position: relative;
-    width: 100%;
-    height: 60vh;
-    aspect-ratio: 4 / 3;
-    background: white;
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: zoom-in;
-
-    img {
-        max-width: 90%;
-        max-height: 90%;
-        object-fit: contain;
-        transition: transform 0.5s ease;
+@media (max-width: 768px) {
+    .details-container {
+        width: 100%;
+        padding: 1rem;
     }
 
-    &:hover img {
-        transform: scale(1.05);
-    }
-
-    .planta-label {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        background: rgba(15, 23, 42, 0.85);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 30px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.8rem;
-        backdrop-filter: blur(10px);
-
-        mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
-        }
+    .main-viewer {
+        border-radius: 0;
     }
 }

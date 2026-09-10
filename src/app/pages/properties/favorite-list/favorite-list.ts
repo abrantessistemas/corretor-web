@@ -55,10 +55,10 @@ export class FavoriteListComponent {
 
   // Filtra apenas os imóveis favoritados a partir da lista geral do Service
   readonly favoriteProperties = computed(() => {
-  const rawList = this.propertyService.properties() ?? [];
-  const favs = new Set(this.favoriteIds());
-  return rawList.filter(item => favs.has(item.id));
-});
+    const rawList = this.propertyService.properties() ?? [];
+    const favs = new Set(this.favoriteIds());
+    return rawList.filter(item => favs.has(item.id));
+  });
 
   // URL do WhatsApp configurada no Service
   readonly whatsappUrl = computed(() => {
@@ -81,15 +81,6 @@ export class FavoriteListComponent {
     }
   }
 
-  limparTodos(): void {
-    this.favoriteIds.set([]);
-    try {
-      localStorage.removeItem('favoriteProperties');
-    } catch (e) {
-      console.error('Erro ao limpar favoritos:', e);
-    }
-  }
-
   verDetalhes(id: number): void {
     this.loadDetails = true;
     this.router.navigate(['/imoveis', id]);
@@ -103,7 +94,7 @@ export class FavoriteListComponent {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
-  voltarParaBusca(): void {
+  voltar(): void {
     this.router.navigate(['/home']);
   }
 }
