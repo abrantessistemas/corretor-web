@@ -11,7 +11,7 @@
       
       <!-- Logo / Marca -->
       <div class="brand" routerLink="/">
-        @if (logoSetting()?.[0]?.imagesUrl) {
+        @if (logoSetting()[0].imagesUrl) {
           <img 
             [src]="logoSetting()[0].imagesUrl" 
             [alt]="logoSetting()[0].description || 'Logo'" 
@@ -19,7 +19,7 @@
         }
         
         <span class="logo-text">
-          {{ propertyService.settings()?.siteTitle?.substring(0, 18)?.toUpperCase() }}
+          {{ propertyService.settings().siteTitle.substring(0, 18).toUpperCase() }}
         </span>
       </div>
 
