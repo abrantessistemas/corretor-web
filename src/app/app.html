@@ -1,31 +1,48 @@
 <div class="app-shell">
-  <!-- Navegação Superior (Desktop) -->
-  <img src="{{imageBackgroundUrl}}" alt="" srcset=""
-    style="display: flexbox;position: absolute;width: 100%;height: 46%;z-index: -1;filter: brightness(0.5);object-fit: cover;">
+  <!-- Imagem de Fundo do Header -->
+  <img 
+    [src]="imageBackgroundUrl" 
+    alt="Background Header"
+    class="header-bg-img">
 
+  <!-- Navegação Superior (Desktop) -->
   <mat-toolbar class="top-nav mat-elevation-z0">
     <div class="toolbar-container">
+      
+      <!-- Logo / Marca -->
       <div class="brand" routerLink="/">
-        <img src="{{logoSetting()[0].imagesUrl}}" alt="{{logoSetting()[0].description}}" class="logo-img">
-        <span [routerLink]="['/']"
-          style="cursor:pointer;color: black;">{{propertyService.settings().siteTitle.substring(0,
-          18).toUpperCase()}}</span>
+        @if (logoSetting()?.[0]?.imagesUrl) {
+          <img 
+            [src]="logoSetting()[0].imagesUrl" 
+            [alt]="logoSetting()[0].description || 'Logo'" 
+            class="logo-img">
+        }
+        
+        <span class="logo-text">
+          {{ propertyService.settings()?.siteTitle?.substring(0, 18)?.toUpperCase() }}
+        </span>
       </div>
-      <a matMiniFab matTooltip="Compartilhar"><mat-icon>share</mat-icon></a>
 
+      <!-- Menu Desktop -->
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
-        @if(item.enable){
-        <a matFab extended [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
-          <mat-icon>{{ item.icon }}</mat-icon>
-          <span>{{ item.label }}</span>
-        </a>
+          @if (item.enable) {
+            <a matFab extended [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </a>
+          }
         }
-        }
+        
+        <button mat-mini-fab matTooltip="Compartilhar" aria-label="Compartilhar">
+          <mat-icon>share</mat-icon>
+        </button>
       </div>
+
     </div>
   </mat-toolbar>
-  <!-- Conteúdo das Páginas com Animação -->
+
+  <!-- Conteúdo Principal com Animação -->
   <main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
     <router-outlet #outlet="outlet"></router-outlet>
   </main>
@@ -33,14 +50,12 @@
   <!-- Navegação Inferior (Mobile) -->
   <nav class="bottom-nav">
     @for (item of menuItems(); track item.path) {
-    @if(item.enable){
-    <a [routerLink]="item.path" routerLinkActive="active-mobile" matRipple class="mobile-nav-item">
-      @if(item.enable){
-      <mat-icon>{{ item.icon }}</mat-icon>
+      @if (item.enable) {
+        <a [routerLink]="item.path" routerLinkActive="active-mobile" matRipple class="mobile-nav-item">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
       }
-      <!-- <span>{{ item.label }}</span> -->
-    </a>
-    }
     }
   </nav>
 </div>

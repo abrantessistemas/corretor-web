@@ -1,116 +1,88 @@
 @use '@angular/material' as mat;
 
-/* 1. DEFINIÇÃO DA VARIÁVEL RAIZ
-Definimos a cor padrão inicial aqui.
-Esta variável será sobrescrita via JavaScript no AjustesComponent.
-*/
+// ==========================================
+// 1. CONFIGURAÇÃO DE TEMAS E VARIÁVEIS
+// ==========================================
 :root {
     --primary-color: #026d14;
-    /* Cor 'azure' padrão do Material */
-}
 
-html {
-    height: 100%;
-
-    /* 2. INTEGRAÇÃO COM MATERIAL 3
-Sobrescrevemos as variáveis de sistema do Material para apontar
-para nossa variável CSS personalizada.
-*/
-    @include mat.theme((color: (primary: mat.$azure-palette,
-                tertiary: mat.$blue-palette,
-            ),
-            typography: Roboto,
-            density: 0,
-        ));
-
-    /* Mapeamento manual para garantir que o Material use nossa cor
-mesmo sem recompilar o Sass (Runtime Theming)
-*/
+    // Design Tokens - Material 3 Customization
     --mat-sys-primary: var(--primary-color);
     --mat-sys-on-primary: #ffffff;
     --mat-sys-primary-container: var(--primary-color);
     --mat-sys-on-primary-container: #ffffff;
 }
 
+html {
+    height: 100%;
+
+    @include mat.theme((color: (primary: mat.$azure-palette,
+                tertiary: mat.$blue-palette,
+            ),
+            typography: Roboto,
+            density: 0,
+        ));
+}
+
 body {
+    margin: 0;
+    height: 100%;
     color-scheme: light;
     background-color: var(--mat-sys-surface);
     color: var(--mat-sys-on-surface);
     font: var(--mat-sys-body-medium);
-    margin: 0;
-    height: 100%;
 }
 
-/* 3. CLASSES AUXILIARES GLOBAIS
-Garante que componentes específicos que usam a cor 'primary'
-respondam à nossa variável.
-*/
-.mat-toolbar.mat-primary {
-    background-color: var(--primary-color) !important;
+// Modo Escuro
+.dark-theme {
+    color-scheme: dark;
+    --mat-sys-surface: #121212;
+    --mat-sys-on-surface: #e0e0e0;
 }
 
-.mat-flat-button.mat-primary {
-    background-color: var(--primary-color) !important;
-}
-
-.mat-icon.color-primary {
-    color: var(--primary-color) !important;
-}
-
-.logo-text {
-    color: var(--primary-color) !important;
-}
-
+// ==========================================
+// 2. CLASSES UTILITÁRIAS E REUTILIZÁVEIS
+// ==========================================
+.color-primary,
+.logo-text,
 .color-text {
     color: var(--primary-color) !important;
 }
-
 
 .color-text-inver {
     color: var(--mat-sys-on-primary-container) !important;
 }
 
-
-/* 4. MODO ESCURO (OPCIONAL)
-Classe que será aplicada pelo seu toggle no AjustesComponent
-*/
-.dark-theme {
-    color-scheme: dark;
-    --mat-sys-surface: #121212;
-    --mat-sys-on-surface: #e0e0e0;
-    /* Ajuste a cor primária para ser mais suave no modo dark se desejar */
-}
-
-
-/* Garante que o Chip selecionado use a cor dinâmica do template */
-.mat-mdc-chip-option.mat-mdc-chip-selected {
-    // Fundo do chip selecionado
+// ==========================================
+// 3. OVERRIDES DO ANGULAR MATERIAL
+// ==========================================
+// Sobrescreve botões e barras primárias usando variáveis M3
+.mat-toolbar.mat-primary,
+.mat-flat-button.mat-primary {
     background-color: var(--primary-color) !important;
-
-    // Cor do texto quando selecionado
-    .mdc-evolution-chip__text-label {
-        color: var(--mat-sys-on-primary, #ffffff) !important;
-    }
-
-    // Cor do ícone de check (se houver)
-    .mat-mdc-chip-selected-indicator {
-        color: var(--mat-sys-on-primary, #ffffff) !important;
-    }
 }
 
-/* Ajuste opcional para o chip quando não está selecionado */
+// Chips (Material 3)
 .mat-mdc-chip-option {
     --mdc-chip-elevated-container-color: var(--mat-sys-surface-container-low);
     --mdc-chip-label-text-color: var(--mat-sys-on-surface);
 
-    /* Cor da borda ou foco */
     &.mat-mdc-chip-focused {
         outline: 2px solid var(--primary-color);
     }
+
+    &.mat-mdc-chip-selected {
+        background-color: var(--primary-color) !important;
+
+        .mdc-evolution-chip__text-label,
+        .mat-mdc-chip-selected-indicator {
+            color: var(--mat-sys-on-primary, #ffffff) !important;
+        }
+    }
 }
 
-// Força o fundo a ficar bem escuro e com um leve efeito de desfoque (blur) moderno
+// Overlays / Modais
 .backdrop-escura-total {
-  background: rgba(0, 0, 0, 0.75) !important; // Deixa 75% preto (o padrão do material é mais claro)
-  backdrop-filter: blur(4px); // Opcional: dá um efeito sofisticado de vidro fosco no fundo do site
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(4px);
 }
