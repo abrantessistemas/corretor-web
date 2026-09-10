@@ -1,6 +1,3 @@
-// ==========================================
-// VARIÁVEIS LOCAIS E CONFIGURAÇÕES
-// ==========================================
 :host {
   --card-radius: 16px;
   --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -10,84 +7,40 @@
   padding: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
-  contain: layout style; // Melhora performance de reflow do navegador
+  contain: layout style;
 }
 
 .list-header {
-  margin-bottom: 1.5rem;
-
-  h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    margin: 0 0 0.5rem 0;
-  }
-}
-
-// ==========================================
-// FILTROS (GLASSMORPHISM)
-// ==========================================
-.filter-wrapper {
-  background: rgba(15, 42, 19, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: var(--card-radius);
-  padding: 1.25rem;
   margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  display: flex;
-  flex-direction: column;
-  gap: 1.125rem;
 
-  .filter-row {
+  .header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 55px;
+  }
+
+  .title-group {
     display: flex;
     align-items: center;
-    width: 100%;
+    gap: 0.75rem;
 
-    &.primary-row {
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      .sort-button {
-        background-color: #fff;
-        color: #0f172a;
-        font-weight: 600;
-        border-radius: 8px;
-      }
+    .back-btn {
+      color: #fff;
     }
 
-    &.select-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-  }
-  // Overrides limpos do Angular Material MDC usando M3 CSS Variables
-  .chip-option {
-    background-color: #ffffff;
-    --mdc-chip-label-text-color: #0f172a;
-  
-    &.mat-mdc-chip-selected {
-      --mdc-chip-elevated-container-color: var(--mat-sys-primary, #1976d2);
-      --mdc-chip-selected-chip-label-text-color: #ffffff;
-      --mdc-chip-with-icon-selected-icon-color: #ffffff;
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      margin: 0;
     }
   }
 }
 
-
-.custom-field {
-  width: 100%;
-  --mdc-outlined-text-field-container-color: rgba(255, 255, 255, 0.95);
-  --mdc-outlined-text-field-outline-color: transparent;
-}
-
-// ==========================================
-// GRID E CARDS DE IMÓVEIS
-// ==========================================
 .property-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -117,12 +70,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    will-change: transform;
-    transition: transform var(--transition-fast);
-
-    &:hover {
-      transform: scale(1.03);
-    }
   }
 
   .status-badge {
@@ -143,18 +90,8 @@
     }
 
     &.rent2 {
-      background: #fffb00;
-      color: #000;
-    }
-
-    &.rent3 {
       background: #f59e0b;
       color: #000;
-    }
-
-    &.rent4 {
-      background: #000000;
-      color: #ffffff;
     }
   }
 
@@ -277,7 +214,7 @@
   .empty-icon-container {
     width: 80px;
     height: 80px;
-    background: #f8fafc;
+    background: #fef2f2;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -288,14 +225,22 @@
       font-size: 40px;
       width: 40px;
       height: 40px;
-      color: #94a3b8;
+      color: #ef4444;
     }
+  }
+
+  h2 {
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
   }
 }
 
-// ==========================================
-// ELEMENTOS FIXOS E RODAPÉ
-// ==========================================
 .whatsapp-button {
   position: fixed;
   width: 56px;
@@ -330,21 +275,9 @@
   }
 }
 
-// ==========================================
-// RESPONSIVIDADE
-// ==========================================
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
-  }
-
-  .filter-wrapper .filter-row.primary-row {
-    flex-direction: column;
-    align-items: stretch;
-
-    .sort-button {
-      width: 100%;
-    }
   }
 
   .whatsapp-button {

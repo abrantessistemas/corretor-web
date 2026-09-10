@@ -15,7 +15,8 @@
       <div class="region-chips">
         <mat-chip-listbox class="chip-filter-list">
           @for (zona of zonas; track zona) {
-          <mat-chip-option [selected]="selectedZone() === zona" (selectionChange)="filterByZone(zona)">
+          <mat-chip-option class="chip-option" [selected]="selectedZone() === zona"
+            (selectionChange)="filterByZone(zona)">
             {{ zona }}
           </mat-chip-option>
           }
@@ -31,7 +32,7 @@
     </div>
 
     <div class="filter-row select-row">
-      <mat-form-field appearance="outline" class="custom-field">
+      <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Bairro</mat-label>
         <mat-select [ngModel]="selectedBairro()" (ngModelChange)="selectedBairro.set($event)" name="bairro">
           <mat-option [value]="null">Todos os Bairros</mat-option>
@@ -41,7 +42,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="custom-field">
+      <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Metragem</mat-label>
         <mat-select [ngModel]="selectedMetragem()" (ngModelChange)="selectedMetragem.set($event)" name="metragem">
           <mat-option [value]="null">Todas</mat-option>
@@ -51,7 +52,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="custom-field">
+      <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Dormitórios</mat-label>
         <mat-select [ngModel]="selectedDormitorio()" (ngModelChange)="selectedDormitorio.set($event)" name="dormitorio">
           <mat-option [value]="null">Todos</mat-option>
@@ -81,7 +82,8 @@
         }
 
         <span class="status-badge" [class.rent]="item.status === 'Pronto'"
-          [class.rent2]="item.status !== 'Pronto' && item.status !== 'Lançamento'">
+          [class.rent2]="item.status !== 'Pronto' && item.status !== 'Lançamento'"
+          [class.rent3]="item.status === 'Em Breve'" [class.rent4]="item.status === '100% Vendido'">
           {{ item.status }}
         </span>
 
@@ -102,9 +104,9 @@
           <span class="category">{{ category }}</span>
           }
 
-          <button mat-icon-button [class.is-favorite]="item.favorite" (click)="onToggleFavorite($event, item)"
-            aria-label="Favorito" [matTooltip]="item.favorite ? 'Remover dos favoritos' : 'Guardar nos favoritos'">
-            <mat-icon>{{ item.favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+          <button mat-icon-button [class.is-favorite]="favoriteIds().includes(item.id)"
+            (click)="onToggleFavorite($event, item)" aria-label="Favorito">
+            <mat-icon>{{ favoriteIds().includes(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
           </button>
         </div>
 

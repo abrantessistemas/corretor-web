@@ -33,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: 'favorites',
-    loadComponent: () => import('./pages/properties/property-favorite/property-favorite').then(m => m.PropertyFavoriteComponent),
+    loadComponent: () => import('./pages/properties/favorite-list/favorite-list').then(m => m.FavoriteListComponent),
     data: { animation: 'FavoritesPage' }
   },
   {

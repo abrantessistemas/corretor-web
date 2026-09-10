@@ -116,7 +116,19 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     return url === '/' || url === '/home';
   });
 
-  // Pipeline principal de filtragem e ordenação
+  // 1. Crie um Signal para controlar a lista de IDs favoritados (iniciando com o localStorage)
+  readonly favoriteIds = signal<number[]>(this.getInitialFavorites());
+
+  // Helper para carregar os favoritos iniciais com segurança
+  private getInitialFavorites(): number[] {
+    try {
+      const saved = localStorage.getItem('favoriteProperties');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
   readonly filteredAndSortedProperties = computed(() => {
     const rawList = this.propertyService.properties() ?? [];
     const zone = this.selectedZone();
@@ -125,7 +137,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     const area = this.selectedMetragem();
     const dormitorios = this.selectedDormitorio();
 
-    // Filtro em passagem única (Single Pass Filter) para alta performance
     let list = rawList.filter(item => {
       if (zone && item.location?.regiao !== zone) return false;
       if (bairro && item.location?.bairro !== bairro) return false;
@@ -145,8 +156,38 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       list = [...list].sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
     }
 
+    // Retorna a lista diretamente sem criar cópias com .map()
     return list;
   });
+
+  // Helper para verificar o favorito diretamente no Template
+  isFavorite(propertyId: number): boolean {
+    return this.favoriteIds().includes(propertyId);
+  }
+
+  // 3. Método atualizado para favoritar/desfavoritar e notificar o Signal + localStorage
+  onToggleFavorite(event: Event, item: any): void {
+    event.stopPropagation();
+    const currentFavs = this.favoriteIds();
+    const isFav = currentFavs.includes(item.id);
+
+    let updatedFavs: number[];
+    if (isFav) {
+      updatedFavs = currentFavs.filter(id => id !== item.id);
+    } else {
+      updatedFavs = [...currentFavs, item.id];
+    }
+
+    // Atualiza o Signal para re-computar a interface reativamente
+    this.favoriteIds.set(updatedFavs);
+
+    // Persiste no localStorage
+    try {
+      localStorage.setItem('favoriteProperties', JSON.stringify(updatedFavs));
+    } catch (e) {
+      console.error('Erro ao salvar favoritos no localStorage:', e);
+    }
+  }
 
   // Propriedades do WhatsApp calculadas dinamicamente
   readonly whatsappUrl = computed(() => {
@@ -219,12 +260,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     const message = `Olá, gostaria de mais detalhes sobre o projeto: ${title}`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
-  }
-
-  onToggleFavorite(event: Event, item: any): void {
-    event.stopPropagation();
-    item.favorite = !item.favorite;
-    this.saveFavorite(item.id, item.favorite);
   }
 
   saveFavorite(id: number, favorite: boolean): void {

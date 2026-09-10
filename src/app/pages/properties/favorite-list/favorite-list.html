@@ -1,0 +1,142 @@
+<div class="container">
+
+    <!-- Header da Página -->
+    <header class="list-header">
+        <div class="header-main">
+            <div class="title-group">
+                <button mat-icon-button class="back-btn" (click)="voltarParaBusca()" aria-label="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <h1>Meus Imóveis Favoritos</h1>
+            </div>
+
+            @if (favoriteProperties().length > 0) {
+            <button matFab extended (click)="limparTodos()">
+                <mat-icon>delete_sweep</mat-icon>
+                Limpar Lista
+            </button>
+            }
+        </div>
+    </header>
+
+    @if (loadDetails) {
+    <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
+    }
+
+    <!-- Grid de Imóveis Favoritos -->
+    <div class="property-grid">
+        @for (item of favoriteProperties(); track item.id) {
+        <mat-card class="property-card" appearance="outlined" (click)="verDetalhes(item.id)">
+
+            <div class="card-image-wrapper">
+                @if (item.imagesUrl && item.imagesUrl.length > 0) {
+                <img mat-card-image [src]="item.imagesUrl[0].imagesUrl" [alt]="item.title" loading="lazy"
+                    decoding="async" class="slide-image">
+                }
+
+                <span class="status-badge" [class.rent]="item.status === 'Pronto'"
+                    [class.rent2]="item.status !== 'Pronto' && item.status !== 'Lançamento'">
+                    {{ item.status }}
+                </span>
+
+                @if (item.isPromo) {
+                <div class="promo-ribbon">
+                    <span>PREÇO PROMOCIONAL</span>
+                </div>
+                }
+            </div>
+
+            <mat-card-content>
+                <div class="price-row">
+                    @if (setting.exibirValor) {
+                    <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+                    }
+
+                    @for (category of item.category; track category) {
+                    <span class="category">{{ category }}</span>
+                    }
+
+                    <button mat-icon-button class="is-favorite" (click)="removerFavorito($event, item.id)"
+                        aria-label="Remover Favorito" matTooltip="Remover dos favoritos">
+                        <mat-icon>favorite</mat-icon>
+                    </button>
+                </div>
+
+                <h3 class="title">
+                    <span class="title-text">{{ item.title }}</span>
+                    @if (item.date) {
+                    <mat-chip-set class="inline-chip-set">
+                        <mat-chip class="date-chip">Entrega: {{ item.date | date: 'MM/yyyy' }}</mat-chip>
+                    </mat-chip-set>
+                    }
+                </h3>
+
+                @if (item.location.bairro) {
+                <p class="location">
+                    <mat-icon>place</mat-icon>
+                    {{ item.location.bairro }}
+                </p>
+                }
+
+                <div class="specs">
+                    @if (item.specs.bedrooms) {
+                    <div class="spec-item"><mat-icon>bed</mat-icon><span>{{ item.specs.bedrooms }}</span></div>
+                    }
+                    @if (item.specs.suits) {
+                    <div class="spec-item"><mat-icon>bathtub</mat-icon></div>
+                    }
+                    @if (item.specs.bathrooms) {
+                    <div class="spec-item"><mat-icon>shower</mat-icon></div>
+                    }
+                    @if (item.specs.garden) {
+                    <div class="spec-item"><mat-icon>grass</mat-icon></div>
+                    }
+                    @if (item.specs.balcony) {
+                    <div class="spec-item"><mat-icon>balcony</mat-icon></div>
+                    }
+                    @if (item.specs.parking) {
+                    <div class="spec-item"><mat-icon>directions_car</mat-icon></div>
+                    }
+                    @if (item.specs.pool) {
+                    <div class="spec-item"><mat-icon>pool</mat-icon></div>
+                    }
+                    @if (item.specs.area) {
+                    <div class="spec-item"><mat-icon>square_foot</mat-icon><span>{{ item.specs.area }}m²</span></div>
+                    }
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <button mat-flat-button color="primary"
+                    (click)="$event.stopPropagation(); registrarInteresse(item.title)">
+                    TENHO INTERESSE
+                </button>
+            </mat-card-actions>
+        </mat-card>
+        } @empty {
+        <!-- Empty State específico de Favoritos -->
+        <div class="empty-state">
+            <div class="empty-icon-container">
+                <mat-icon>favorite_border</mat-icon>
+            </div>
+            <h2>Sua lista de favoritos está vazia</h2>
+            <p>Você ainda não guardou nenhum imóvel. Explore nossas opções e clique no coração para salvar aqui.</p>
+            <button mat-flat-button color="primary" (click)="voltarParaBusca()">
+                EXPLORAR IMÓVEIS
+            </button>
+        </div>
+        }
+    </div>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a [href]="whatsappUrl()" class="whatsapp-button" target="_blank" rel="noopener noreferrer"
+        aria-label="Contato via WhatsApp">
+        <i class="fa fa-whatsapp"></i>
+    </a>
+
+    <!-- Rodapé -->
+    <footer class="desktop-footer">
+        Copyright © 2026 {{ propertyService.settings().siteTitle }}. Todos os direitos reservados.
+        <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">Desenvolvido por Abrantes Sistemas</a>.
+    </footer>
+</div>
