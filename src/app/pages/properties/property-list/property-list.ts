@@ -1,89 +1,109 @@
-import { Component, inject, ChangeDetectionStrategy, OnInit, OnDestroy, signal, computed } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PropertyService } from '../../../services/property';
-import { PropertySlide } from '../property-slide/property-slide';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
+    CurrencyPipe,
+    DatePipe,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    CurrencyPipe,
-    DatePipe,
-    PropertySlide,
     MatTooltipModule,
     MatProgressBarModule,
-    DialogModule,
-    MatFormField,
-    MatLabel,
+    MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    DialogModule
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropertyListComponent implements OnInit, OnDestroy {
-  private router = inject(Router);
-  public propertyService = inject(PropertyService);
-  private dialog = inject(Dialog);
+  private readonly router = inject(Router);
+  public readonly propertyService = inject(PropertyService);
+  private readonly dialog = inject(Dialog);
 
-  setting = this.propertyService.settings();
+  // Cache das configurações para evitar re-computações
+  readonly setting = this.propertyService.settings();
 
-  // Filtros em Signals
-  sortOrder = signal<'asc' | 'desc' | null>(null);
-  selectedZone = signal<string | null>(null);
-  selectedBairro = signal<string | null>(null);
-  selectedDormitorio = signal<number | null>(null);
-  selectedMetragem = signal<number | null>(null);
+  // Filtros em Signals leves
+  readonly sortOrder = signal<'asc' | 'desc' | null>(null);
+  readonly selectedZone = signal<string | null>(null);
+  readonly selectedBairro = signal<string | null>(null);
+  readonly selectedDormitorio = signal<number | null>(null);
+  readonly selectedMetragem = signal<number | null>(null);
 
   loadDetails = false;
-  zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
+  readonly zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
 
-  // Carrossel de imagens
-  imageIndexes = signal<{ [key: number]: number }>({});
-  private autoplayIntervalId: any;
+  // Carrossel de imagens com controle de memória otimizado
+  private readonly imageIndexes = signal<Map<number, number>>(new Map());
+  private autoplayIntervalId: ReturnType<typeof setInterval> | null = null;
 
-  // Listas derivadas dinamicamente
-  bairros = computed(() => {
-    const list = this.propertyService.properties() || [];
-    return [...new Set(list.map(p => p.location?.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  // Listas derivadas dinamicamente com filtros seguros
+  readonly bairros = computed(() => {
+    const list = this.propertyService.properties() ?? [];
+    const set = new Set<string>();
+    for (let i = 0; i < list.length; i++) {
+      const b = list[i].location?.bairro;
+      if (b) set.add(b);
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
   });
 
-  metragens = computed(() => {
-    const list = this.propertyService.properties() || [];
-    const areas = list.flatMap(p => Array.isArray(p.specs?.area) ? p.specs.area : [p.specs?.area]).filter(Boolean);
-    return [...new Set(areas)].sort((a, b) => a - b);
+  readonly metragens = computed(() => {
+    const list = this.propertyService.properties() ?? [];
+    const set = new Set<number>();
+    for (let i = 0; i < list.length; i++) {
+      const area = list[i].specs?.area;
+      if (Array.isArray(area)) {
+        area.forEach(a => a && set.add(a));
+      } else if (area) {
+        set.add(area);
+      }
+    }
+    return Array.from(set).sort((a, b) => a - b);
   });
 
-  dormitorios = computed(() => {
-    const list = this.propertyService.properties() || [];
-    const bedrooms = list.map(p => p.specs?.bedrooms).filter(Boolean);
-    return [...new Set(bedrooms)].sort((a, b) => a - b);
+  readonly dormitorios = computed(() => {
+    const list = this.propertyService.properties() ?? [];
+    const set = new Set<number>();
+    for (let i = 0; i < list.length; i++) {
+      const bed = list[i].specs?.bedrooms;
+      if (bed) set.add(bed);
+    }
+    return Array.from(set).sort((a, b) => a - b);
   });
 
-  private urlSignal = toSignal(
+  private readonly urlSignal = toSignal(
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.router.url)
@@ -91,39 +111,49 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     { initialValue: this.router.url }
   );
 
-  isHome = computed(() => this.urlSignal() === '/' || this.urlSignal() === '/home');
+  readonly isHome = computed(() => {
+    const url = this.urlSignal();
+    return url === '/' || url === '/home';
+  });
 
-  filteredAndSortedProperties = computed(() => {
-    let list = [...(this.propertyService.properties() || [])];
+  // Pipeline principal de filtragem e ordenação
+  readonly filteredAndSortedProperties = computed(() => {
+    const rawList = this.propertyService.properties() ?? [];
     const zone = this.selectedZone();
     const order = this.sortOrder();
     const bairro = this.selectedBairro();
     const area = this.selectedMetragem();
     const dormitorios = this.selectedDormitorio();
 
-    if (zone) {
-      list = list.filter(item => item.location?.regiao === zone);
-    }
-
-    if (bairro) {
-      list = list.filter(item => item.location?.bairro === bairro);
-    }
-
-    if (area) {
-      list = list.filter(item =>
-        Array.isArray(item.specs?.area) ? item.specs.area.includes(area) : item.specs?.area === area
-      );
-    }
-
-    if (dormitorios) {
-      list = list.filter(item => item.specs?.bedrooms === dormitorios);
-    }
+    // Filtro em passagem única (Single Pass Filter) para alta performance
+    let list = rawList.filter(item => {
+      if (zone && item.location?.regiao !== zone) return false;
+      if (bairro && item.location?.bairro !== bairro) return false;
+      if (dormitorios && item.specs?.bedrooms !== dormitorios) return false;
+      if (area) {
+        const itemArea = item.specs?.area;
+        if (Array.isArray(itemArea)) {
+          if (!itemArea.includes(area)) return false;
+        } else if (itemArea !== area) {
+          return false;
+        }
+      }
+      return true;
+    });
 
     if (order) {
-      list.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+      list = [...list].sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
     }
 
     return list;
+  });
+
+  // Propriedades do WhatsApp calculadas dinamicamente
+  readonly whatsappUrl = computed(() => {
+    const config = this.setting?.whatsappConfig;
+    const phone = config?.whatsappNumber || '';
+    const msg = config?.whatsappMessage || 'Olá! Gostaria de obter mais informações';
+    return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
   });
 
   ngOnInit(): void {
@@ -131,34 +161,39 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.autoplayIntervalId) {
-      clearInterval(this.autoplayIntervalId);
-    }
+    this.stopImageAutoplay();
   }
 
+  // Timer otimizado: Roda apenas nos itens filtrados/visíveis no DOM
   private startImageAutoplay(): void {
     this.autoplayIntervalId = setInterval(() => {
-      const currentProperties = this.propertyService.properties() || [];
-      this.imageIndexes.update(indexes => {
-        const updatedIndexes = { ...indexes };
+      const visibleItems = this.filteredAndSortedProperties();
+      if (!visibleItems.length) return;
 
-        currentProperties.forEach(item => {
+      this.imageIndexes.update(map => {
+        const nextMap = new Map(map);
+        for (let i = 0; i < visibleItems.length; i++) {
+          const item = visibleItems[i];
           const totalImages = item.imagesUrl?.length || 0;
           if (totalImages > 1) {
-            const currentIndex = updatedIndexes[item.id] || 0;
-            updatedIndexes[item.id] = (currentIndex + 1) % totalImages;
-          } else {
-            updatedIndexes[item.id] = 0;
+            const currentIdx = nextMap.get(item.id) || 0;
+            nextMap.set(item.id, (currentIdx + 1) % totalImages);
           }
-        });
-
-        return updatedIndexes;
+        }
+        return nextMap;
       });
     }, 4000);
   }
 
+  private stopImageAutoplay(): void {
+    if (this.autoplayIntervalId) {
+      clearInterval(this.autoplayIntervalId);
+      this.autoplayIntervalId = null;
+    }
+  }
+
   getActiveIndex(propertyId: number): number {
-    return this.imageIndexes()[propertyId] || 0;
+    return this.imageIndexes().get(propertyId) || 0;
   }
 
   toggleSort(): void {
@@ -179,41 +214,37 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   registrarInteresse(title: string): void {
-    const config = this.propertyService.settings().whatsappConfig;
+    const config = this.setting?.whatsappConfig;
     const phone = config?.whatsappNumber || '';
     const message = `Olá, gostaria de mais detalhes sobre o projeto: ${title}`;
-    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
+
+  onToggleFavorite(event: Event, item: any): void {
+    event.stopPropagation();
+    item.favorite = !item.favorite;
+    this.saveFavorite(item.id, item.favorite);
+  }
+
   saveFavorite(id: number, favorite: boolean): void {
-    // 1. Obtém a lista atual de favoritos do localStorage
-    const savedFavorites = localStorage.getItem('favoriteProperties');
+    try {
+      const savedFavorites = localStorage.getItem('favoriteProperties');
+      let favoritesList: number[] = savedFavorites ? JSON.parse(savedFavorites) : [];
 
-    // 2. Converte para array de números (ou cria um array vazio se não existir)
-    let favoritesList: number[] = savedFavorites ? JSON.parse(savedFavorites) : [];
-
-    if (favorite) {
-      // 3. Adiciona o ID se ainda não estiver na lista
-      if (!favoritesList.includes(id)) {
-        favoritesList.push(id);
+      if (favorite) {
+        if (!favoritesList.includes(id)) favoritesList.push(id);
+      } else {
+        favoritesList = favoritesList.filter(favId => favId !== id);
       }
-    } else {
-      // 4. Remove o ID se o usuário desmarcar o favorito
-      favoritesList = favoritesList.filter(favId => favId !== id);
-    }
 
-    // 5. Salva a lista atualizada de volta no localStorage
-    localStorage.setItem('favoriteProperties', JSON.stringify(favoritesList));
+      localStorage.setItem('favoriteProperties', JSON.stringify(favoritesList));
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+    }
   }
 
-  whatappNumber = this.propertyService.settings().whatsappConfig.whatsappNumber || '';
-  whatsappMensagem = this.propertyService.settings().whatsappConfig.whatsappMessage || 'Olá! Gostaria de obter mais informações';
-  whatsappContactName = this.propertyService.settings().whatsappConfig.whatsappContactName || 'Contato';
-
-  whatsappUrl = `https://wa.me/${this.whatappNumber}?text=${encodeURIComponent(this.whatsappMensagem)}`;
-
-
-  openWhatspp() {
-    window.open(this.whatsappUrl, '_blank');
+  openWhatspp(): void {
+    window.open(this.whatsappUrl(), '_blank', 'noopener,noreferrer');
   }
 }

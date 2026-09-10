@@ -1,77 +1,45 @@
+// ==========================================
+// VARIÁVEIS LOCAIS E CONFIGURAÇÕES
+// ==========================================
+:host {
+  --card-radius: 16px;
+  --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .container {
-  padding: 24px;
+  padding: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
+  contain: layout style; // Melhora performance de reflow do navegador
 }
 
 .list-header {
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 
   h1 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #fff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    margin: 0 0 8px 0;
-  }
-
-  p {
-    color: #e2e8f0;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-    margin: 0;
-    font-size: 1.1rem;
-  }
-}
-
-/* Estilização e correção de cor de fundo dos Chips (Material 3) */
-.mat-mdc-chip-option {
-  // Cor do chip quando NÃO selecionado
-  --mdc-chip-elevated-container-color: #ffffff;
-  --mdc-chip-flat-container-color: #ffffff;
-  background-color: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.12) !important;
-
-  // Cor do texto quando NÃO selecionado
-  .mdc-evolution-chip__text-label {
-    color: #0f172a !important;
-    font-weight: 600;
-  }
-
-  // Estado Focado/Hover
-  &.mat-mdc-chip-focused {
-    outline: 2px solid var(--primary-color) !important;
-  }
-
-  // Cor do chip quando SELECIONADO
-  &.mat-mdc-chip-selected {
-    --mdc-chip-elevated-container-color: var(--primary-color) !important;
-    --mdc-chip-flat-container-color: var(--primary-color) !important;
-    background-color: var(--primary-color) !important;
-
-    // Cor do texto e ícones quando selecionado
-    .mdc-evolution-chip__text-label,
-    .mat-mdc-chip-selected-indicator,
-    .mat-icon {
-      color: #ffffff !important;
-    }
+    margin: 0 0 0.5rem 0;
   }
 }
 
 // ==========================================
-// CONTAINER DE FILTROS (GLASSMORPHISM)
+// FILTROS (GLASSMORPHISM)
 // ==========================================
 .filter-wrapper {
-  background: rgba(15, 42, 19, 0.45);
+  background: rgba(15, 42, 19, 0.55);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-radius: var(--card-radius);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 
   .filter-row {
     display: flex;
@@ -81,67 +49,40 @@
     &.primary-row {
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
-
-      .region-chips {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-
-        .filter-label {
-          color: #ffffff;
-          font-weight: 600;
-          font-size: 0.95rem;
-          white-space: nowrap;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-      }
+      gap: 1rem;
 
       .sort-button {
-        background-color: #ffffff !important;
-        color: #0f172a !important;
+        background-color: #fff;
+        color: #0f172a;
         font-weight: 600;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-        mat-icon {
-          color: #0f172a !important;
-        }
-
-        &:hover {
-          background-color: #f1f5f9 !important;
-        }
       }
     }
 
     &.select-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
     }
   }
 }
 
-// Customização dos Campos Material
-.custom-dark-field {
+// Overrides limpos do Angular Material MDC usando M3 CSS Variables
+mat-chip-option {
+  --mdc-chip-elevated-container-color: #ffffff;
+  --mdc-chip-label-text-color: #0f172a;
+
+  &.mat-mdc-chip-selected {
+    --mdc-chip-elevated-container-color: var(--mat-sys-primary, #1976d2);
+    --mdc-chip-selected-chip-label-text-color: #ffffff;
+    --mdc-chip-with-icon-selected-icon-color: #ffffff;
+  }
+}
+
+.custom-field {
   width: 100%;
-
-  .mat-mdc-text-field-wrapper {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    border-radius: 8px !important;
-  }
-
-  .mdc-floating-label {
-    color: #334155 !important;
-    font-weight: 600;
-  }
-
-  .mat-mdc-select-value-text,
-  .mat-mdc-select-arrow {
-    color: #0f172a !important;
-    font-weight: 500;
-  }
+  --mdc-outlined-text-field-container-color: rgba(255, 255, 255, 0.95);
+  --mdc-outlined-text-field-outline-color: transparent;
 }
 
 // ==========================================
@@ -149,46 +90,38 @@
 // ==========================================
 .property-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.75rem;
 }
 
 .property-card {
-  border-radius: 16px !important;
+  border-radius: var(--card-radius);
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #acacac !important;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: #fff;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-6px);
+    box-shadow: 0 16px 24px -4px rgba(0, 0, 0, 0.15);
   }
 }
 
 .card-image-wrapper {
   position: relative;
   height: 220px;
-  overflow: hidden;
   background-color: #f1f5f9;
+  overflow: hidden;
 
   .slide-image {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    transform: scale(1);
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
+    will-change: transform;
+    transition: transform var(--transition-fast);
 
-    &.active {
-      opacity: 1;
-      transform: scale(1.05);
-      z-index: 2;
+    &:hover {
+      transform: scale(1.03);
     }
   }
 
@@ -196,23 +129,22 @@
     position: absolute;
     top: 12px;
     right: 12px;
-    padding: 6px 14px;
-    border-radius: 30px;
+    padding: 4px 12px;
+    border-radius: 20px;
     background: #3f51b5;
-    color: #ffffff;
-    font-size: 11px;
+    color: #fff;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 5;
+    z-index: 2;
 
     &.rent {
       background: #10b981;
     }
 
     &.rent2 {
-      background: #e5f506;
-      color: #000000;
+      background: #f59e0b;
+      color: #000;
     }
   }
 
@@ -220,26 +152,25 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     overflow: hidden;
     pointer-events: none;
-    z-index: 5;
+    z-index: 2;
 
     span {
       position: absolute;
       display: block;
-      width: 225px;
-      padding: 8px 0;
+      width: 180px;
+      padding: 6px 0;
       background-color: #ffd600;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-      color: #000000;
-      font-size: 12px;
+      color: #000;
+      font-size: 0.65rem;
       font-weight: 800;
       text-transform: uppercase;
       text-align: center;
-      left: -50px;
-      top: 30px;
+      left: -40px;
+      top: 24px;
       transform: rotate(-45deg);
     }
   }
@@ -249,74 +180,79 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 1rem;
 
   .price {
     color: #1a237e;
-    font-weight: 900;
-    font-size: 1.6rem;
+    font-weight: 800;
+    font-size: 1.5rem;
     margin: 0;
+  }
+
+  button.is-favorite {
+    color: #ef4444;
   }
 }
 
 .title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin: 12px 0 8px;
+  margin: 0.75rem 0 0.5rem;
   color: #1e293b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+
+  .title-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .location {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   color: #64748b;
-  font-size: 0.95rem;
-  margin-bottom: 16px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 
   mat-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: #94a3b8;
   }
 }
 
 .category {
-  font-weight: bold;
-  border-radius: 50px;
-  padding: 6px 12px;
-  color: #ffffff;
-  background-color: var(--mat-sys-primary);
-  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 4px 10px;
+  color: #fff;
+  background-color: var(--mat-sys-primary, #1976d2);
+  font-size: 0.75rem;
 }
 
 .specs {
   display: flex;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 1rem;
   border-top: 1px solid #f1f5f9;
 
   .spec-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     color: #475569;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
 
     mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-      color: var(--mat-sys-primary);
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--mat-sys-primary, #1976d2);
     }
   }
 }
@@ -324,125 +260,85 @@
 .empty-state {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 80px 40px;
+  padding: 4rem 2rem;
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-  border: 2px dashed var(--mat-sys-primary);
+  border-radius: var(--card-radius);
 
   .empty-icon-container {
-    width: 100px;
-    height: 100px;
-    background: #ffffff;
+    width: 80px;
+    height: 80px;
+    background: #f8fafc;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 24px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    margin: 0 auto 1.5rem;
 
     mat-icon {
-      font-size: 48px;
-      width: 48px;
-      height: 48px;
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
       color: #94a3b8;
     }
   }
-
-  h2 {
-    color: #1e293b;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-}
-
-.progress-bar-details-load {
-  margin: 10px 0 15px;
 }
 
 // ==========================================
-// BOTÃO WHATSAPP E RODAPÉ
+// ELEMENTOS FIXOS E RODAPÉ
 // ==========================================
 .whatsapp-button {
   position: fixed;
-  width: 60px;
-  height: 60px;
-  right: 30px;
-  bottom: 30px;
+  width: 56px;
+  height: 56px;
+  right: 24px;
+  bottom: 24px;
   background-color: #25d366;
-  color: #ffffff;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 28px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 100;
+  transition: transform var(--transition-fast);
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    color: #ffffff;
+    transform: scale(1.08);
   }
 }
 
 .desktop-footer {
-  padding: 24px 0;
+  padding: 2rem 0;
   text-align: center;
-  color: var(--mat-sys-on-surface);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: #64748b;
 
   a {
-    color: var(--mat-sys-primary);
-    text-decoration: none;
-    font-weight: bold;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    color: var(--mat-sys-primary, #1976d2);
+    font-weight: 600;
   }
 }
 
 // ==========================================
 // RESPONSIVIDADE
 // ==========================================
-@media (max-width: 900px) {
-  .filter-wrapper .filter-row.select-row {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 768px) {
   .container {
-    padding: 16px;
-  }
-
-  .list-header {
-    text-align: center;
+    padding: 1rem;
   }
 
   .filter-wrapper .filter-row.primary-row {
     flex-direction: column;
     align-items: stretch;
 
-    .region-chips {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
     .sort-button {
       width: 100%;
     }
   }
 
-  .property-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
   .whatsapp-button {
-    right: 20px;
-    bottom: 80px; // Evita sobrepor a bottom-nav mobile fixa
+    right: 16px;
+    bottom: 72px;
   }
 }
