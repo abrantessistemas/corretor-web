@@ -96,6 +96,13 @@ export interface endereco {
   cep: string;
   regiao: 'Zona Oeste' | 'Zona Norte' | 'Zona Leste' | 'Zona Sul' | 'Centro';
 }
+
+export interface MensagemPadrao {
+  id: number;
+  titulo: string;
+  mensagem: string;
+}
+
 /**
  * Interface para as definições globais do site
  */
@@ -3088,6 +3095,63 @@ export class PropertyService {
   // Expõe a lista como um sinal de apenas leitura para os componentes
   properties = this.propertiesList.asReadonly();
 
+  private readonly mensagensPadraoList = signal<MensagemPadrao[]>(
+    [
+      {
+        id: 1,
+        titulo: 'Eu e a Conx',
+        mensagem: 'tudo bem com você?\n' +
+          'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
+          'Eu e a Conx temos condições especiais para você e sua familia.\n' +
+          'Apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Em qual região você esta buscando hoje?\n' +
+          'Digite (sair) caso não queira receber mais mensagens.'
+      },
+      {
+        id: 2,
+        titulo: 'Você esteve buscando',
+        mensagem: 'tudo bem com você?\n\n' +
+          'Meu nome é Adriano Abrantes sou consultor imobiliário.\n' +
+          'Você esteve buscando por apartamento na planta recentemente.\n' +
+          'Você já fechou com alguem ou ainda esta buscando?\n' +
+          'Facilitamos na entrada durante as obras.\n O financiamento você começa a pagar na entrega da chave.\n' +
+          'Saia do aluguel em alguns meses com seu apartamento novo.\n' +
+          'Digite (sair) para não receber mais mensagens.',
+      },
+      {
+        id: 3,
+        titulo: 'Estamos participando',
+        mensagem: 'tudo bem com você?\n' +
+          'Aqui é o Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
+          'Estamos participando de um grande feirão de imoveis junto com a caixa economica federal.\n' +
+          'Imóveis 100% financiados pelo programa minha casa minha vida.\n' +
+          'Gostaria de convidar você para conhecer nossos projetos estamos por toda a cidade de São Paulo.\n' +
+          'Voce pode me informar em qual região você esta buscando seu apartamento novo?\n' +
+          'Digite (sair) para não receber mais mensagens.',
+      },
+      {
+        id: 4,
+        titulo: 'Você tem um cadastro',
+        mensagem: 'tudo bem com você?\n' +
+          'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
+          'Você tem um cadastro com a gente com interesse em apartamento na planta\nVocê ainda esta buscando?\n' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Em qual região você gostaria de morar?\n' +
+          'caso não queira receber mais mensagens digite (sair).',
+      },
+      {
+        id: 5,
+        titulo: 'Voce esta buscando por',
+        mensagem: 'tudo bem com você?\n' +
+          'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
+          'Você esta buscando por apartamento na planta para moradia ou investimento?\nVocê ainda esta buscando?\n' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      }
+    ]);
+
+    mensagensPadrao = this.mensagensPadraoList.asReadonly();
 
   get backgroundImageUrl() {
     return this.settings().backgroundImageUrl;
