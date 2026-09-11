@@ -57,5 +57,11 @@
     </a>
     }
     }
+    @if(isBroker()){
+    <button mat-mini-fab matTooltip="Login" style="margin-right: 3px;" aria-label="Login"
+      (click)="handleMenuClick(menuItems()[8], $event)">
+      <mat-icon>person</mat-icon>
+    </button>
+    }
   </nav>
 </div>
