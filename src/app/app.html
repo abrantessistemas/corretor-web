@@ -1,23 +1,17 @@
 <div class="app-shell">
   <!-- Imagem de Fundo do Header -->
-  <img 
-    [src]="imageBackgroundUrl" 
-    alt="Background Header"
-    class="header-bg-img">
+  <img [src]="imageBackgroundUrl" alt="Background Header" class="header-bg-img">
 
   <!-- Navegação Superior (Desktop) -->
   <mat-toolbar class="top-nav mat-elevation-z0">
     <div class="toolbar-container">
-      
+
       <!-- Logo / Marca -->
       <div class="brand" routerLink="/">
         @if (logoSetting()[0].imagesUrl) {
-          <img 
-            [src]="logoSetting()[0].imagesUrl" 
-            [alt]="logoSetting()[0].description || 'Logo'" 
-            class="logo-img">
+        <img [src]="logoSetting()[0].imagesUrl" [alt]="logoSetting()[0].description || 'Logo'" class="logo-img">
         }
-        
+
         <span class="logo-text">
           {{ propertyService.settings().siteTitle.substring(0, 18).toUpperCase() }}
         </span>
@@ -26,19 +20,25 @@
       <!-- Menu Desktop -->
       <div class="desktop-menu">
         @for (item of menuItems(); track item.path) {
-          @if (item.enable) {
-            <a matFab extended [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
-              <mat-icon>{{ item.icon }}</mat-icon>
-              <span>{{ item.label }}</span>
-            </a>
-          }
+        @if (item.enable) {
+        <a matFab extended [routerLink]="item.path" routerLinkActive="active-link" class="nav-link">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
         }
-        
+        }
+
+        @if(isBroker()){
+        <button mat-mini-fab matTooltip="Login" style="margin-right: 3px;" aria-label="Login"
+          (click)="handleMenuClick(menuItems()[8], $event)">
+          <mat-icon>person</mat-icon>
+        </button>
+        }
+
         <button mat-mini-fab matTooltip="Compartilhar" aria-label="Compartilhar">
           <mat-icon>share</mat-icon>
         </button>
       </div>
-
     </div>
   </mat-toolbar>
 
@@ -50,12 +50,12 @@
   <!-- Navegação Inferior (Mobile) -->
   <nav class="bottom-nav">
     @for (item of menuItems(); track item.path) {
-      @if (item.enable) {
-        <a [routerLink]="item.path" routerLinkActive="active-mobile" matRipple class="mobile-nav-item">
-          <mat-icon>{{ item.icon }}</mat-icon>
-          <span>{{ item.label }}</span>
-        </a>
-      }
+    @if (item.enable) {
+    <a [routerLink]="item.path" routerLinkActive="active-mobile" matRipple class="mobile-nav-item">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
+    }
     }
   </nav>
 </div>

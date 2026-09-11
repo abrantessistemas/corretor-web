@@ -1,7 +1,7 @@
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PropertyService } from './services/property';
 import { MatTooltip } from "@angular/material/tooltip";
+import { LoginDialogComponent } from './pages/login/login-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 /**
  * Definição da animação de transição entre páginas
@@ -50,8 +52,9 @@ const slideInAnimation = trigger('routeAnimations', [
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
-    MatTooltip
-],
+    MatTooltip,
+    MatDialogModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   animations: [slideInAnimation]
@@ -71,14 +74,49 @@ export class App {
     { path: '/oferta', label: 'Oferta Ativa', icon: 'check', enable: false }
   ]);
 
+  private dialog = inject(MatDialog);
+  private router = inject(Router);
   public propertyService = inject(PropertyService);
 
   imageBackgroundUrl = this.propertyService.backgroundImageUrl;
   logoSetting = signal(this.propertyService.settings().logo);
+  isBroker = signal(false);
 
-  /**
-   * Prepara os dados da rota para a animação
-   */
+  ngOnInit() {
+    // Verifica no localStorage se isBroker é 'true' ao carregar a página
+    const brokerValue = localStorage.getItem('isBroker');
+    if (brokerValue === 'true') {
+      this.isBroker.set(true);
+    }
+  }
+
+  handleMenuClick(item: any, event: Event) {
+    event.preventDefault(); // Impede a navegação padrão
+    this.openLoginDialog();
+    this.isBroker.set(false);
+  }
+
+  openLoginDialog() {
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
+      width: '380px'
+    });
+
+    dialogRef.afterClosed().subscribe((isLoggedSuccess) => {
+      if (isLoggedSuccess) {
+        // Ativa as rotas 'Simulador' (/payment) e 'Oferta Ativa' (/oferta)
+        this.menuItems.update(items =>
+          items.map(item => {
+            if (item.path === '/payment' || item.path === '/oferta') {
+              this.router.navigate(['/payment']);
+              return { ...item, enable: true };
+            }
+            return item;
+          })
+        );
+      }
+    });
+  }
+
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
