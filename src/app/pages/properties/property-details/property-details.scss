@@ -9,13 +9,13 @@
     position: relative;
 }
 
-// Background Image Hero
+// Background Hero
 .hero-bg-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 460px;
+    height: 420px;
     z-index: 0;
     overflow: hidden;
 
@@ -23,8 +23,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: brightness(0.4);
-        will-change: transform;
+        filter: brightness(0.35);
     }
 }
 
@@ -32,32 +31,35 @@
     position: relative;
     z-index: 1;
     max-width: 1400px;
-    width: 90%;
+    width: 92%;
     margin: 0 auto;
-    padding: 1.25rem;
+    padding: 1rem 0;
 }
 
 // Topbar Mobile / Nav
 .top-nav {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-top: 3.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 
     .nav-btn {
         background: #fff;
-        opacity: 0.9;
+        opacity: 0.95;
+        flex-shrink: 0;
         transition: transform var(--transition-normal);
 
         &:hover {
             transform: scale(1.05);
-            background: #f1f5f9;
         }
     }
 
     .project-header-mobile {
+        min-width: 0;
+
         .status-tag {
+            display: inline-block;
             background: var(--primary);
             color: #fff;
             padding: 2px 8px;
@@ -68,9 +70,12 @@
         }
 
         h2 {
-            margin: 0;
-            font-size: 1.2rem;
+            margin: 2px 0 0;
+            font-size: 1.15rem;
             color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 }
@@ -78,14 +83,9 @@
 // Grid principal
 .content-grid {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 2.5rem;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
     align-items: start;
-
-    @media (max-width: 992px) {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
 }
 
 .gallery-column {
@@ -100,14 +100,14 @@
         position: absolute;
         top: 12px;
         left: 12px;
-        width: 8%;
-        min-width: 48px;
+        width: 48px;
+        height: auto;
         z-index: 10;
         pointer-events: none;
     }
 }
 
-// Visualizadores de Plantas e Implantação
+// Visualizadores
 .main-viewer,
 .main-viewer-implantacao {
     position: relative;
@@ -130,45 +130,45 @@
     }
 
     &:hover img {
-        transform: scale(1.04);
+        transform: scale(1.03);
     }
 
     .planta-label {
         position: absolute;
-        bottom: 16px;
-        left: 16px;
+        bottom: 12px;
+        left: 12px;
         background: rgba(15, 23, 42, 0.85);
         color: #fff;
-        padding: 6px 14px;
+        padding: 6px 12px;
         border-radius: 30px;
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 0.8rem;
+        gap: 6px;
+        font-size: 0.75rem;
         backdrop-filter: blur(8px);
 
         mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
         }
     }
 }
 
 .main-viewer-implantacao {
-    height: auto;
-    max-height: 60vh;
+    aspect-ratio: 16 / 9;
+    max-height: 500px;
 }
 
-// Carrossel Thumbnails
+// Thumbnails
 .planta-selector-wrapper {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
 
     h3 {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #64748b;
         font-weight: 700;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -177,20 +177,21 @@
     gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
 
     .planta-thumb-card {
-        flex: 0 0 120px;
+        flex: 0 0 110px;
         cursor: pointer;
         background: #fff;
         border: 2px solid transparent;
         border-radius: 12px;
-        padding: 8px;
-        transition: border-color var(--transition-normal), background var(--transition-normal);
+        padding: 6px;
+        transition: border-color var(--transition-normal);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 
         .img-box {
-            height: 60px;
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -203,39 +204,39 @@
         }
 
         .thumb-info {
-            margin-top: 6px;
+            margin-top: 4px;
             text-align: center;
 
             .area {
                 display: block;
                 font-weight: 800;
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
 
             .type {
                 font-size: 0.65rem;
                 color: #94a3b8;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
             }
         }
 
         &.active {
             border-color: var(--primary);
-            background: #f1f5f9;
+            background: #f8fafc;
         }
     }
 }
 
-// Coluna de Informações
+// Info Column
 .info-column .desktop-header {
-    @media (max-width: 992px) {
-        display: none;
-    }
-
     h1 {
-        font-size: 2.25rem;
+        font-size: 2rem;
         font-weight: 900;
-        line-height: 1.15;
-        margin: 12px 0;
+        line-height: 1.2;
+        margin: 8px 0;
         color: #fff;
     }
 
@@ -248,8 +249,8 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        font-size: 0.9rem;
-        margin-top: 8px;
+        font-size: 0.875rem;
+        margin-top: 6px;
     }
 }
 
@@ -257,25 +258,25 @@
 .pricing-card {
     background: #fff;
     border-radius: var(--card-radius);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
+    padding: 1.25rem;
+    margin: 1.25rem 0;
     border: 1px solid var(--border);
 
     .main-price {
-        font-size: 2rem;
+        font-size: 1.85rem;
         font-weight: 900;
         color: var(--primary);
-        margin: 4px 0;
+        margin: 2px 0;
     }
 
     .old-price {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
         color: #94a3b8;
         text-decoration: line-through;
     }
 
     .label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         color: #64748b;
@@ -285,8 +286,8 @@
     .unit-status {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-top: 1rem;
+        gap: 6px;
+        margin-top: 0.75rem;
         font-size: 0.8rem;
         font-weight: 600;
         color: #16a34a;
@@ -302,31 +303,31 @@
 // Especificações Grid
 .specs-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 
     .spec-tile {
         background: #fff;
         border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1rem;
+        border-radius: 12px;
+        padding: 0.75rem 0.5rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
 
         mat-icon {
-            color: var(--mat-sys-primary);
-            margin-bottom: 4px;
+            color: var(--mat-sys-primary, #1976d2);
+            margin-bottom: 2px;
         }
 
         strong {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         span {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #94a3b8;
             text-transform: uppercase;
             font-weight: 700;
@@ -343,12 +344,14 @@
     .main-cta {
         background: var(--accent) !important;
         color: #fff !important;
+        padding: 1.25rem;
+        font-weight: 700;
     }
 }
 
 // Abas de Conteúdo
 .extra-tabs {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     background: #fff;
     border-radius: var(--card-radius);
     border: 1px solid var(--border);
@@ -356,48 +359,55 @@
 }
 
 .tab-content {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 0.5rem;
 }
 
 .feature-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
 
     .feature-item {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
+        font-size: 0.9rem;
         font-weight: 500;
         color: #334155;
 
         .icon-accent {
             color: var(--accent);
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
         }
     }
 }
 
 .amenities-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
 
     .amenity-card {
         background: var(--surface);
-        padding: 1.25rem 0.5rem;
-        border-radius: 14px;
+        padding: 1rem 0.5rem;
+        border-radius: 12px;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
 
         .icon-star {
             color: #eab308;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
         }
 
         span {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
     }
@@ -411,11 +421,11 @@
 
 // Utilitários
 .my-4 {
-    margin: 1.5rem 0;
+    margin: 1.25rem 0;
 }
 
 .my-8 {
-    margin: 2.5rem 0;
+    margin: 2rem 0;
 }
 
 .custom-chip,
@@ -423,13 +433,35 @@
     background-color: #fff !important;
 }
 
+// RESPONSIVIDADE (Breakpoints)
+@media (max-width: 992px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .info-column .desktop-header {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
+    .hero-bg-wrapper {
+        height: 320px;
+    }
+
     .details-container {
         width: 100%;
-        padding: 1rem;
+        padding: 0.75rem;
     }
 
     .main-viewer {
-        border-radius: 0;
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
+    }
+
+    .main-viewer-implantacao {
+        aspect-ratio: 4 / 3;
+        border-radius: 12px;
     }
 }

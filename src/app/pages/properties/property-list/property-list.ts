@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { DialogModule } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -21,10 +21,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+// Swiper Web Components Registration
 import { register } from 'swiper/element/bundle';
 import { PropertyService } from '../../../services/property';
 
-// Registrar Swiper Web Components
 register();
 
 @Component({
@@ -52,12 +53,11 @@ register();
 export class PropertyListComponent {
   private readonly router = inject(Router);
   public readonly propertyService = inject(PropertyService);
-  private readonly dialog = inject(Dialog);
 
-  // Cache das configurações do sistema
+  // Cache das configurações para evitar re-computações
   readonly setting = this.propertyService.settings();
 
-  // Filtros em Signals
+  // Filtros em Signals leves
   readonly sortOrder = signal<'asc' | 'desc' | null>(null);
   readonly selectedZone = signal<string | null>(null);
   readonly selectedBairro = signal<string | null>(null);
@@ -115,9 +115,10 @@ export class PropertyListComponent {
     return url === '/' || url === '/home';
   });
 
-  // Signal dos Favoritos
+  // Signal para controlar a lista de IDs favoritados (iniciando com o localStorage)
   readonly favoriteIds = signal<number[]>(this.getInitialFavorites());
 
+  // Helper para carregar os favoritos iniciais com segurança
   private getInitialFavorites(): number[] {
     try {
       const saved = localStorage.getItem('favoriteProperties');
@@ -157,18 +158,23 @@ export class PropertyListComponent {
     return list;
   });
 
+  // Helper para verificar o favorito
   isFavorite(propertyId: number): boolean {
     return this.favoriteIds().includes(propertyId);
   }
 
+  // Alterna o estado de favoritar
   onToggleFavorite(event: Event, item: any): void {
     event.stopPropagation();
     const currentFavs = this.favoriteIds();
     const isFav = currentFavs.includes(item.id);
 
-    const updatedFavs = isFav
-      ? currentFavs.filter(id => id !== item.id)
-      : [...currentFavs, item.id];
+    let updatedFavs: number[];
+    if (isFav) {
+      updatedFavs = currentFavs.filter(id => id !== item.id);
+    } else {
+      updatedFavs = [...currentFavs, item.id];
+    }
 
     this.favoriteIds.set(updatedFavs);
 
@@ -179,7 +185,7 @@ export class PropertyListComponent {
     }
   }
 
-  // URL do WhatsApp calculada dinamicamente
+  // Propriedades do WhatsApp calculadas dinamicamente
   readonly whatsappUrl = computed(() => {
     const config = this.setting?.whatsappConfig;
     const phone = config?.whatsappNumber || '';

@@ -1,5 +1,14 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, Inject, computed, inject, input, signal, CUSTOM_ELEMENTS_SCHEMA, effect } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Inject,
+  computed,
+  inject,
+  input,
+  signal,
+  effect
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 // Angular Material
@@ -11,20 +20,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-// Swiper Registration
-import { register } from 'swiper/element/bundle';
-
 // Services & Interfaces
 import { Implantacao, Planta, Property, PropertyService } from '../../../services/property';
-
-// Registrar Swiper Web Components
-register();
 
 @Component({
   selector: 'app-property-details',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CurrencyPipe,
     DatePipe,
@@ -71,18 +73,8 @@ export class PropertyDetailsComponent {
       }
 
       this.property.set(found);
-
-      if (found.planta?.length) {
-        this.selectedPlanta.set(found.planta[0]);
-      } else {
-        this.selectedPlanta.set(null);
-      }
-
-      if (found.imagesUrl?.length) {
-        this.selectedImplantacao.set(found.imagesUrl[0]);
-      } else {
-        this.selectedImplantacao.set(null);
-      }
+      this.selectedPlanta.set(found.planta?.[0] ?? null);
+      this.selectedImplantacao.set(found.imagesUrl?.[0] ?? null);
     });
   }
 
@@ -154,7 +146,7 @@ export class PropertyDetailsComponent {
 }
 
 /**
- * Componente do Dialog de Imagem Expandida
+ * Componente do Dialog de Imagem Expandida (Lazy Load / Dialog Leve)
  */
 @Component({
   standalone: true,
@@ -177,10 +169,12 @@ export class PropertyDetailsComponent {
       height: 100vh;
       cursor: zoom-out;
       position: relative;
+      padding: 1rem;
+      box-sizing: border-box;
     }
 
     img {
-      max-width: 90vw;
+      max-width: 95vw;
       max-height: 85vh;
       object-fit: contain;
       border-radius: 8px;
@@ -188,7 +182,7 @@ export class PropertyDetailsComponent {
     }
 
     .close-float-btn {
-      margin-top: 1.25rem;
+      margin-top: 1rem;
       border-radius: 20px;
       font-weight: 700;
     }

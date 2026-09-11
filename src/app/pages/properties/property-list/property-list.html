@@ -66,8 +66,9 @@
       <div class="card-image-wrapper">
         <!-- Swiper Slider de Imagens -->
         @if (item.imagesUrl && item.imagesUrl.length > 0) {
-        <swiper-container autoplay="true" autoplay-delay="3000" autoplay-disable-on-interaction="false" loop="true"
-          pagination="true" inject-styles="[':host .swiper-pagination-bullet-active { background-color: #ffd600; }']">
+        <swiper-container autoplay="true" effect="fade" autoplay-delay="4000" autoplay-disable-on-interaction="false"
+          loop="true" pagination="false"
+          inject-styles="[':host .swiper-pagination-bullet-active { background-color: #ffd600; }']">
 
           @for (img of item.imagesUrl; track img.imagesUrl) {
           <swiper-slide>
@@ -78,7 +79,7 @@
         </swiper-container>
         }
 
-        <!-- Elementos de Status e Promoção Fixos -->
+        <!-- Elementos de Status e Promoção -->
         <span class="status-badge" [class.rent]="item.status === 'Pronto'" [class.rent1]="item.status === 'Lançamento'"
           [class.rent2]="item.status === 'Em obras'" [class.rent3]="item.status === 'Em Breve'"
           [class.rent4]="item.status === '100% Vendido'">
@@ -94,19 +95,17 @@
 
       <mat-card-content>
         <div class="price-row">
-          <div class="price-and-tags">
-            @if (setting.exibirValor && item.price) {
-            <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
-            }
+          @if (setting.exibirValor) {
+          <h2 class="price">{{ item.price | currency:'BRL':'symbol':'1.0-0' }}</h2>
+          }
 
-            @for (category of item.category; track category) {
-            <span class="category">{{ category }}</span>
-            }
-          </div>
+          @for (category of item.category; track category) {
+          <span class="category">{{ category }}</span>
+          }
 
-          <button mat-icon-button [class.is-favorite]="isFavorite(item.id)" (click)="onToggleFavorite($event, item)"
-            aria-label="Favorito">
-            <mat-icon>{{ isFavorite(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+          <button mat-icon-button [class.is-favorite]="favoriteIds().includes(item.id)"
+            (click)="onToggleFavorite($event, item)" aria-label="Favorito">
+            <mat-icon>{{ favoriteIds().includes(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
           </button>
         </div>
 
