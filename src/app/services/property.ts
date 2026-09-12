@@ -115,6 +115,14 @@ export interface AppSettings {
     whatsappNumber: string,
     whatsappMessage: string
   };
+  desenvolvedora: {
+    id: number;
+    nome: string;
+    contato: {
+      nome: string,
+      telefone: string
+    }
+  };
   exibirValor: boolean;
 }
 
@@ -3099,7 +3107,7 @@ export class PropertyService {
     [
       {
         id: 1,
-        titulo: 'Eu e a Conx',
+        titulo: 'Condições especiais para você',
         mensagem: 'tudo bem com você?\n' +
           'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
           'Eu e a Conx temos condições especiais para você e sua familia.\n' +
@@ -3109,11 +3117,11 @@ export class PropertyService {
       },
       {
         id: 2,
-        titulo: 'Você esteve buscando',
+        titulo: 'Posso ajudar você a encontrar seu ap.',
         mensagem: 'tudo bem com você?\n\n' +
-          'Meu nome é Adriano Abrantes sou consultor imobiliário.\n' +
+          'Meu nome é Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
           'Você esteve buscando por apartamento na planta recentemente.\n' +
-          'Você já fechou com alguem ou ainda esta buscando?\n' +
+          'Posso ajudar você a encontrar seu ap?\nEm qual região você esta buscando? Ou vc já fechou com alguem?\n' +
           'Facilitamos na entrada durante as obras.\n O financiamento você começa a pagar na entrega da chave.\n' +
           'Saia do aluguel em alguns meses com seu apartamento novo.\n' +
           'Digite (sair) para não receber mais mensagens.',
@@ -3122,8 +3130,8 @@ export class PropertyService {
         id: 3,
         titulo: 'Estamos participando',
         mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
-          'Estamos participando de um grande feirão de imoveis junto com a caixa economica federal.\n' +
+          'Aqui é o Adriano Abrantes consultor imobiliário na construtora Conx.\n' +
+          'Estamos participando de um grande feirão de imóveis junto com a caixa econômica federal.\n' +
           'Imóveis 100% financiados pelo programa minha casa minha vida.\n' +
           'Gostaria de convidar você para conhecer nossos projetos estamos por toda a cidade de São Paulo.\n' +
           'Voce pode me informar em qual região você esta buscando seu apartamento novo?\n' +
@@ -3131,27 +3139,77 @@ export class PropertyService {
       },
       {
         id: 4,
-        titulo: 'Você tem um cadastro',
+        titulo: 'Você esta buscando por apartamento na planta',
         mensagem: 'tudo bem com você?\n' +
           'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
-          'Você tem um cadastro com a gente com interesse em apartamento na planta\nVocê ainda esta buscando?\n' +
+          'Você esta buscando por apartamento na planta?\n' +
           'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você gostaria de morar?\n' +
-          'caso não queira receber mais mensagens digite (sair).',
+          'Em qual região você gostaria de comprar seu apartamento?\n' +
+          'Caso não queira receber mais mensagens digite (sair).',
       },
       {
         id: 5,
-        titulo: 'Voce esta buscando por',
+        titulo: 'Em qual região você esta buscando',
         mensagem: 'tudo bem com você?\n' +
           'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
-          'Você esta buscando por apartamento na planta para moradia ou investimento?\nVocê ainda esta buscando?\n' +
+          'Você esta buscando por apartamento na planta para moradia ou investimento?\n' +
           'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
           'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      },
+      {
+        id: 6,
+        titulo: 'Possuo ótimas opções em São Paulo',
+        mensagem: 'tudo bem com você?\n' +
+          'Aqui é o Adriano Abrantes sou consultor imobiliário no minha casa minha vida.\n' +
+          'Você esta buscando por apartamento na planta para moradia ou investimento?\n' +
+          'Possuo ótimas opções em São Paulo para você e sua familia.\n' +
+          'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      },
+      {
+        id: 7,
+        titulo: 'ocê tem um cadastro com a gente buscando',
+        mensagem: 'tudo bem com você?\n' +
+          'Meu nome é Adriano Abrantes sou consultor imobiliário na Conx em São Paulo.\n' +
+          'Você tem um cadastro com a gente buscando por apartamento na planta.\n' +
+          'Você já comprou ou gostaria de veras novidades que tenho para você e sua familia?' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      },
+      {
+        id: 8,
+        titulo: 'Temos apartamento prontos e na planta',
+        mensagem: 'tudo bem com você?\n' +
+          'Aqui é o Adriano Abrantes sou consultor imobiliário.\n' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Temos apartamento prontos e na planta por toda a cidade de São Paulo' +
+          'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      },
+      {
+        id: 9,
+        titulo: 'Eu trabalho com apartamentos 100% financiado',
+        mensagem: 'tudo bem com você?\n' +
+          'Adriano Abrantes aqui sou consultor imobiliário minha casa minha vida.\n' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Em qual região você esta buscando?\n' +
+          'Se não quiser receber mais mensagens digite (sair).',
+      },
+      {
+        id: 10,
+        titulo: 'Chega de transito more proximo a estações',
+        mensagem: 'tudo bem com você?\n' +
+          'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
+          'Chega de transito more proximo a estações de metro.' +
+          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
+          'Perto de qual estação de metro você gostaria de morar?\n' +
           'Se não quiser receber mais mensagens digite (sair).',
       }
     ]);
 
-    mensagensPadrao = this.mensagensPadraoList.asReadonly();
+  mensagensPadrao = this.mensagensPadraoList.asReadonly();
 
   get backgroundImageUrl() {
     return this.settings().backgroundImageUrl;
@@ -3196,6 +3254,15 @@ export class PropertyService {
         whatsappContactName: 'Consultor Adriano',
         whatsappNumber: '11940177792',
         whatsappMessage: 'Olá! Gostaria de obter mais informações'
+      },
+      desenvolvedora: {
+        id: 1,
+        nome: 'Abrantes Sistemas',
+        contato:
+        {
+          nome: 'Adriano Abrantes',
+          telefone: '11940177092'
+        }
       },
       exibirValor: false
     }
