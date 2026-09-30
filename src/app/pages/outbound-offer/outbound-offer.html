@@ -124,6 +124,7 @@
             </div>
         </div>
     </mat-expansion-panel>
+    @if(!isMobile()){
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>@if (!iniciado()) {
@@ -150,6 +151,8 @@
             </button>
         </div>
     </mat-expansion-panel>
+    }
+
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -159,7 +162,7 @@
                 @if(!isMobile()){ Lista de contatos}
             </mat-panel-title>
             <p style="margin-right: 10px;">
-                <mat-icon>sports_score</mat-icon> 
+                <mat-icon>sports_score</mat-icon>
                 <span style="margin-right: 3px;">
                     {{ tando() }}/{{ de()}}</span>
                 @if(!isMobile() && ultimoContato().length > 0){Último contato:}

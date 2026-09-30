@@ -316,18 +316,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     this.salvarEstadoLocalStorage();
   }
 
-  ultimaLigacao = signal<Lead | null>(null);
-
   ligarAgora(lead: Lead): void {
     if (!lead.telefone) return;
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
-    this.ultimoContato.set(lead.nome);
-
-    if (lead.id !== this.ultimaLigacao()?.id) {
-      this.tando.set(this.tando() + 1);
-      this.ultimaLigacao.set(lead);
-    }
   }
 
   async autoEnvio(): Promise<void> {
