@@ -2,17 +2,15 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   computed,
   inject,
-  signal,
-  CUSTOM_ELEMENTS_SCHEMA
+  signal
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-import { DialogModule } from '@angular/cdk/dialog';
+// Angular Material
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -22,9 +20,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-// Swiper Web Components Registration
+// Swiper Registration
 import { register } from 'swiper/element/bundle';
-import { PropertyService } from '../../../services/property';
+import { Property, PropertyService } from '../../../services/property';
 
 register();
 
@@ -42,8 +40,7 @@ register();
     MatTooltipModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    MatSelectModule,
-    DialogModule
+    MatSelectModule
   ],
   templateUrl: './property-list.html',
   styleUrl: './property-list.scss',
@@ -52,12 +49,11 @@ register();
 })
 export class PropertyListComponent {
   private readonly router = inject(Router);
-  public readonly propertyService = inject(PropertyService);
+  readonly propertyService = inject(PropertyService);
 
-  // Cache das configurações para evitar re-computações
   readonly setting = this.propertyService.settings();
 
-  // Filtros em Signals leves
+  // Signals de Filtro
   readonly sortOrder = signal<'asc' | 'desc' | null>(null);
   readonly selectedZone = signal<string | null>(null);
   readonly selectedBairro = signal<string | null>(null);
@@ -67,13 +63,24 @@ export class PropertyListComponent {
   loadDetails = false;
   readonly zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
 
-  // Listas derivadas dinamicamente com filtros seguros
+  // Favoritos representados por um Set para buscas de O(1)
+  readonly favoriteSet = signal<Set<number>>(this.loadInitialFavorites());
+
+  private loadInitialFavorites(): Set<number> {
+    try {
+      const saved = localStorage.getItem('favoriteProperties');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  }
+
+  // Listas Opções Derivadas Otimizadas
   readonly bairros = computed(() => {
     const list = this.propertyService.properties() ?? [];
     const set = new Set<string>();
-    for (let i = 0; i < list.length; i++) {
-      const b = list[i].location?.bairro;
-      if (b) set.add(b);
+    for (const item of list) {
+      if (item.location?.bairro) set.add(item.location.bairro);
     }
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   });
@@ -81,8 +88,8 @@ export class PropertyListComponent {
   readonly metragens = computed(() => {
     const list = this.propertyService.properties() ?? [];
     const set = new Set<number>();
-    for (let i = 0; i < list.length; i++) {
-      const area = list[i].specs?.area;
+    for (const item of list) {
+      const area = item.specs?.area;
       if (Array.isArray(area)) {
         area.forEach(a => a && set.add(a));
       } else if (area) {
@@ -95,39 +102,13 @@ export class PropertyListComponent {
   readonly dormitorios = computed(() => {
     const list = this.propertyService.properties() ?? [];
     const set = new Set<number>();
-    for (let i = 0; i < list.length; i++) {
-      const bed = list[i].specs?.bedrooms;
-      if (bed) set.add(bed);
+    for (const item of list) {
+      if (item.specs?.bedrooms) set.add(item.specs.bedrooms);
     }
     return Array.from(set).sort((a, b) => a - b);
   });
 
-  private readonly urlSignal = toSignal(
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.router.url)
-    ),
-    { initialValue: this.router.url }
-  );
-
-  readonly isHome = computed(() => {
-    const url = this.urlSignal();
-    return url === '/' || url === '/home';
-  });
-
-  // Signal para controlar a lista de IDs favoritados (iniciando com o localStorage)
-  readonly favoriteIds = signal<number[]>(this.getInitialFavorites());
-
-  // Helper para carregar os favoritos iniciais com segurança
-  private getInitialFavorites(): number[] {
-    try {
-      const saved = localStorage.getItem('favoriteProperties');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  }
-
+  // Filtragem Reativa Dinâmica
   readonly filteredAndSortedProperties = computed(() => {
     const rawList = this.propertyService.properties() ?? [];
     const zone = this.selectedZone();
@@ -152,40 +133,12 @@ export class PropertyListComponent {
     });
 
     if (order) {
-      list = [...list].sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+      list = [...list].sort((a, b) => (order === 'asc' ? a.price - b.price : b.price - a.price));
     }
 
     return list;
   });
 
-  // Helper para verificar o favorito
-  isFavorite(propertyId: number): boolean {
-    return this.favoriteIds().includes(propertyId);
-  }
-
-  // Alterna o estado de favoritar
-  onToggleFavorite(event: Event, item: any): void {
-    event.stopPropagation();
-    const currentFavs = this.favoriteIds();
-    const isFav = currentFavs.includes(item.id);
-
-    let updatedFavs: number[];
-    if (isFav) {
-      updatedFavs = currentFavs.filter(id => id !== item.id);
-    } else {
-      updatedFavs = [...currentFavs, item.id];
-    }
-
-    this.favoriteIds.set(updatedFavs);
-
-    try {
-      localStorage.setItem('favoriteProperties', JSON.stringify(updatedFavs));
-    } catch (e) {
-      console.error('Erro ao salvar favoritos no localStorage:', e);
-    }
-  }
-
-  // Propriedades do WhatsApp calculadas dinamicamente
   readonly whatsappUrl = computed(() => {
     const config = this.setting?.whatsappConfig;
     const phone = config?.whatsappNumber || '';
@@ -193,16 +146,30 @@ export class PropertyListComponent {
     return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
   });
 
+  onToggleFavorite(event: Event, propertyId: number): void {
+    event.stopPropagation();
+    this.favoriteSet.update(set => {
+      const updated = new Set(set);
+      if (updated.has(propertyId)) {
+        updated.delete(propertyId);
+      } else {
+        updated.add(propertyId);
+      }
+      try {
+        localStorage.setItem('favoriteProperties', JSON.stringify(Array.from(updated)));
+      } catch (e) {
+        console.error('Erro ao guardar favoritos:', e);
+      }
+      return updated;
+    });
+  }
+
   toggleSort(): void {
-    this.sortOrder.update(current => current === 'asc' ? 'desc' : 'asc');
+    this.sortOrder.update(current => (current === 'asc' ? 'desc' : 'asc'));
   }
 
   filterByZone(zone: string): void {
-    this.selectedZone.update(current => current === zone ? null : zone);
-  }
-
-  irParaCadastro(): void {
-    this.router.navigate(['/imoveis/novo']);
+    this.selectedZone.update(current => (current === zone ? null : zone));
   }
 
   verDetalhes(id: number): void {
@@ -214,11 +181,6 @@ export class PropertyListComponent {
     const config = this.setting?.whatsappConfig;
     const phone = config?.whatsappNumber || '';
     const message = `Olá, gostaria de mais detalhes sobre o projeto: ${title}`;
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  }
-
-  openWhatspp(): void {
-    window.open(this.whatsappUrl(), '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   }
 }
