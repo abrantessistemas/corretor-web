@@ -1,9 +1,14 @@
-<div class="container" #value>
+<div class="container">
+  <!-- Barra de Load Fixada no Topo -->
+  @if (loadDetails) {
+  <mat-progress-bar class="top-progress-bar" mode="indeterminate" aria-label="A carregar detalhes"></mat-progress-bar>
+  }
+
   <!-- Filtros -->
   <div class="filter-wrapper">
     <div class="filter-row primary-row">
       <div class="region-chips">
-        <mat-chip-listbox class="chip-filter-list">
+        <mat-chip-listbox class="chip-filter-list" aria-label="Filtro por zona">
           @for (zona of zonas; track zona) {
           <mat-chip-option class="chip-option" [selected]="selectedZone() === zona"
             (selectionChange)="filterByZone(zona)">
@@ -54,10 +59,6 @@
     </div>
   </div>
 
-  @if (loadDetails) {
-  <mat-progress-bar class="progress-bar-details-load" mode="indeterminate"></mat-progress-bar>
-  }
-
   <!-- Grid de Imóveis -->
   <div class="property-grid">
     @for (item of filteredAndSortedProperties(); track item.id) {
@@ -65,21 +66,21 @@
 
       <div class="card-image-wrapper">
         <!-- Swiper Slider de Imagens -->
-        @if (item.imagesUrl && item.imagesUrl.length > 0) {
+        @if (item.imagesUrl.length) {
         <swiper-container autoplay="true" effect="fade" autoplay-delay="4000" autoplay-disable-on-interaction="false"
           loop="true" pagination="false"
           inject-styles="[':host .swiper-pagination-bullet-active { background-color: #ffd600; }']">
 
-          @for (img of item.imagesUrl; track img.imagesUrl) {
+          @for (img of item.imagesUrl; track img.imagesUrl; let isFirst = $first) {
           <swiper-slide>
-            <img mat-card-image [src]="img.imagesUrl" [alt]="item.title" loading="lazy" decoding="async"
-              class="slide-image">
+            <img mat-card-image [src]="img.imagesUrl" [alt]="item.title" [attr.loading]="isFirst ? 'eager' : 'lazy'"
+              decoding="async" class="slide-image">
           </swiper-slide>
           }
         </swiper-container>
         }
 
-        <!-- Elementos de Status e Promoção -->
+        <!-- Badge de Status -->
         <span class="status-badge" [class.rent]="item.status === 'Pronto'" [class.rent1]="item.status === 'Lançamento'"
           [class.rent2]="item.status === 'Em obras'" [class.rent3]="item.status === 'Em Breve'"
           [class.rent4]="item.status === '100% Vendido'">
@@ -103,52 +104,57 @@
           <span class="category">{{ category }}</span>
           }
 
-          <button mat-icon-button [class.is-favorite]="favoriteIds().includes(item.id)"
-            (click)="onToggleFavorite($event, item)" aria-label="Favorito">
-            <mat-icon>{{ favoriteIds().includes(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+          <button mat-icon-button [class.is-favorite]="favoriteSet().has(item.id)"
+            (click)="onToggleFavorite($event, item.id)" aria-label="Marcar como favorito">
+            <mat-icon>{{ favoriteSet().has(item.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
           </button>
         </div>
 
         <h3 class="title">
           <span class="title-text">{{ item.title }}</span>
+        </h3>
+        
+        <span style="display: flex;justify-content: space-between;">
+          @if (item.location.bairro) {
+            <p class="location">
+              <mat-icon aria-hidden="true">place</mat-icon>
+              {{ item.location.bairro }}
+            </p>
+          }
           @if (item.date) {
           <mat-chip-set class="inline-chip-set">
             <mat-chip class="date-chip">Entrega: {{ item.date | date: 'MM/yyyy' }}</mat-chip>
           </mat-chip-set>
           }
-        </h3>
 
-        @if (item.location.bairro) {
-        <p class="location">
-          <mat-icon>place</mat-icon>
-          {{ item.location.bairro }}
-        </p>
-        }
+        </span>
 
         <div class="specs">
           @if (item.specs.bedrooms) {
-          <div class="spec-item"><mat-icon>bed</mat-icon><span>{{ item.specs.bedrooms }}</span></div>
+          <div class="spec-item" title="Quartos"><mat-icon aria-hidden="true">bed</mat-icon><span>{{ item.specs.bedrooms
+              }}</span></div>
           }
           @if (item.specs.suits) {
-          <div class="spec-item"><mat-icon>bathtub</mat-icon></div>
+          <div class="spec-item" title="Suítes"><mat-icon aria-hidden="true">bathtub</mat-icon></div>
           }
           @if (item.specs.bathrooms) {
-          <div class="spec-item"><mat-icon>shower</mat-icon></div>
+          <div class="spec-item" title="Casas de Banho"><mat-icon aria-hidden="true">shower</mat-icon></div>
           }
           @if (item.specs.garden) {
-          <div class="spec-item"><mat-icon>grass</mat-icon></div>
+          <div class="spec-item" title="Jardim"><mat-icon aria-hidden="true">grass</mat-icon></div>
           }
           @if (item.specs.balcony) {
-          <div class="spec-item"><mat-icon>balcony</mat-icon></div>
+          <div class="spec-item" title="Varanda"><mat-icon aria-hidden="true">balcony</mat-icon></div>
           }
           @if (item.specs.parking) {
-          <div class="spec-item"><mat-icon>directions_car</mat-icon></div>
+          <div class="spec-item" title="Vagas"><mat-icon aria-hidden="true">directions_car</mat-icon></div>
           }
           @if (item.specs.pool) {
-          <div class="spec-item"><mat-icon>pool</mat-icon></div>
+          <div class="spec-item" title="Piscina"><mat-icon aria-hidden="true">pool</mat-icon></div>
           }
           @if (item.specs.area) {
-          <div class="spec-item"><mat-icon>square_foot</mat-icon><span>{{ item.specs.area }}m²</span></div>
+          <div class="spec-item" title="Área"><mat-icon aria-hidden="true">square_foot</mat-icon><span>{{
+              item.specs.area }}m²</span></div>
           }
         </div>
       </mat-card-content>
@@ -162,17 +168,19 @@
     } @empty {
     <div class="empty-state">
       <div class="empty-icon-container">
-        <mat-icon>home_work</mat-icon>
+        <mat-icon aria-hidden="true">home_work</mat-icon>
       </div>
       <h2>Ainda não existem imóveis cadastrados</h2>
     </div>
     }
   </div>
 
-  <!-- Footer Rodapé -->
+  <!-- Rodapé -->
   <footer class="desktop-footer">
-    Copyright © 2026 {{ propertyService.settings().desenvolvedora.nome }}. Todos os direitos reservados.
-    <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">Desenvolvido por {{ propertyService.settings().desenvolvedora.nome }}</a>.
+    Copyright © 2026 {{ setting.desenvolvedora.nome }}. Todos os direitos reservados.
+    <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">
+      Desenvolvido por {{ setting.desenvolvedora.nome }}
+    </a>.
   </footer>
 </div>
 
