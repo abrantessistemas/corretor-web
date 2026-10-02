@@ -1,44 +1,16 @@
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PropertyService } from './services/property';
 import { MatTooltip } from "@angular/material/tooltip";
 import { LoginDialogComponent } from './pages/login/login-dialog';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
-/**
- * Definição da animação de transição entre páginas
- */
-const slideInAnimation = trigger('routeAnimations', [
-  transition('* <=> *', [
-    style({ position: 'relative' }),
-    query(':enter, :leave', [
-      style({
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        opacity: 0
-      })
-    ], { optional: true }),
-    group([
-      query(':leave', [
-        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
-      ], { optional: true }),
-      query(':enter', [
-        style({ opacity: 0, transform: 'translateY(10px)' }),
-        animate('300ms 100ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ], { optional: true })
-    ])
-  ])
-]);
+import { MenuItem, PropertyService } from './services/property';
 
 @Component({
   selector: 'app-root',
@@ -56,23 +28,21 @@ const slideInAnimation = trigger('routeAnimations', [
     MatDialogModule
   ],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
-  animations: [slideInAnimation]
+  styleUrl: './app.scss'
 })
 export class App {
+
+  ngOnInit() {
+    // Verifica no localStorage se isBroker é 'true' ao carregar a página
+    const brokerValue = localStorage.getItem('isBroker');
+    if (brokerValue === 'true') {
+      this.isBroker.set(true);
+    }
+    this.menuItems.set(this.propertyService.menuItens());
+  }
+
   // Itens do menu usando Signals (v21)
-  menuItems = signal([
-    { path: '/home', label: 'Empreendimentos', icon: 'apartment', enable: true },
-    { path: '/imoveis', label: 'Imóveis', icon: 'real_estate_agent', enable: false },
-    { path: '/favorites', label: 'Favoritos', icon: 'favorite', enable: true },
-    { path: '/payment', label: 'Simulador', icon: 'payment', enable: false },
-    { path: '/indique-ganhe', label: 'Indique e Ganhe', icon: 'celebration', enable: false },
-    { path: '/trabalhe-conosco', label: 'Carreiras', icon: 'group', enable: false },
-    { path: '/planos', label: 'Planos', icon: 'payments', enable: false },
-    { path: '/ajustes', label: 'Ajustes', icon: 'settings', enable: false },
-    { path: '/perfil', label: 'Perfil', icon: 'person', enable: false },
-    { path: '/oferta', label: 'Oferta Ativa', icon: 'check', enable: false }
-  ]);
+   menuItems = signal<MenuItem[]>([]);
 
   private dialog = inject(MatDialog);
   private router = inject(Router);
@@ -81,14 +51,6 @@ export class App {
   imageBackgroundUrl = this.propertyService.backgroundImageUrl;
   logoSetting = signal(this.propertyService.settings().logo);
   isBroker = signal(false);
-
-  ngOnInit() {
-    // Verifica no localStorage se isBroker é 'true' ao carregar a página
-    const brokerValue = localStorage.getItem('isBroker');
-    if (brokerValue === 'true') {
-      this.isBroker.set(true);
-    }
-  }
 
   handleMenuClick(item: any, event: Event) {
     event.preventDefault(); // Impede a navegação padrão
@@ -106,8 +68,8 @@ export class App {
         // Ativa as rotas 'Simulador' (/payment) e 'Oferta Ativa' (/oferta)
         this.menuItems.update(items =>
           items.map(item => {
-            if (item.path === '/payment' || item.path === '/oferta') {
-              this.router.navigate(['/payment']);
+            if (item.path === '/payment' || item.path === '/oferta' || item.path === '/home') {
+              this.router.navigate(['/home']);
               return { ...item, enable: true };
             }
             return item;

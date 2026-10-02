@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { PropertyService } from '../../services/property';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { MenuItem, PropertyService } from '../../services/property';
 import { WelcomeDialogComponent } from '../../shared/welcome-dialog/welcome-dialog';
-import { PropertyListComponent } from '../properties/property-list/property-list';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +16,9 @@ import { PropertyListComponent } from '../properties/property-list/property-list
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    PropertyListComponent
+    RouterLink,
+    MatTooltip,
+    RouterOutlet
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -24,6 +26,9 @@ import { PropertyListComponent } from '../properties/property-list/property-list
 export class Home {
   // Injeção do serviço de propriedades
   private propertyService = inject(PropertyService);
+
+  menuItems = signal<MenuItem[]>([]);
+
   constructor(
     private dialog: MatDialog,
     private router: Router
@@ -33,6 +38,15 @@ export class Home {
     if (!localStorage.getItem('visited')) {
       this.openWelcomeDialog();
     }
+    this.menuItems.set(this.propertyService.menuItens());
+    this.menuItems.update(items =>
+      items.map(item => {
+        if (item.path === '/payment' || item.path === '/oferta') {
+          return { ...item, enable: true };
+        }
+        return item;
+      })
+    );
   }
 
 

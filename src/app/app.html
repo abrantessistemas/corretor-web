@@ -7,9 +7,9 @@
     <div class="toolbar-container">
 
       <!-- Logo / Marca -->
-      <div class="brand" routerLink="/">
+      <div class="brand">
         @if (logoSetting()[0].imagesUrl) {
-        <img [src]="logoSetting()[0].imagesUrl" [alt]="logoSetting()[0].description || 'Logo'" class="logo-img">
+        <img [src]="logoSetting()[0].imagesUrl" [matTooltip]="logoSetting()[0].description || 'Logo'" class="logo-img">
         }
 
         <span class="logo-text">
@@ -35,9 +35,9 @@
         </button>
         }
 
-        <button mat-mini-fab matTooltip="Compartilhar" aria-label="Compartilhar">
+        <!--button mat-mini-fab matTooltip="Compartilhar" aria-label="Compartilhar">
           <mat-icon>share</mat-icon>
-        </button>
+        </button -->
       </div>
     </div>
   </mat-toolbar>

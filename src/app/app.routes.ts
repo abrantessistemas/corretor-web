@@ -12,11 +12,6 @@ export const routes: Routes = [
     data: { animation: 'HomePage' }
   },
   {
-    path: 'perfil',
-    loadComponent: () => import('./pages/perfil/perfil').then(m => m.Perfil),
-    data: { animation: 'PerfilPage' }
-  },
-  {
     path: 'imoveis',
     loadComponent: () => import('./pages/properties/property-list/property-list').then(m => m.PropertyListComponent),
     data: { animation: 'AjustesPage' }
