@@ -1,17 +1,15 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnChanges,
   OnDestroy,
   OnInit,
   signal,
-  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -23,12 +21,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import * as QRCode from 'qrcode';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, merge } from 'rxjs';
+import { takeUntil, debounceTime } from 'rxjs/operators';
 import { PropertyService } from '../../services/property';
 
 export interface Lead {
@@ -36,7 +33,6 @@ export interface Lead {
   nome: string;
   telefone: string;
   projeto?: string;
-  qrCode?: string;
   enviado?: boolean;
   ligacaoRealizada?: boolean;
 }
@@ -73,24 +69,30 @@ interface EstadoPaginacao {
   styleUrl: './outbound-offer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    this.salvarEstadoLocalStorage();
-  }
-  private breakpointObserver = inject(BreakpointObserver);
-  private destroy$ = new Subject<void>();
-
-  // Signal para indicar se o dispositivo atual é Mobile
-  isMobile = signal<boolean>(false);
-  // Signal para controlar a exibição do QR Code
-  exibirQrCode = signal<boolean>(false);
-
-  public readonly propertyService = inject(PropertyService);
+export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly propertyService = inject(PropertyService);
+  private readonly destroy$ = new Subject<void>();
 
   private readonly STORAGE_MENSAGENS_KEY = 'mensagens_outbound_list';
   private readonly STORAGE_ESTADO_KEY = 'oferta_ativa_estado';
 
   private readonly MENSAGENS_PADRAO = this.propertyService.mensagensPadrao();
+
+  // Signals de Interface e Estado
+  readonly isMobile = signal<boolean>(false);
+  readonly exibirQrCode = signal<boolean>(false);
+  readonly iniciado = signal<boolean>(false);
+  readonly carregandoArquivo = signal<boolean>(false);
+  readonly selectedFile = signal<File | null>(null);
+  readonly mensagemList = signal<any[]>([]);
+  readonly mensagemIndex = signal<number>(0);
+
+  // Métrica Signals
+  readonly tando = signal<number>(0);
+  readonly ligacao = signal<number>(0);
+  readonly de = signal<number>(0);
+  readonly ultimoContato = signal<string>('');
 
   readonly columns: ColumnConfig[] = [
     { key: 'nome', label: 'Nome' },
@@ -99,26 +101,14 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   readonly displayedColumns = this.columns.map(c => c.key);
   readonly dataSource = new MatTableDataSource<Lead>([]);
 
-  // Controls
-  mensagem = new FormControl();
-  intervalo = new FormControl(5);
-  mensagens = new FormControl();
-  colunaNome = new FormControl(1);
-  colunaContato = new FormControl(2);
-  periodo = new FormControl('Bom dia');
+  // Form Controls
+  readonly mensagem = new FormControl<string>('', { nonNullable: true });
+  readonly intervalo = new FormControl<number>(5, { nonNullable: true });
+  readonly mensagens = new FormControl<any>('', { nonNullable: true });
+  readonly colunaNome = new FormControl<number>(1, { nonNullable: true });
+  readonly colunaContato = new FormControl<number>(2, { nonNullable: true });
+  readonly periodo = new FormControl<string>('Bom dia', { nonNullable: true });
 
-  tando = signal(0);
-  ligacao = signal(0);
-  de = signal(0);
-  ultimoContato = signal('');
-
-  // State Signals
-  iniciado = signal(false);
-  carregandoArquivo = signal(false);
-  selectedFile = signal<File | null>(null);
-  mensagemList = signal<any[]>([]);
-
-  // Estado da Paginacao recuperado
   private paginacaoSalva: EstadoPaginacao = { pageIndex: 0, pageSize: 5 };
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -136,6 +126,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
 
     this.carregarMensagens();
     this.carregarEstadoLocalStorage();
+    this.observarAlteracoesFormulario();
   }
 
   ngOnDestroy(): void {
@@ -145,9 +136,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-
-    // Aplica o estado salvo da paginação no MatPaginator após a renderização
     if (this.paginator) {
       this.paginator.pageIndex = this.paginacaoSalva.pageIndex;
       this.paginator.pageSize = this.paginacaoSalva.pageSize;
@@ -155,7 +143,26 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     }
   }
 
-  // --- Salvar Paginação ao Mudar de Página ---
+  private observarAlteracoesFormulario(): void {
+    // Auto-save debounced no LocalStorage ao digitar ou alterar select
+    const formChanges$ = merge(
+      this.mensagem.valueChanges,
+      this.intervalo.valueChanges,
+      this.colunaNome.valueChanges,
+      this.colunaContato.valueChanges,
+      this.periodo.valueChanges
+    );
+
+    formChanges$
+      .pipe(
+        debounceTime(300),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.salvarEstadoLocalStorage();
+      });
+  }
+
   onPageChange(event: PageEvent): void {
     this.paginacaoSalva = {
       pageIndex: event.pageIndex,
@@ -163,8 +170,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     };
     this.salvarEstadoLocalStorage();
   }
-
-  // --- Processamento de CSV / Texto Robusto ---
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -179,21 +184,18 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   private processarArquivo(file: File): void {
     this.tando.set(0);
     this.ultimoContato.set('');
-
     this.carregandoArquivo.set(true);
+
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const conteudo = e.target?.result as string;
         if (conteudo) {
-          const novosLeads = this.converterTextoParaLeads(conteudo);
-          // Exemplo alternativo com .then() se o contexto não for async:
-          this.converterTextoParaLeads(conteudo).then(novosLeads => {
-            this.dataSource.data = novosLeads;
-            this.de.set(novosLeads.length);
-          });
-          // Reset da paginação para a primeira página ao carregar novo arquivo
+          const novosLeads = await this.converterTextoParaLeads(conteudo);
+          this.dataSource.data = novosLeads;
+          this.de.set(novosLeads.length);
+
           if (this.paginator) {
             this.paginator.firstPage();
             this.paginacaoSalva.pageIndex = 0;
@@ -202,14 +204,14 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
           this.salvarEstadoLocalStorage();
         }
       } catch (error) {
-        console.error('Erro ao ler o arquivo selecionado:', error);
+        console.error('Erro ao processar o arquivo:', error);
       } finally {
         this.carregandoArquivo.set(false);
       }
     };
 
     reader.onerror = () => {
-      console.error('Erro ao carregar o arquivo.');
+      console.error('Erro ao ler o arquivo.');
       this.carregandoArquivo.set(false);
     };
 
@@ -245,14 +247,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       const telefone = this.limparTelefone(colunas[idxContato] || '');
 
       if (nome !== 'Sem Nome' || telefone.length > 2) {
-        // Gera o QR Code individual apontando para o WhatsApp com a mensagem
-        const qrCodeBase64 = await this.gerarQrCodeWhatsApp(nome, telefone);
-
         leads.push({
           id: leadId.toString(),
-          nome: nome,
-          telefone: telefone,
-          qrCode: qrCodeBase64,
+          nome,
+          telefone,
           enviado: false
         });
         leadId++;
@@ -261,7 +259,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
 
     return leads;
   }
-  // Realiza o parse respeitando aspas internas no CSV
+
   private parseCSVLine(line: string, separator: string): string[] {
     const result: string[] = [];
     let current = '';
@@ -284,30 +282,23 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     return result;
   }
 
-  mensagemIndex = signal<number>(0);
-
   chamarAgora(lead: Lead, auto: boolean): void {
     if (!lead.telefone || lead.enviado) return;
 
-    // 2. Seleciona a mensagem com base no parâmetro 'auto'
     let mensagemAtual = this.mensagem.value || '';
 
     if (auto) {
       const lista = this.mensagemList();
       if (lista.length > 0) {
         const idx = this.mensagemIndex();
-        mensagemAtual = lista[idx].mensagem || '';
-
-        // Avança para a próxima mensagem da lista (e volta para 0 no final)
+        mensagemAtual = lista[idx].mensagem || lista[idx] || '';
         this.mensagemIndex.set((idx + 1) % lista.length);
       }
     }
 
     lead.enviado = true;
     this.dataSource.data = [...this.dataSource.data];
-    this.salvarEstadoLocalStorage();
 
-    // 3. Monta o texto usando a mensagem selecionada
     const textoFormatado = `${this.periodo.value} ${lead.nome} ${mensagemAtual}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
 
@@ -324,6 +315,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     window.location.href = `tel:0${numeroLimpo}`;
     this.ligacao.set(this.ligacao() + 1);
     lead.ligacaoRealizada = true;
+    this.salvarEstadoLocalStorage();
   }
 
   async autoEnvio(): Promise<void> {
@@ -335,14 +327,14 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       return tel.length > 0 && !l.enviado;
     });
 
-    var totalLeads = leadsParaEnviar.length;
+    let totalLeads = leadsParaEnviar.length;
 
     if (this.iniciado()) {
       this.iniciado.set(false);
-      totalLeads = 0;
+      return;
     }
 
-    if (!this.iniciado() && leadsParaEnviar.length > 0) {
+    if (leadsParaEnviar.length > 0) {
       this.iniciado.set(true);
 
       for (let index = 0; index < totalLeads; index++) {
@@ -359,14 +351,22 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     }
   }
 
-  desligar() {
+  desligar(): void {
     this.iniciado.set(false);
   }
-  // --- Persistência em LocalStorage ---
 
   private salvarEstadoLocalStorage(): void {
+    // Sanitização para remover dados pesados antes de salvar
+    const leadsSanitizados = this.dataSource.data.map(({ id, nome, telefone, enviado, ligacaoRealizada }) => ({
+      id,
+      nome,
+      telefone,
+      enviado,
+      ligacaoRealizada
+    }));
+
     const estado = {
-      leads: this.dataSource.data,
+      leads: leadsSanitizados,
       mensagem: this.mensagem.value,
       intervalo: this.intervalo.value,
       colunaNome: this.colunaNome.value,
@@ -376,13 +376,17 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
       paginacao: this.paginacaoSalva,
       exibirQrCode: this.exibirQrCode(),
       tando: this.tando(),
+      ligacao: this.ligacao(),
       de: this.de(),
       ultimoContato: this.ultimoContato(),
       mensagemIndex: this.mensagemIndex()
-      // <--- Salva a preferência
     };
 
-    localStorage.setItem(this.STORAGE_ESTADO_KEY, JSON.stringify(estado));
+    try {
+      localStorage.setItem(this.STORAGE_ESTADO_KEY, JSON.stringify(estado));
+    } catch (e) {
+      console.warn('Não foi possível gravar no LocalStorage:', e);
+    }
   }
 
   private carregarEstadoLocalStorage(): void {
@@ -392,15 +396,16 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     try {
       const estado = JSON.parse(dadosSalvos);
       if (estado.leads) this.dataSource.data = estado.leads;
-      if (estado.mensagem) this.mensagem.setValue(estado.mensagem);
-      if (estado.intervalo) this.intervalo.setValue(estado.intervalo);
-      if (estado.colunaNome !== undefined) this.colunaNome.setValue(estado.colunaNome);
-      if (estado.colunaContato !== undefined) this.colunaContato.setValue(estado.colunaContato);
-      if (estado.periodo !== undefined) this.periodo.setValue(estado.periodo);
+      if (estado.mensagem) this.mensagem.setValue(estado.mensagem, { emitEvent: false });
+      if (estado.intervalo) this.intervalo.setValue(estado.intervalo, { emitEvent: false });
+      if (estado.colunaNome !== undefined) this.colunaNome.setValue(estado.colunaNome, { emitEvent: false });
+      if (estado.colunaContato !== undefined) this.colunaContato.setValue(estado.colunaContato, { emitEvent: false });
+      if (estado.periodo !== undefined) this.periodo.setValue(estado.periodo, { emitEvent: false });
       if (estado.mensagemList) this.mensagemList.set(estado.mensagemList);
       if (estado.paginacao) this.paginacaoSalva = estado.paginacao;
-      if (estado.exibirQrCode) this.exibirQrCode.set(estado.exibirQrCode);
+      if (estado.exibirQrCode !== undefined) this.exibirQrCode.set(estado.exibirQrCode);
       if (estado.tando !== undefined) this.tando.set(estado.tando);
+      if (estado.ligacao !== undefined) this.ligacao.set(estado.ligacao);
       if (estado.de !== undefined) this.de.set(estado.de);
       if (estado.ultimoContato !== undefined) this.ultimoContato.set(estado.ultimoContato);
       if (estado.mensagemIndex !== undefined) this.mensagemIndex.set(estado.mensagemIndex);
@@ -413,6 +418,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     localStorage.removeItem(this.STORAGE_ESTADO_KEY);
     this.dataSource.data = [];
     this.selectedFile.set(null);
+    this.tando.set(0);
+    this.ligacao.set(0);
+    this.de.set(0);
+    this.ultimoContato.set('');
   }
 
   private carregarMensagens(): void {
@@ -448,20 +457,21 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     this.salvarMensagens();
 
     if (this.mensagens.value === itemRemovido) {
-      this.mensagens.setValue('');
-      this.mensagem.setValue('');
+      this.mensagens.setValue('', { emitEvent: false });
+      this.mensagem.setValue('', { emitEvent: false });
     }
   }
 
   onMensagemSelecionada(mensagemSelecionada: any): void {
     if (mensagemSelecionada) {
-      this.mensagem.setValue(mensagemSelecionada.mensagem);
+      const texto = typeof mensagemSelecionada === 'string' ? mensagemSelecionada : mensagemSelecionada.mensagem;
+      this.mensagem.setValue(texto || '');
     }
   }
 
   private limparTelefone(telefone: string): string {
     if (!telefone) return '';
-    let apenasNumeros = telefone.replace(/\D/g, '');
+    const apenasNumeros = telefone.replace(/\D/g, '');
     if (!apenasNumeros) return '';
     return apenasNumeros.startsWith('55') ? apenasNumeros : '55' + apenasNumeros;
   }
@@ -469,7 +479,8 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-  // Método auxiliar para criar a imagem do QR Code com Link do WhatsApp
+
+  // Otimização de Bundle: Dynamic Import da biblioteca QRCode apenas sob demanda
   async gerarQrCodeWhatsApp(nome: string, telefone: string): Promise<string> {
     if (!telefone) return '';
 
@@ -477,26 +488,23 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     const whatsappUrl = `https://wa.me/${telefone}?text=${encodeURIComponent(textoMensagem)}`;
 
     try {
-      return await QRCode.toDataURL(whatsappUrl, { width: 100, margin: 1 });
+      const QRCodeModule = await import('qrcode');
+      return await QRCodeModule.toDataURL(whatsappUrl, { width: 100, margin: 1 });
     } catch (err) {
       console.error('Erro ao gerar QR Code para o lead:', err);
       return '';
     }
   }
 
-  // Alterne o valor do QR Code
   toggleQrCode(): void {
     this.exibirQrCode.update(v => !v);
     this.salvarEstadoLocalStorage();
   }
 
-  // No TypeScript
   cortaTexto(texto: string): string {
     if (!texto) return '';
     const indexEspaco = texto.indexOf(' ');
-    if (indexEspaco === -1) return texto; // Se não tiver espaço, retorna o texto todo
-
-    // Corta do início (0) até o espaço + 3 letras (somando 1 do espaço + 3 letras = 4)
+    if (indexEspaco === -1) return texto;
     return texto.substring(0, indexEspaco + 4);
   }
-} 
+}
