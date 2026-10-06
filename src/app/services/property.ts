@@ -3470,7 +3470,7 @@ export class PropertyService {
     { path: '/planos', label: 'Planos', description: 'Planos e assinaturas.', icon: 'payments', enable: false },
     { path: '/ajustes', label: 'Ajustes', description: 'Configurações do sistema.', icon: 'settings', enable: false },
     { path: '/perfil', label: 'Perfil', description: 'Informações do usuário.', icon: 'person', enable: false },
-    { path: '/oferta', label: 'Oferta Ativa', description: 'Clientes cadastrados.', icon: 'check', enable: false }]);
+    { path: '/oferta', label: 'Oferta Ativa', description: 'Gerencia chamadas de leads.', icon: 'check', enable: false }]);
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
   menuItens = this.menuItems.asReadonly();
