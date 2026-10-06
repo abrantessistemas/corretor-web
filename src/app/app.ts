@@ -55,7 +55,6 @@ export class App {
   handleMenuClick(item: any, event: Event) {
     event.preventDefault(); // Impede a navegação padrão
     this.openLoginDialog();
-    this.isBroker.set(false);
   }
 
   openLoginDialog() {
