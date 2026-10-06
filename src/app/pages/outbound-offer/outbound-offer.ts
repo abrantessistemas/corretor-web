@@ -38,6 +38,7 @@ export interface Lead {
   projeto?: string;
   qrCode?: string;
   enviado?: boolean;
+  ligacaoRealizada?: boolean;
 }
 
 export interface ColumnConfig {
@@ -107,6 +108,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
   periodo = new FormControl('Bom dia');
 
   tando = signal(0);
+  ligacao = signal(0);
   de = signal(0);
   ultimoContato = signal('');
 
@@ -320,6 +322,8 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit, OnChange
     if (!lead.telefone) return;
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
+    this.ligacao.set(this.ligacao() + 1);
+    lead.ligacaoRealizada = true;
   }
 
   async autoEnvio(): Promise<void> {

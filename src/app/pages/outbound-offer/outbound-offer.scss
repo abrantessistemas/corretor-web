@@ -226,3 +226,105 @@
     }
   }
 }
+
+.custom-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+
+  /* Título e Ícone de Ação Visual */
+  .panel-title-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .header-icon-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--mat-sys-primary-container, #e2e8f0);
+      color: var(--mat-sys-primary, #0f172a);
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .header-title-text {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--mat-sys-on-surface, #1e293b);
+    }
+  }
+
+  /* Métricas e Estatísticas à direita */
+  .panel-metrics-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-right: 8px;
+    color: var(--mat-sys-primary, #0f172a);
+    font-size: 0.875rem;
+
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        opacity: 0.85;
+      }
+    }
+
+    .highlight-contact {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .count-divider {
+        font-weight: 600;
+        opacity: 0.75;
+      }
+
+      .last-contact-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        max-width: 200px;
+
+        .last-contact-label {
+          color: var(--mat-sys-outline, #64748b);
+          white-space: nowrap;
+        }
+
+        .last-contact-value {
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+/* Ajuste Responsivo Fino */
+@media (max-width: 600px) {
+  .custom-panel-header {
+    padding: 4px 8px;
+
+    .panel-metrics-container {
+      gap: 8px;
+    }
+  }
+}

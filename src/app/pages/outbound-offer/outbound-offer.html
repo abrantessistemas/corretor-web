@@ -161,13 +161,18 @@
                 </button>
                 @if(!isMobile()){ Lista de contatos}
             </mat-panel-title>
-            <p style="margin-right: 10px;">
-                <mat-icon>sports_score</mat-icon>
-                <span style="margin-right: 3px;">
-                    {{ tando() }}/{{ de()}}</span>
-                @if(!isMobile() && ultimoContato().length > 0){Último contato:}
-                @if(ultimoContato()){{{ultimoContato().substring(0, 15)}}}
-            </p>
+            <span
+                style="margin-right: 10px;gap: 12px;display: flex;justify-content: space-evenly;color: var(--mat-sys-primary, #0f172a);">
+                @if(isMobile() && ultimoContato().length > 0){
+                <p style="display: flex;"><mat-icon>phone</mat-icon> {{ ligacao() }}</p>
+                }
+                <p style="display: flex;"><mat-icon>messages</mat-icon> {{ tando() }}</p>
+                <p style="display: flex;">
+                    {{ de()}}
+                    @if(!isMobile() && ultimoContato().length > 0){Último contato:}
+                    @if(ultimoContato()){{{ultimoContato().substring(0, 15)}}}
+                </p>
+            </span>
         </mat-expansion-panel-header>
 
         <div class="table-responsive-wrapper">
@@ -188,7 +193,7 @@
                         @case ('nome') {
                         <div class="lead-profile">
                             @if (!exibirQrCode()) {
-                            <button matMiniFab [class.avatar-enviado]="element.enviado" disabled>
+                            <button matMiniFab [class.avatar-enviado]="element.enviado">
                                 {{ element.nome ? element.nome.charAt(0).toUpperCase() : '?' }}
                             </button>
                             <div class="lead-info">
@@ -219,8 +224,9 @@
                                 }
                             </button>
                             @if(isMobile()) {
-                            <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
-                                (click)="ligarAgora(element)" matTooltip="Ligar para o contato">
+                            <button mat-icon-button class="phone-button"
+                                [disabled]="!element.telefone || element.ligacaoRealizada" (click)="ligarAgora(element)"
+                                matTooltip="Ligar para o contato">
                                 <mat-icon>call</mat-icon>
                             </button>
                             }
@@ -250,5 +256,9 @@
                 aria-label="Selecione a página de leads">
             </mat-paginator>
         </div>
+        @if (isMobile()) {
+        <br>
+        <br>
+        }
     </mat-expansion-panel>
 </mat-accordion>
