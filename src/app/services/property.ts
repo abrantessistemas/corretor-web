@@ -3461,17 +3461,16 @@ export class PropertyService {
   );
 
   private menuItems = signal<MenuItem[]>([
-    { path: '/home', label: 'Dashborad', description: 'Painel de controle', icon: 'apartment', enable: false },
-    { path: '/imoveis', label: 'Empreendimentos', description: 'Lista de empreendimentos', icon: 'real_estate_agent', enable: true },
-    { path: '/favorites', label: 'Favoritos', description: 'Lista de imóveis favoritos', icon: 'favorite', enable: true },
-    { path: '/oferta', label: 'Oferta Ativa', description: 'Ofertas disponíveis', icon: 'check', enable: false },
-    { path: '/payment', label: 'Simulador', description: 'Simulador de financiamento', icon: 'payment', enable: false },
-    { path: '/indique-ganhe', label: 'Indique e Ganhe', description: 'Programa de indicação', icon: 'celebration', enable: false },
-    { path: '/trabalhe-conosco', label: 'Carreiras', description: 'Trabalhe conosco', icon: 'group', enable: false },
-    { path: '/planos', label: 'Planos', description: 'Planos de assinatura', icon: 'payments', enable: false },
-    { path: '/ajustes', label: 'Ajustes', description: 'Configurações do aplicativo', icon: 'settings', enable: false },
-    { path: '/perfil', label: 'Perfil', description: 'Meu perfil', icon: 'person', enable: false }
-  ]);
+    { path: '/home', label: 'Dashboard', description: 'Visão geral do sistema.', icon: 'dashboard', enable: false },
+    { path: '/imoveis', label: 'Empreendimentos', description: 'Catálogo de imóveis à venda.', icon: 'real_estate_agent', enable: true },
+    { path: '/favorites', label: 'Favoritos', description: 'Seus imóveis favoritos.', icon: 'favorite', enable: true },
+    { path: '/payment', label: 'Simulador', description: 'Simule seu financiamento.', icon: 'payment', enable: false },
+    { path: '/indique-ganhe', label: 'Indique e Ganhe', description: 'Recompense seus indicadores.', icon: 'celebration', enable: false },
+    { path: '/trabalhe-conosco', label: 'Carreiras', description: 'Trabalhe conosco.', icon: 'group', enable: false },
+    { path: '/planos', label: 'Planos', description: 'Planos e assinaturas.', icon: 'payments', enable: false },
+    { path: '/ajustes', label: 'Ajustes', description: 'Configurações do sistema.', icon: 'settings', enable: false },
+    { path: '/perfil', label: 'Perfil', description: 'Informações do usuário.', icon: 'person', enable: false },
+    { path: '/oferta', label: 'Oferta Ativa', description: 'Clientes cadastrados.', icon: 'check', enable: false }]);
 
   // Expõe a lista como um sinal de apenas leitura para os componentes
   menuItens = this.menuItems.asReadonly();

@@ -43,9 +43,9 @@
   </mat-toolbar>
 
   <!-- Conteúdo Principal com Animação -->
-  <main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
-    <router-outlet #outlet="outlet"></router-outlet>
-  </main>
+  <main [@routeAnimations]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</main>
 
   <!-- Navegação Inferior (Mobile) -->
   <nav class="bottom-nav">

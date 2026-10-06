@@ -179,16 +179,45 @@ export class LoginDialogComponent {
     return btoa(raw).split('').reverse().join('');
   }
 
-  onSubmitLogin(): void {
-    if (this.loginForm.invalid) return;
-    const { usuario, senha } = this.loginForm.getRawValue();
+  // Dentro de LoginDialogComponent
 
-    if (this.autenticar(usuario.trim().toLowerCase(), senha.trim())) {
-      this.dialogRef.close(true);
-    } else if (!this.isPrimeiroAcesso()) {
-      this.loginForm.setErrors({ invalidCredentials: true });
-    }
+onSubmitLogin(): void {
+  if (this.loginForm.invalid) return;
+  const { usuario, senha } = this.loginForm.getRawValue();
+
+  if (this.autenticar(usuario.trim().toLowerCase(), senha.trim())) {
+    sessionStorage.setItem('isLoggedIn', 'true'); // Marca a sessão como ativa
+    this.dialogRef.close(true);
+  } else if (!this.isPrimeiroAcesso()) {
+    this.loginForm.setErrors({ invalidCredentials: true });
   }
+}
+
+onSalvarNovoUsuario(): void {
+  if (this.cadastroForm.invalid) return;
+  const { novoUsuario, novaSenha } = this.cadastroForm.getRawValue();
+  const userClean = novoUsuario.trim().toLowerCase();
+  const passClean = novaSenha.trim();
+
+  if (localStorage.getItem(`user_${userClean}`)) {
+    this.cadastroForm.controls.novoUsuario.setErrors({ userExists: true });
+    return;
+  }
+
+  const tokenCriptografado = this.criptografar(userClean, passClean);
+
+  localStorage.setItem(
+    `user_${userClean}`,
+    JSON.stringify({ 
+      usuario: userClean, 
+      token: tokenCriptografado, 
+      createdAt: new Date().toISOString() 
+    })
+  );
+
+  sessionStorage.setItem('isLoggedIn', 'true'); // Marca a sessão como ativa
+  this.dialogRef.close(true);
+}
 
   private autenticar(user: string, pass: string): boolean {
     const data = new Date();
@@ -213,31 +242,5 @@ export class LoginDialogComponent {
 
     // 3. Admin por último
     return user === 'admin' && pass === 'admin' + somaData;
-  }
-
-  onSalvarNovoUsuario(): void {
-    if (this.cadastroForm.invalid) return;
-    const { novoUsuario, novaSenha } = this.cadastroForm.getRawValue();
-    const userClean = novoUsuario.trim().toLowerCase();
-    const passClean = novaSenha.trim();
-
-    if (localStorage.getItem(`user_${userClean}`)) {
-      this.cadastroForm.controls.novoUsuario.setErrors({ userExists: true });
-      return;
-    }
-
-    // Criptografa 'usuario:senha' antes de salvar no localStorage
-    const tokenCriptografado = this.criptografar(userClean, passClean);
-
-    localStorage.setItem(
-      `user_${userClean}`,
-      JSON.stringify({
-        usuario: userClean,
-        token: tokenCriptografado,
-        createdAt: new Date().toISOString()
-      })
-    );
-
-    this.dialogRef.close(true);
   }
 }
