@@ -27,7 +27,6 @@ export const routes: Routes = [
   {
     path: 'imoveis/:id',
     loadComponent: () => import('./pages/properties/property-details/property-details').then(m => m.PropertyDetailsComponent),
-    canActivate: [authGuard],
     data: { animation: 'DetailsPage' }
   },
   {

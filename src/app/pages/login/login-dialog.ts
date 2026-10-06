@@ -1,19 +1,22 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'login-dialog',
+  selector: 'app-login-dialog',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   template: `
     <h2 mat-dialog-title class="dialog-title">
@@ -25,7 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" id="login-form">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Usuário</mat-label>
-            <input matInput formControlName="usuario" placeholder="Digite seu usuário" />
+            <input matInput formControlName="usuario" autocomplete="username" placeholder="Digite seu usuário" />
             @if (loginForm.controls.usuario.hasError('required')) {
               <mat-error>Informe o usuário</mat-error>
             }
@@ -37,16 +40,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
               matInput
               [type]="hideSenhaLogin() ? 'password' : 'text'"
               formControlName="senha"
+              autocomplete="current-password"
               placeholder="Digite sua senha"
             />
             <button
               mat-icon-button
               matSuffix
               type="button"
-              class="toggle-pass"
+              aria-label="Alternar visibilidade da senha"
               (click)="hideSenhaLogin.set(!hideSenhaLogin())"
             >
-              {{ hideSenhaLogin() ? '👁️' : '🙈' }}
+              <mat-icon>{{ hideSenhaLogin() ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             @if (loginForm.controls.senha.hasError('required')) {
               <mat-error>Informe a senha</mat-error>
@@ -63,7 +67,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Novo Usuário</mat-label>
-            <input matInput formControlName="novoUsuario" placeholder="Escolha um usuário" />
+            <input matInput formControlName="novoUsuario" autocomplete="username" placeholder="Escolha um usuário" />
             @if (cadastroForm.controls.novoUsuario.hasError('required')) {
               <mat-error>Usuário é obrigatório</mat-error>
             }
@@ -78,16 +82,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
               matInput
               [type]="hideNovaSenha() ? 'password' : 'text'"
               formControlName="novaSenha"
+              autocomplete="new-password"
               placeholder="Crie uma nova senha"
             />
             <button
               mat-icon-button
               matSuffix
               type="button"
-              class="toggle-pass"
+              aria-label="Alternar visibilidade da senha"
               (click)="hideNovaSenha.set(!hideNovaSenha())"
             >
-              {{ hideNovaSenha() ? '👁️' : '🙈' }}
+              <mat-icon>{{ hideNovaSenha() ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             @if (cadastroForm.controls.novaSenha.hasError('required')) {
               <mat-error>Senha é obrigatória</mat-error>
@@ -100,16 +105,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
               matInput
               [type]="hideConfirmarSenha() ? 'password' : 'text'"
               formControlName="confirmarSenha"
+              autocomplete="new-password"
               placeholder="Confirme a nova senha"
             />
             <button
               mat-icon-button
               matSuffix
               type="button"
-              class="toggle-pass"
+              aria-label="Alternar visibilidade da senha"
               (click)="hideConfirmarSenha.set(!hideConfirmarSenha())"
             >
-              {{ hideConfirmarSenha() ? '👁️' : '🙈' }}
+              <mat-icon>{{ hideConfirmarSenha() ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             @if (cadastroForm.controls.confirmarSenha.hasError('required')) {
               <mat-error>Confirmação é obrigatória</mat-error>
@@ -125,23 +131,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Cancelar</button>
       @if (!isPrimeiroAcesso()) {
-        <button mat-raised-button color="primary" type="submit" form="login-form" [disabled]="loginForm.invalid">
+        <button mat-flat-button color="primary" type="submit" form="login-form" [disabled]="loginForm.invalid || isSubmitting()">
           Entrar
         </button>
       } @else {
-        <button mat-raised-button color="primary" type="submit" form="cadastro-form" [disabled]="cadastroForm.invalid">
+        <button mat-flat-button color="primary" type="submit" form="cadastro-form" [disabled]="cadastroForm.invalid || isSubmitting()">
           Salvar
         </button>
       }
     </mat-dialog-actions>
   `,
   styles: [`
+    :host { display: block; }
     .dialog-title { margin-bottom: 0; }
     .dialog-content { min-width: 280px; padding-top: 12px !important; }
     .full-width { width: 100%; margin-top: 4px; }
-    .info-text { font-size: 13px; color: #666; margin: 0 0 12px 0; }
+    .info-text { font-size: 13px; color: var(--mat-sys-on-surface-variant, #666); margin: 0 0 12px 0; }
     .global-error { font-size: 12px; margin-bottom: 8px; display: block; }
-    .toggle-pass { font-size: 14px; line-height: 1; border: none; background: transparent; cursor: pointer; }
   `]
 })
 export class LoginDialogComponent {
@@ -149,6 +155,7 @@ export class LoginDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<LoginDialogComponent>);
 
   readonly isPrimeiroAcesso = signal(false);
+  readonly isSubmitting = signal(false);
   readonly hideSenhaLogin = signal(true);
   readonly hideNovaSenha = signal(true);
   readonly hideConfirmarSenha = signal(true);
@@ -173,74 +180,82 @@ export class LoginDialogComponent {
     }
   );
 
-  /** Criptografia ultra simples concatenando usuario + senha e convertendo para Base64 invertido */
-  private criptografar(user: string, pass: string): string {
-    const raw = `${user}:${pass}`;
-    return btoa(raw).split('').reverse().join('');
+  private async hashCredentials(user: string, pass: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${user}:${pass}`);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  // Dentro de LoginDialogComponent
+  async onSubmitLogin(): Promise<void> {
+    if (this.loginForm.invalid || this.isSubmitting()) return;
+    this.isSubmitting.set(true);
 
-onSubmitLogin(): void {
-  if (this.loginForm.invalid) return;
-  const { usuario, senha } = this.loginForm.getRawValue();
+    const { usuario, senha } = this.loginForm.getRawValue();
+    const userClean = usuario.trim().toLowerCase();
+    const passClean = senha.trim();
 
-  if (this.autenticar(usuario.trim().toLowerCase(), senha.trim())) {
-    sessionStorage.setItem('isLoggedIn', 'true'); // Marca a sessão como ativa
+    try {
+      const isAuthenticated = await this.autenticar(userClean, passClean);
+      if (isAuthenticated) {
+        sessionStorage.setItem('isLoggedIn', 'true');
+        this.dialogRef.close(true);
+      } else if (!this.isPrimeiroAcesso()) {
+        this.loginForm.setErrors({ invalidCredentials: true });
+      }
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+
+  async onSalvarNovoUsuario(): Promise<void> {
+    if (this.cadastroForm.invalid || this.isSubmitting()) return;
+    this.isSubmitting.set(true);
+
+    const { novoUsuario, novaSenha } = this.cadastroForm.getRawValue();
+    const userClean = novoUsuario.trim().toLowerCase();
+    const passClean = novaSenha.trim();
+
+    if (localStorage.getItem(`user_${userClean}`)) {
+      this.cadastroForm.controls.novoUsuario.setErrors({ userExists: true });
+      this.isSubmitting.set(false);
+      return;
+    }
+
+    const tokenHash = await this.hashCredentials(userClean, passClean);
+
+    localStorage.setItem(
+      `user_${userClean}`,
+      JSON.stringify({ 
+        usuario: userClean, 
+        token: tokenHash, 
+        createdAt: new Date().toISOString() 
+      })
+    );
+
+    sessionStorage.setItem('isLoggedIn', 'true');
     this.dialogRef.close(true);
-  } else if (!this.isPrimeiroAcesso()) {
-    this.loginForm.setErrors({ invalidCredentials: true });
-  }
-}
-
-onSalvarNovoUsuario(): void {
-  if (this.cadastroForm.invalid) return;
-  const { novoUsuario, novaSenha } = this.cadastroForm.getRawValue();
-  const userClean = novoUsuario.trim().toLowerCase();
-  const passClean = novaSenha.trim();
-
-  if (localStorage.getItem(`user_${userClean}`)) {
-    this.cadastroForm.controls.novoUsuario.setErrors({ userExists: true });
-    return;
   }
 
-  const tokenCriptografado = this.criptografar(userClean, passClean);
-
-  localStorage.setItem(
-    `user_${userClean}`,
-    JSON.stringify({ 
-      usuario: userClean, 
-      token: tokenCriptografado, 
-      createdAt: new Date().toISOString() 
-    })
-  );
-
-  sessionStorage.setItem('isLoggedIn', 'true'); // Marca a sessão como ativa
-  this.dialogRef.close(true);
-}
-
-  private autenticar(user: string, pass: string): boolean {
+  private async autenticar(user: string, pass: string): Promise<boolean> {
     const data = new Date();
     const somaData = data.getDate() + (data.getMonth() + 1) + data.getFullYear();
 
-    // 1. Consulta LocalStorage (compara o hash criptografado gerado na tentativa com o salvo)
     const saved = localStorage.getItem(`user_${user}`);
     if (saved) {
       try {
-        const hashTentativa = this.criptografar(user, pass);
+        const hashTentativa = await this.hashCredentials(user, pass);
         return JSON.parse(saved).token === hashTentativa;
       } catch {
         localStorage.removeItem(`user_${user}`);
       }
     }
 
-    // 2. Primeiro acesso (user_01 + somaData)
     if (user === 'user_01' && pass === 'user_01' + somaData) {
       this.isPrimeiroAcesso.set(true);
       return false;
     }
 
-    // 3. Admin por último
     return user === 'admin' && pass === 'admin' + somaData;
   }
 }

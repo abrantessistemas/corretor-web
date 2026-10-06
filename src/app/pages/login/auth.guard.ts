@@ -1,24 +1,28 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginDialogComponent } from './login-dialog';
+import { firstValueFrom } from 'rxjs';
 
-export const authGuard: CanActivateFn = () => {
-    const dialog = inject(MatDialog);
+export const authGuard: CanActivateFn = async () => {
+  const dialog = inject(MatDialog);
 
-    // 1. Verifica se já existe qualquer sessão/usuário ativo salvo no sessionStorage ou localStorage
-    const sessionActive = sessionStorage.getItem('isLoggedIn') === 'true';
+  // 1. Checa a sessão ativa
+  const sessionActive = sessionStorage.getItem('isLoggedIn') === 'true';
 
-    if (sessionActive) {
-        return true;
-    }
+  if (sessionActive) {
+    return true;
+  }
 
-    // 2. Se não estiver logado, abre o dialog de login
-    const dialogRef = dialog.open(LoginDialogComponent, {
-        disableClose: true,
-        width: '400px'
-    });
+  // 2. Carregamento dinâmico do modal com import()
+  const { LoginDialogComponent } = await import('./login-dialog');
 
-    // Retorna um Observable que emite true se o login foi concluído com sucesso (dialogRef.close(true))
-    return dialogRef.afterClosed();
+  const dialogRef = dialog.open(LoginDialogComponent, {
+    disableClose: true,
+    width: '400px',
+    restoreFocus: false
+  });
+
+  // 3. Converte o Observable após o encerramento do diálogo numa Promise<boolean>
+  const result = await firstValueFrom(dialogRef.afterClosed());
+  return Boolean(result);
 };
