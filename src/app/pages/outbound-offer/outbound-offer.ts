@@ -33,6 +33,7 @@ export interface Lead {
   nome: string;
   telefone: string;
   projeto?: string;
+  qrCode?: string;
   enviado?: boolean;
   ligacaoRealizada?: boolean;
 }
@@ -83,6 +84,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   readonly isMobile = signal<boolean>(false);
   readonly exibirQrCode = signal<boolean>(false);
   readonly iniciado = signal<boolean>(false);
+  readonly pausado = signal<boolean>(false);
   readonly carregandoArquivo = signal<boolean>(false);
   readonly selectedFile = signal<File | null>(null);
   readonly mensagemList = signal<any[]>([]);
@@ -144,7 +146,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private observarAlteracoesFormulario(): void {
-    // Auto-save debounced no LocalStorage ao digitar ou alterar select
     const formChanges$ = merge(
       this.mensagem.valueChanges,
       this.intervalo.valueChanges,
@@ -159,6 +160,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
+        if (this.exibirQrCode()) {
+          this.atualizarQrCodesVisiveis();
+        }
         this.salvarEstadoLocalStorage();
       });
   }
@@ -168,6 +172,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       pageIndex: event.pageIndex,
       pageSize: event.pageSize
     };
+    if (this.exibirQrCode()) {
+      this.atualizarQrCodesVisiveis();
+    }
     this.salvarEstadoLocalStorage();
   }
 
@@ -199,6 +206,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
           if (this.paginator) {
             this.paginator.firstPage();
             this.paginacaoSalva.pageIndex = 0;
+          }
+
+          if (this.exibirQrCode()) {
+            await this.atualizarQrCodesVisiveis();
           }
 
           this.salvarEstadoLocalStorage();
@@ -318,45 +329,127 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.salvarEstadoLocalStorage();
   }
 
-  async autoEnvio(): Promise<void> {
+  // --- CONTROLES DE AUTOMAÇÃO (PLAYER AUTO PLAY CORRIGIDO) ---
+
+  async play(): Promise<void> {
     const tempoSegundos = Number(this.intervalo.value) || 0;
     if (tempoSegundos < 5) return;
 
-    const leadsParaEnviar = this.dataSource.data.filter(l => {
-      const tel = this.limparTelefone(l.telefone);
-      return tel.length > 0 && !l.enviado;
-    });
+    this.pausado.set(false);
+    if (this.iniciado()) return;
 
-    let totalLeads = leadsParaEnviar.length;
+    this.iniciado.set(true);
 
-    if (this.iniciado()) {
-      this.iniciado.set(false);
-      return;
-    }
-
-    if (leadsParaEnviar.length > 0) {
-      this.iniciado.set(true);
-
-      for (let index = 0; index < totalLeads; index++) {
-        if (!this.iniciado()) break;
-
-        this.chamarAgora(leadsParaEnviar[index], true);
-
-        if (index < leadsParaEnviar.length - 1) {
-          await this.delay(tempoSegundos * 1000);
-        }
+    while (this.iniciado()) {
+      if (this.pausado()) {
+        await this.delay(1000);
+        continue;
       }
 
-      this.iniciado.set(false);
+      const proximoLead = this.dataSource.data.find(l => {
+        const tel = this.limparTelefone(l.telefone);
+        return tel.length > 0 && !l.enviado;
+      });
+
+      if (!proximoLead) {
+        this.iniciado.set(false);
+        break;
+      }
+
+      this.chamarAgora(proximoLead, true);
+      await this.delay(tempoSegundos * 1000);
     }
   }
 
-  desligar(): void {
+  pause(): void {
+    this.pausado.set(true);
+  }
+
+  stop(): void {
     this.iniciado.set(false);
+    this.pausado.set(false);
+  }
+
+  voltarUm(): void {
+    const listaInvertida = [...this.dataSource.data].reverse();
+    const ultimoEnviado = listaInvertida.find(l => l.enviado);
+    if (ultimoEnviado) {
+      ultimoEnviado.enviado = false;
+      this.dataSource.data = [...this.dataSource.data];
+      this.tando.update(v => Math.max(0, v - 1));
+      this.salvarEstadoLocalStorage();
+    }
+  }
+
+  voltarTodos(): void {
+    this.stop();
+    this.dataSource.data.forEach(l => (l.enviado = false));
+    this.dataSource.data = [...this.dataSource.data];
+    this.tando.set(0);
+    this.ultimoContato.set('');
+    this.salvarEstadoLocalStorage();
+  }
+
+  // Corrigido: Avança o contato executando o envio do WhatsApp real
+  avancarUm(): void {
+    const proximoLead = this.dataSource.data.find(l => !l.enviado && this.limparTelefone(l.telefone).length > 0);
+    if (proximoLead) {
+      this.chamarAgora(proximoLead, true);
+    }
+  }
+
+  avancarTodos(): void {
+    this.stop();
+    this.dataSource.data.forEach(l => {
+      if (!l.enviado && this.limparTelefone(l.telefone).length > 0) {
+        l.enviado = true;
+      }
+    });
+    this.dataSource.data = [...this.dataSource.data];
+    this.tando.set(this.dataSource.data.filter(l => l.enviado).length);
+    this.salvarEstadoLocalStorage();
+  }
+
+  // --- OTIMIZAÇÃO E GERADOR DE QR CODE ---
+
+  async toggleQrCode() {
+    this.exibirQrCode.update(v => !v);
+    if (this.exibirQrCode()) {
+      await this.atualizarQrCodesVisiveis();
+    }
+    this.salvarEstadoLocalStorage();
+  }
+
+  private async atualizarQrCodesVisiveis(): Promise<void> {
+    if (!this.paginator) return;
+
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    const endIndex = startIndex + this.paginator.pageSize;
+    const leadsPagina = this.dataSource.data.slice(startIndex, endIndex);
+
+    for (const lead of leadsPagina) {
+      if (!lead.qrCode && lead.telefone) {
+        lead.qrCode = await this.gerarQrCodeWhatsApp(lead.nome, lead.telefone);
+      }
+    }
+    this.dataSource.data = [...this.dataSource.data];
+  }
+
+  private async gerarQrCodeWhatsApp(nome: string, telefone: string): Promise<string> {
+    if (!telefone) return '';
+    const textoMensagem = `${this.periodo.value} ${nome} ${this.mensagem.value || ''}`.trim();
+    const whatsappUrl = `https://wa.me/${telefone}?text=${encodeURIComponent(textoMensagem)}`;
+
+    try {
+      const QRCodeModule = await import('qrcode');
+      return await QRCodeModule.toDataURL(whatsappUrl, { width: 220, margin: 1 });
+    } catch (err) {
+      console.error('Erro ao gerar QR Code:', err);
+      return '';
+    }
   }
 
   private salvarEstadoLocalStorage(): void {
-    // Sanitização para remover dados pesados antes de salvar
     const leadsSanitizados = this.dataSource.data.map(({ id, nome, telefone, enviado, ligacaoRealizada }) => ({
       id,
       nome,
@@ -478,27 +571,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // Otimização de Bundle: Dynamic Import da biblioteca QRCode apenas sob demanda
-  async gerarQrCodeWhatsApp(nome: string, telefone: string): Promise<string> {
-    if (!telefone) return '';
-
-    const textoMensagem = `Olá ${nome} ${this.mensagem.value || ''}`.trim();
-    const whatsappUrl = `https://wa.me/${telefone}?text=${encodeURIComponent(textoMensagem)}`;
-
-    try {
-      const QRCodeModule = await import('qrcode');
-      return await QRCodeModule.toDataURL(whatsappUrl, { width: 100, margin: 1 });
-    } catch (err) {
-      console.error('Erro ao gerar QR Code para o lead:', err);
-      return '';
-    }
-  }
-
-  toggleQrCode(): void {
-    this.exibirQrCode.update(v => !v);
-    this.salvarEstadoLocalStorage();
   }
 
   cortaTexto(texto: string): string {

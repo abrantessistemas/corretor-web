@@ -98,31 +98,54 @@
             </div>
         </div>
     </mat-expansion-panel>
-
     @if(!isMobile()){
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <button matMiniFab style="margin:10px 10px;">
-                    <mat-icon>{{ iniciado() ? 'stop' : 'play_arrow' }}</mat-icon>
+                    <mat-icon>play_circle_outline</mat-icon>
                 </button>
-                Parâmetros de automação
+                Controle do Player de Automação
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <mat-form-field appearance="outline">
-                <mat-label>Intervalo (segundos)</mat-label>
-                <input matInput type="number" [formControl]="intervalo" min="5" />
-            </mat-form-field>
+        <mat-form-field appearance="outline" style="max-width: 180px;">
+            <mat-label>Intervalo (segundos)</mat-label>
+            <input matInput type="number" [formControl]="intervalo" min="5" />
+        </mat-form-field>
 
-            <button mat-mini-fab color="accent" class="btn-play" (click)="autoEnvio()"
-                matTooltip="Iniciar Envio Automático">
-                <mat-icon>{{ iniciado() ? 'stop' : 'play_arrow' }}</mat-icon>
+        <div class="player-controls" style="display: flex; align-items: center; gap: 8px;">
+            <button mat-mini-fab color="basic" (click)="voltarTodos()" matTooltip="Voltar Todos">
+                <mat-icon>fast_rewind</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="basic" (click)="voltarUm()" matTooltip="Voltar 1 em 1">
+                <mat-icon>skip_previous</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="accent" (click)="play()" [disabled]="iniciado() && !pausado()"
+                matTooltip="Play">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="warn" (click)="pause()" [disabled]="!iniciado() || pausado()"
+                matTooltip="Pause">
+                <mat-icon>pause</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="warn" (click)="stop()" [disabled]="!iniciado()" matTooltip="Stop">
+                <mat-icon>stop</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="basic" (click)="avancarUm()" matTooltip="Avançar 1 em 1">
+                <mat-icon>skip_next</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="basic" (click)="avancarTodos()" matTooltip="Avançar Todos">
+                <mat-icon>fast_forward</mat-icon>
             </button>
         </div>
     </mat-expansion-panel>
     }
-
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -175,9 +198,11 @@
                             }
                             @if (exibirQrCode()) {
                             <div style="margin-left: 25%; width: 100%; text-align: center;">
-                                @if (gerarQrCodeWhatsApp(element.nome, element.telefone) | async; as qrUrl) {
-                                <img [src]="qrUrl" style="width: 20rem; margin-bottom: 1rem; margin-top: 1rem;"
+                                @if (element.qrCode) {
+                                <img [src]="element.qrCode" style="width: 14rem; margin-bottom: 1rem; margin-top: 1rem;"
                                     alt="QR Code WhatsApp" />
+                                } @else {
+                                <mat-spinner diameter="30" style="margin: 1rem auto;"></mat-spinner>
                                 }
                             </div>
                             }
