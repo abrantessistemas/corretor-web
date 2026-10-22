@@ -310,7 +310,18 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     lead.enviado = true;
     this.dataSource.data = [...this.dataSource.data];
 
-    const textoFormatado = `${this.periodo.value} ${lead.nome} ${mensagemAtual}`.trim();
+    const datahora = new Date();
+    let periodoAtual = '';
+
+    if (datahora.getHours() > 4 && datahora.getHours() < 12) {
+      periodoAtual = 'Bom dia';
+    } else if (datahora.getHours() < 18) {
+      periodoAtual = 'Boa tarde';
+    } else {
+      periodoAtual = 'Boa noite';
+    }
+
+    const textoFormatado = `${periodoAtual} ${lead.nome} ${mensagemAtual}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
 
     window.open(whatsappUrl, '_blank');
@@ -408,6 +419,17 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.data = [...this.dataSource.data];
     this.tando.set(this.dataSource.data.filter(l => l.enviado).length);
     this.salvarEstadoLocalStorage();
+  }
+
+  pularContato(): void {
+    const proximoLead = this.dataSource.data.find(l => !l.enviado && this.limparTelefone(l.telefone).length > 0);
+    if (proximoLead) {
+
+      proximoLead.enviado = true;
+      this.dataSource.data = [...this.dataSource.data];
+      this.tando.set(this.tando() + 1);
+      this.salvarEstadoLocalStorage();
+    }
   }
 
   // --- OTIMIZAÇÃO E GERADOR DE QR CODE ---

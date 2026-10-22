@@ -1,58 +1,92 @@
-<header class="list-header">
+<header class="list-header vibrant-header">
     <div class="header-main">
         <div class="title-group">
             <h1 class="color-text-inver">Oferta Ativa</h1>
-            <p class="color-text-inver">Envio de mensagem rápido e eficiente.</p>
+            <p class="color-text-inver">Envio de mensagens automatizado, rápido e eficiente.</p>
         </div>
     </div>
 </header>
 
 <mat-accordion multi class="config-accordion">
-    <mat-expansion-panel>
+    <!-- Painel de Configurações -->
+    <mat-expansion-panel class="custom-panel">
         <mat-expansion-panel-header>
-            <mat-panel-title>
-                <button matMiniFab style="margin:10px 10px;">
+            <mat-panel-title class="panel-title-custom">
+                <div class="header-icon-badge">
                     <mat-icon>settings</mat-icon>
-                </button>
-                Configurações de Envio
+                </div>
+                <span>Configurações de Envio</span>
             </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="config-grid">
             @if(!isMobile()) {
-            <mat-checkbox [checked]="exibirQrCode()" (change)="toggleQrCode()">
-                QRCODE
-            </mat-checkbox>
+            <div class="checkbox-wrapper">
+                <mat-checkbox [checked]="exibirQrCode()" (change)="toggleQrCode()" color="primary">
+                    Exibir QR Code na Tabela
+                </mat-checkbox>
+            </div>
             }
 
             <div class="form-row">
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="flex-field">
                     <mat-label>Coluna Nome (Índice)</mat-label>
                     <input matInput type="number" [formControl]="colunaNome" min="1" />
                 </mat-form-field>
 
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="flex-field">
                     <mat-label>Coluna Contato (Índice)</mat-label>
                     <input matInput type="number" [formControl]="colunaContato" min="2" />
                 </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label> <mat-icon>wb_sunny</mat-icon> Período</mat-label>
-                    <select matNativeControl required [formControl]="periodo">
-                        <option value="Bom dia">Manhã</option>
-                        <option value="Boa tarde">Tarde</option>
-                        <option value="Boa noite">Noite</option>
-                    </select>
-                </mat-form-field>
             </div>
 
-            <mat-form-field appearance="outline" class="flex-grow">
+            @if(!isMobile()){
+            <div class="player-config-inline-bar">
+                <mat-form-field appearance="outline" class="interval-field">
+                    <mat-label>Intervalo (s)</mat-label>
+                    <input matInput type="number" [formControl]="intervalo" min="5" />
+                </mat-form-field>
+
+                <div class="player-controls">
+                    <button mat-mini-fab class="player-btn-rewind" (click)="voltarTodos()" matTooltip="Voltar Todos">
+                        <mat-icon>fast_rewind</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-prev" (click)="voltarUm()" matTooltip="Voltar 1 em 1">
+                        <mat-icon>skip_previous</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-play" (click)="play()" [disabled]="iniciado() && !pausado()"
+                        matTooltip="Play">
+                        <mat-icon>play_arrow</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-skip" (click)="pularContato()"
+                        matTooltip="Pular este contato">
+                        <mat-icon>u_turn_right</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-pause" (click)="pause()"
+                        [disabled]="!iniciado() || pausado()" matTooltip="Pause">
+                        <mat-icon>pause</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-stop" (click)="stop()" [disabled]="!iniciado()"
+                        matTooltip="Stop">
+                        <mat-icon>stop</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-next" (click)="avancarUm()" matTooltip="Avançar 1 em 1">
+                        <mat-icon>skip_next</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="player-btn-forward" (click)="avancarTodos()" matTooltip="Avançar Todos">
+                        <mat-icon>fast_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+            }
+
+            <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Mensagens Pré-definidas</mat-label>
                 <mat-select [formControl]="mensagens" (selectionChange)="onMensagemSelecionada($event.value)">
                     <mat-select-trigger>
                         <span class="additional-selection">
-                            {{ mensagens.value ? (mensagens.value.titulo || mensagens.value) : 'Selecione uma mensagem'
-                            }}
+                            {{ mensagens.value ? (mensagens.value.titulo || mensagens.value) :
+                            'Selecione uma mensagem pronta' }}
                         </span>
                     </mat-select-trigger>
 
@@ -68,29 +102,29 @@
                 </mat-select>
             </mat-form-field>
 
-            <div class="form-row">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Mensagem para Envio</mat-label>
-                    <textarea matInput [formControl]="mensagem" rows="5"></textarea>
-                </mat-form-field>
-            </div>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mensagem para Envio</mat-label>
+                <textarea matInput [formControl]="mensagem" rows="4"
+                    placeholder="Escreva sua mensagem personalizada..."></textarea>
+            </mat-form-field>
 
             <div class="file-upload-container">
                 <input type="file" #fileInput (change)="onFileSelected($event)" accept=".csv, .xlsx, .txt"
                     style="display: none" />
 
-                <button mat-raised-button color="primary" [disabled]="carregandoArquivo()" (click)="fileInput.click()">
+                <button mat-flat-button color="primary" class="upload-btn" [disabled]="carregandoArquivo()"
+                    (click)="fileInput.click()">
                     @if (carregandoArquivo()) {
                     <mat-spinner diameter="20" class="spinner-btn"></mat-spinner>
-                    <span> Processando...</span>
+                    <span>Processando arquivo...</span>
                     } @else {
                     <mat-icon>upload_file</mat-icon>
-                    <span> Carregar Arquivo (.csv)</span>
+                    <span>Carregar Arquivo (.csv)</span>
                     }
                 </button>
 
                 @if (selectedFile()) {
-                <div class="file-info">
+                <div class="file-info-chip">
                     <mat-icon color="accent">description</mat-icon>
                     <span>{{ selectedFile()?.name }} ({{ ((selectedFile()?.size || 0) / 1024).toFixed(1) }} KB)</span>
                 </div>
@@ -98,74 +132,25 @@
             </div>
         </div>
     </mat-expansion-panel>
-    @if(!isMobile()){
-    <mat-expansion-panel>
+
+    <!-- Painel de Lista de Contatos -->
+    <mat-expansion-panel class="custom-panel" expanded>
         <mat-expansion-panel-header>
-            <mat-panel-title>
-                <button matMiniFab style="margin:10px 10px;">
-                    <mat-icon>play_circle_outline</mat-icon>
-                </button>
-                Controle do Player de Automação
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-form-field appearance="outline" style="max-width: 180px;">
-            <mat-label>Intervalo (segundos)</mat-label>
-            <input matInput type="number" [formControl]="intervalo" min="5" />
-        </mat-form-field>
-
-        <div class="player-controls" style="display: flex; align-items: center; gap: 8px;">
-            <button mat-mini-fab color="basic" (click)="voltarTodos()" matTooltip="Voltar Todos">
-                <mat-icon>fast_rewind</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="basic" (click)="voltarUm()" matTooltip="Voltar 1 em 1">
-                <mat-icon>skip_previous</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="accent" (click)="play()" [disabled]="iniciado() && !pausado()"
-                matTooltip="Play">
-                <mat-icon>play_arrow</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="warn" (click)="pause()" [disabled]="!iniciado() || pausado()"
-                matTooltip="Pause">
-                <mat-icon>pause</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="warn" (click)="stop()" [disabled]="!iniciado()" matTooltip="Stop">
-                <mat-icon>stop</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="basic" (click)="avancarUm()" matTooltip="Avançar 1 em 1">
-                <mat-icon>skip_next</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="basic" (click)="avancarTodos()" matTooltip="Avançar Todos">
-                <mat-icon>fast_forward</mat-icon>
-            </button>
-        </div>
-    </mat-expansion-panel>
-    }
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <button matMiniFab style="margin:10px 10px;">
+            <mat-panel-title class="panel-title-custom">
+                <div class="header-icon-badge">
                     <mat-icon>toc</mat-icon>
-                </button>
-                @if(!isMobile()){ Lista de contatos }
+                </div>
+                <span>Lista de Leads e Envios</span>
             </mat-panel-title>
-            <span
-                style="margin-right: 10px; gap: 12px; display: flex; justify-content: space-evenly; color: var(--mat-sys-primary, #0f172a);">
-                @if(isMobile() && ultimoContato().length > 0){
-                <p style="display: flex;"><mat-icon>phone</mat-icon> {{ ligacao() }}</p>
-                }
-                <p style="display: flex;"><mat-icon>messages</mat-icon> {{ tando() }}</p>
-                <p style="display: flex;">
-                    {{ de() }}
-                    @if(!isMobile() && ultimoContato().length > 0){ Último contato: }
-                    @if(ultimoContato()){ {{ ultimoContato().substring(0, 15) }} }
-                </p>
-            </span>
+            <mat-panel-description class="panel-metrics-desc">
+                <div class="metrics-badges">
+                    @if(isMobile() && ultimoContato().length > 0){
+                    <span class="badge-item"><mat-icon inline>phone</mat-icon> {{ ligacao() }}</span>
+                    }
+                    <span class="badge-item"><mat-icon inline>message</mat-icon> {{ tando() }}</span>
+                    <span class="badge-item total-badge">Total: {{ de() }}</span>
+                </div>
+            </mat-panel-description>
         </mat-expansion-panel-header>
 
         <div class="table-responsive-wrapper">
@@ -186,23 +171,22 @@
                         @case ('nome') {
                         <div class="lead-profile">
                             @if (!exibirQrCode()) {
-                            <button matMiniFab [class.avatar-enviado]="element.enviado">
+                            <div class="lead-avatar" [class.avatar-enviado]="element.enviado">
                                 {{ element.nome ? element.nome.charAt(0).toUpperCase() : '?' }}
-                            </button>
+                            </div>
                             <div class="lead-info">
-                                <span class="lead-name">{{ element.nome }}</span>
+                                <span class="lead-name">{{ isMobile() ? element.nome.substring(0,21) : element.nome }}</span>
                                 @if (element.enviado) {
                                 <span class="status-badge">Contato Realizado</span>
                                 }
                             </div>
                             }
                             @if (exibirQrCode()) {
-                            <div style="margin-left: 25%; width: 100%; text-align: center;">
+                            <div class="qrcode-container-cell">
                                 @if (element.qrCode) {
-                                <img [src]="element.qrCode" style="width: 14rem; margin-bottom: 1rem; margin-top: 1rem;"
-                                    alt="QR Code WhatsApp" />
+                                <img [src]="element.qrCode" alt="QR Code WhatsApp" class="qr-img" />
                                 } @else {
-                                <mat-spinner diameter="30" style="margin: 1rem auto;"></mat-spinner>
+                                <mat-spinner diameter="30"></mat-spinner>
                                 }
                             </div>
                             }
@@ -212,14 +196,21 @@
                         @case ('acoes') {
                         @if (!exibirQrCode()) {
                         <div class="action-buttons">
-                            <button matMiniFab [disabled]="element.enviado" (click)="chamarAgora(element, false)"
-                                [matTooltip]="element.enviado ? 'Já foi contatado' : 'Chamar no WhatsApp'">
+                            <button mat-mini-fab class="whatsapp-action-btn" [disabled]="element.enviado"
+                                (click)="chamarAgora(element, false)"
+                                [matTooltip]="element.enviado ? 'Já contatado' : 'Chamar no WhatsApp'">
                                 @if (element.enviado) {
                                 <mat-icon>check</mat-icon>
                                 } @else {
                                 <i class="fa fa-whatsapp"></i>
                                 }
                             </button>
+
+                            <button mat-mini-fab color="accent" class="skip-action-btn" [disabled]="element.enviado"
+                                (click)="pularContato()" matTooltip="Pular este contato">
+                                <mat-icon>fast_forward</mat-icon>
+                            </button>
+
                             @if(isMobile()) {
                             <button mat-icon-button class="phone-button"
                                 [disabled]="!element.telefone || element.ligacaoRealizada" (click)="ligarAgora(element)"
@@ -244,7 +235,10 @@
 
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
-                        Nenhum lead encontrado. Carregue um arquivo de contatos.
+                        <div class="empty-state">
+                            <mat-icon>folder_open</mat-icon>
+                            <p>Nenhum lead encontrado. Carregue um arquivo de contatos CSV para iniciar.</p>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -253,9 +247,5 @@
                 aria-label="Selecione a página de leads">
             </mat-paginator>
         </div>
-        @if (isMobile()) {
-        <br>
-        <br>
-        }
     </mat-expansion-panel>
 </mat-accordion>
