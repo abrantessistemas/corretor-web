@@ -57,8 +57,9 @@ export class PropertyListComponent {
   readonly sortOrder = signal<'asc' | 'desc' | null>(null);
   readonly selectedZone = signal<string | null>(null);
   readonly selectedBairro = signal<string | null>(null);
-  readonly selectedDormitorio = signal<number | null>(null);
+  readonly selectedTipo = signal<string | null>(null);
   readonly selectedMetragem = signal<number | null>(null);
+  readonly selectedDormitorio = signal<number | null>(null);
 
   loadDetails = false;
   readonly zonas = ['Zona Sul', 'Zona Norte', 'Zona Leste', 'Zona Oeste', 'Centro'];
@@ -81,6 +82,20 @@ export class PropertyListComponent {
     const set = new Set<string>();
     for (const item of list) {
       if (item.location?.bairro) set.add(item.location.bairro);
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  });
+
+  readonly tipos = computed(() => {
+    const list = this.propertyService.properties() ?? [];
+    const set = new Set<string>();
+    for (const item of list) {
+      const tipo = item.type;
+      if (Array.isArray(tipo)) {
+        tipo.forEach(a => a && set.add(a));
+      } else if (tipo) {
+        set.add(tipo);
+      }
     }
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   });
@@ -116,11 +131,13 @@ export class PropertyListComponent {
     const bairro = this.selectedBairro();
     const area = this.selectedMetragem();
     const dormitorios = this.selectedDormitorio();
+    const tipo = this.selectedTipo();
 
     let list = rawList.filter(item => {
       if (zone && item.location?.regiao !== zone) return false;
       if (bairro && item.location?.bairro !== bairro) return false;
       if (dormitorios && item.specs?.bedrooms !== dormitorios) return false;
+      if (tipo && item.type !== tipo) return false;
       if (area) {
         const itemArea = item.specs?.area;
         if (Array.isArray(itemArea)) {
