@@ -33,6 +33,21 @@ import { MenuItem, PropertyService } from './services/property';
 export class App {
 
   ngOnInit() {
+    const dadosSalvos = localStorage.getItem('app_theme_settings');
+    if (dadosSalvos) {
+      try {
+        const estado = JSON.parse(dadosSalvos);
+        if (estado.primaryColor) {
+          document.documentElement.style.setProperty('--primary-color', estado.primaryColor);
+        }
+        if (estado.isDarkMode) {
+          document.body.classList.toggle('dark-theme', true);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     // Verifica no localStorage se isBroker é 'true' ao carregar a página
     const brokerValue = localStorage.getItem('isBroker');
     if (brokerValue === 'true') {
@@ -42,7 +57,7 @@ export class App {
   }
 
   // Itens do menu usando Signals (v21)
-   menuItems = signal<MenuItem[]>([]);
+  menuItems = signal<MenuItem[]>([]);
 
   private dialog = inject(MatDialog);
   private router = inject(Router);
