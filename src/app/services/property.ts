@@ -28,7 +28,7 @@ export interface Property {
   },
   features: string[],
   amenities: string[],
-  type: 'Estudio' | 'Apartamento' | 'Suites' | 'Casa' | 'Cobertura' | 'Duplex' | 'Triplex';
+  type: 'Estudio' | 'Apartamento' | 'Suites' | 'Casa' | 'Cobertura' | 'Duplex' | 'Triplex' | 'Loja' | 'Sala' | 'Galpão' | 'Terreno';
   status: 'Pronto' | 'Lançamento' | 'Em obras' | '100% Vendido' | 'Em Breve';
   category: string[];
   imagesUrl: Implantacao[];
@@ -3195,8 +3195,14 @@ export class PropertyService {
       imagesUrl: [{
         id: 1,
         description: 'Fachada do Pátio Central',
-        imagesUrl: '../../assets/patio-plantas/patiofachada.jpeg'
-      }],
+        imagesUrl: 'https://www.rivaincorporadora.com.br/wp-content/uploads/2025/02/Perspectiva-Fachada-PatioCentralGaleria-1024x576.jpg'
+      },
+      {
+        id: 2,
+        description: 'Piscina',
+        imagesUrl: 'https://www.rivaincorporadora.com.br/wp-content/uploads/2025/02/Perspectiva-Piscina_PatioCentralGaleria-1024x576.jpg',
+      }
+      ],
       planta: [
         {
           id: 1,
@@ -3289,6 +3295,209 @@ export class PropertyService {
       isPromo: false,
       favorite: false,
       bookUrl: 'https://drive.google.com/uc?export=download&id=1eHDXm61tLnYwO6itbjvjQSN-86GTI5UE'
+    },
+    {
+      id: 17,
+      title: 'Loja Compose Moema',
+      subtitle: '',
+      description: '',
+      idealization:
+        this.construtoras[0],
+      location: {
+        id: 1,
+        rua: 'AV. DOS CARINÁS',
+        numero: 64,
+        bairro: 'Moema',
+        cidade: 'São Paulo',
+        estado: 'SP',
+        cep: '04086-010',
+        regiao: 'Zona Sul'
+      },
+      state: 'São Paulo',
+      price: 340090,
+      price_promo: 0,
+      towers: 3,
+      units_available: 846,
+      date: new Date('2028-06-30'),
+      specs: {
+        bedrooms: 0,
+        bathrooms: 0,
+        suits: 0,
+        balcony: false,
+        area: [165.51],
+        garden: false,
+        parking: 2,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado'],
+      amenities: [
+        'Vaga PCD',
+        'Vaga carga e descarga'
+      ],
+      type: 'Loja',
+      status: 'Pronto',
+      category: ['R2V'],
+      imagesUrl: [{
+        id: 1,
+        description: 'Fachada da Loja Moema',
+        imagesUrl: 'https://lh3.googleusercontent.com/d/1CZluCNJYCmYU7l2nOhaGscFPAHhZYe2W=s1000'
+      }],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Loja',
+          location: {
+            towers: [],
+            floor: [],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 0,
+            bathrooms: 2,
+            suits: 0,
+            balcony: false,
+            area: [127.69],
+            garden: false,
+            parking: 2
+          },
+          features: [
+            'Ponto para Ar-Condicionado'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UG2_IvZ6bvO_jwPVwxz2EVuC0nJMvWF3=s1000',
+          category: 'R2V'
+        },
+        {
+          id: 2,
+          description: 'Planta Área Técnica',
+          location: {
+            towers: [],
+            floor: [],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 0,
+            bathrooms: 0,
+            suits: 0,
+            balcony: false,
+            area: [37.82],
+            garden: false,
+            parking: 0
+          },
+          features: [],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1RTd1YnoQq5Au0ofg0wqUSU_jPH5G1Azf=s1000',
+
+          category: 'R2V'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1eHDXm61tLnYwO6itbjvjQSN-86GTI5UE'
+    },
+    {
+      id: 18,
+      title: 'Loja Filadelfo',
+      subtitle: 'A 3 MINUTOS DO PARQUE IBIRAPUERA',
+      description: '',
+      idealization:
+        this.construtoras[0],
+      location: {
+        id: 1,
+        rua: 'RUA DINA',
+        numero: 85,
+        bairro: 'VILA NOVA CONCEIÇÃO',
+        cidade: 'São Paulo',
+        estado: 'SP',
+        cep: '04508-040',
+        regiao: 'Zona Sul'
+      },
+      state: 'São Paulo',
+      price: 340090,
+      price_promo: 0,
+      towers: 3,
+      units_available: 846,
+      date: new Date('2028-06-30'),
+      specs: {
+        bedrooms: 0,
+        bathrooms: 0,
+        suits: 0,
+        balcony: false,
+        area: [550],
+        garden: false,
+        parking: 3,
+        pool: true
+      },
+      features: ['Ponto para Ar-Condicionado'],
+      amenities: [
+        'Vaga utilitário',
+        'Vaga moto'
+      ],
+      type: 'Loja',
+      status: 'Pronto',
+      category: ['R2V'],
+      imagesUrl: [{
+        id: 1,
+        description: 'Fachada da Loja Filadelfo',
+        imagesUrl: 'https://lh3.googleusercontent.com/d/1SxaLlD0WwzHgY92F7J2b0WHNHXqOQVTGNAE0AYKjLTE=s1000'
+      }],
+      planta: [
+        {
+          id: 1,
+          description: 'Planta Terrea',
+          location: {
+            towers: [],
+            floor: [],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 0,
+            bathrooms: 0,
+            suits: 0,
+            balcony: false,
+            area: [247],
+            garden: false,
+            parking: 3
+          },
+          features: [
+            'Ventilção mecanica',
+            'Plataforma elevatória'
+          ],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/1UG2_IvZ6bvO_jwPVwxz2EVuC0nJMvWF3=s1000',
+          category: 'R2V'
+        },
+        {
+          id: 2,
+          description: 'Planta Pavimento Superior',
+          location: {
+            towers: [],
+            floor: [],
+          },
+          price: 340090,
+          price_promo: 0,
+          specs: {
+            bedrooms: 0,
+            bathrooms: 4,
+            suits: 0,
+            balcony: false,
+            area: [240],
+            garden: false,
+            parking: 0
+          },
+          features: [],
+          status: 'Disponível',
+          imagesUrl: 'https://lh3.googleusercontent.com/d/17BH3_vwueC5MKxjnVhBE9TEcqyswLaTGvTdjcJw3O_8=s1000',
+
+          category: 'R2V'
+        }
+      ],
+      isPromo: false,
+      favorite: false,
+      bookUrl: 'https://drive.google.com/uc?export=download&id=1eHDXm61tLnYwO6itbjvjQSN-86GTI5UE'
     }
   ]);
 
@@ -3299,107 +3508,185 @@ export class PropertyService {
     [
       {
         id: 1,
-        titulo: 'Condições especiais para você',
-        mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
-          'Eu e a Conx temos condições especiais para você e sua familia.\n' +
-          'Apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você esta buscando hoje?\n' +
-          'Digite (sair) caso não queira receber mais mensagens.'
+        titulo: 'Condições especiais para seu apê',
+        mensagem: 'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário da Conx.\n\n' +
+          'Tenho opções pelo Minha Casa Minha Vida, que podem ajudar você a conquistar seu apê.\n\n' +
+          'Qual região de SP você prefere?\n\nSe não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 2,
-        titulo: 'Posso ajudar você a encontrar seu ap.',
-        mensagem: 'tudo bem com você?\n\n' +
-          'Meu nome é Adriano Abrantes sou consultor imobiliário na construtora Conx.\n' +
-          'Você esteve buscando por apartamento na planta recentemente.\n' +
-          'Posso ajudar você a encontrar seu ap?\nEm qual região você esta buscando? Ou vc já fechou com alguem?\n' +
-          'Facilitamos na entrada durante as obras.\n O financiamento você começa a pagar na entrega da chave.\n' +
-          'Saia do aluguel em alguns meses com seu apartamento novo.\n' +
-          'Digite (sair) para não receber mais mensagens.',
+        titulo: 'Ainda está procurando seu apê?',
+        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes, da Conx! 😊\n\n' +
+          'Vi seu interesse em apartamento na planta e queria saber: você ainda está procurando ou já encontrou seu apê?\n\n' +
+          'Tenho opções com condições facilitadas de entrada, conforme o empreendimento.\n\nQual região você procura?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 3,
-        titulo: 'Estamos participando',
-        mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes consultor imobiliário na construtora Conx.\n' +
-          'Estamos participando de um grande feirão de imóveis junto com a caixa econômica federal.\n' +
-          'Imóveis 100% financiados pelo programa minha casa minha vida.\n' +
-          'Gostaria de convidar você para conhecer nossos projetos estamos por toda a cidade de São Paulo.\n' +
-          'Voce pode me informar em qual região você esta buscando seu apartamento novo?\n' +
-          'Digite (sair) para não receber mais mensagens.',
+        titulo: 'Oportunidades para sair do aluguel',
+        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes, consultor da Conx. 🏡\n\n' +
+          'Tenho opções em São Paulo pelo Minha Casa Minha Vida que podem facilitar a compra do seu primeiro apê.\n\n' +
+          'Qual região combina mais com você?\n\nSe preferir não receber mensagens, digite SAIR.'
       },
       {
         id: 4,
-        titulo: 'Você esta buscando por apartamento na planta',
-        mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes sou consultor imobiliário especialista no minha casa minha vida.\n' +
-          'Você esta buscando por apartamento na planta?\n' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você gostaria de comprar seu apartamento?\n' +
-          'Caso não queira receber mais mensagens digite (sair).',
+        titulo: 'Seu apê ainda está nos planos?',
+        mensagem: 'tudo bem com você?😊\nSou o Adriano Abrantes, da Conx.\n\n' +
+          'Comprar seu apê ainda está nos seus planos? Tenho opções na planta que podem se encaixar no seu orçamento.\n\n' +
+          'Em qual região de SP você gostaria de morar?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
       },
       {
         id: 5,
-        titulo: 'Em qual região você esta buscando',
-        mensagem: 'tudo bem com você?\n' +
-          'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
-          'Você esta buscando por apartamento na planta para moradia ou investimento?\n' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você esta buscando?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'Apê para morar ou investir?',
+        mensagem: 'tudo bem com você?\nAdriano Abrantes aqui, consultor imobiliário em SP. 😊\n\n' +
+          'Me conta: você procura um apê para morar ou investir?\n\n' +
+          'Tenho opções para diferentes perfis, inclusive pelo Minha Casa Minha Vida, conforme as regras do programa.\n\n' +
+          'Qual região você prefere?\n\nPara sair da lista, digite SAIR.'
       },
       {
         id: 6,
-        titulo: 'Possuo ótimas opções em São Paulo',
-        mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes sou consultor imobiliário no minha casa minha vida.\n' +
-          'Você esta buscando por apartamento na planta para moradia ou investimento?\n' +
-          'Possuo ótimas opções em São Paulo para você e sua familia.\n' +
-          'Em qual região você esta buscando?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'Vamos encontrar seu novo apê?',
+        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes! 🏡\n\n' +
+          'Tenho opções de apartamentos em várias regiões de SP e posso ajudar você a encontrar uma que combine com seu momento e orçamento.\n\n' +
+          'Qual bairro ou região você tem em mente?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 7,
-        titulo: 'ocê tem um cadastro com a gente buscando',
-        mensagem: 'tudo bem com você?\n' +
-          'Meu nome é Adriano Abrantes sou consultor imobiliário na Conx em São Paulo.\n' +
-          'Você tem um cadastro com a gente buscando por apartamento na planta.\n' +
-          'Você já comprou ou gostaria de veras novidades que tenho para você e sua familia?' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você esta buscando?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'Novas opções para você',
+        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, da Conx. 😊\n\n' +
+          'Você demonstrou interesse em apartamento e queria saber se ainda está buscando.\n\n' +
+          'Posso te apresentar algumas opções e novidades que façam sentido para você.\n\n' +
+          'Qual região procura? Ou já comprou seu apê?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 8,
-        titulo: 'Temos apartamento prontos e na planta',
-        mensagem: 'tudo bem com você?\n' +
-          'Aqui é o Adriano Abrantes sou consultor imobiliário.\n' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Temos apartamento prontos e na planta por toda a cidade de São Paulo' +
-          'Em qual região você esta buscando?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'Pronto para morar ou na planta?',
+        mensagem: 'tudo bem com você?\nTudo bem? Sou o Adriano Abrantes, consultor imobiliário. 🏡\n\n' +
+          'Tenho opções de apartamentos prontos e na planta em São Paulo.\n\n' +
+          'Você prefere se mudar logo ou planejar a compra de um imóvel na planta?\n\n' +
+          'Me diga a região que procuro as opções mais adequadas para você.\n\nDigite SAIR se não quiser receber mensagens.'
       },
       {
         id: 9,
-        titulo: 'Eu trabalho com apartamentos 100% financiado',
-        mensagem: 'tudo bem com você?\n' +
-          'Adriano Abrantes aqui sou consultor imobiliário minha casa minha vida.\n' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Em qual região você esta buscando?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'Conheça opções pelo Minha Casa Minha Vida',
+        mensagem: 'tudo bem com você?\nAdriano Abrantes aqui. 😊\n\n' +
+          'Posso ajudar você a conhecer apartamentos que se encaixem na sua renda e nos seus planos, inclusive opções pelo Minha Casa Minha Vida.\n\n' +
+          'Qual região de SP você procura?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 10,
-        titulo: 'Chega de transito more proximo a estações',
-        mensagem: 'tudo bem com você?\n' +
-          'Me chamo Adriano Abrantes sou consultor imobiliário em São Paulo.\n' +
-          'Chega de transito more proximo a estações de metro.' +
-          'Eu trabalho com apartamentos 100% financiado pelo programa minha casa minha vida.\n' +
-          'Perto de qual estação de metro você gostaria de morar?\n' +
-          'Se não quiser receber mais mensagens digite (sair).',
+        titulo: 'More perto do metrô',
+        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, consultor imobiliário em SP. 🚇\n\n' +
+          'Que tal procurar um apê que facilite sua rotina e diminua o tempo no trânsito?\n\n' +
+          'Tenho opções em diferentes regiões. Perto de qual estação de metrô você gostaria de morar?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 11,
+        titulo: '🏡 Seu próximo capítulo pode começar aqui',
+        mensagem:
+          'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário da Conx.\n\n' +
+          'Já pensou em transformar o sonho do apê próprio em um plano real?\n\n' +
+          'Tenho opções em São Paulo que podemos avaliar de acordo com seu perfil.\n\n' +
+          'Qual região você gostaria de conhecer?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 12,
+        titulo: '🔑 Vamos encontrar uma opção para você?',
+        mensagem:
+          'Olá! Adriano aqui, da Conx. 😊\n\n' +
+          'Cada pessoa tem um plano diferente para conquistar seu apê.\n' +
+          'Meu papel é ajudar você a encontrar uma opção que faça sentido para sua renda e seus objetivos.\n\n' +
+          'Você procura em qual região de SP?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 13,
+        titulo: '✨ Talvez seu apê esteja mais perto do que imagina',
+        mensagem:
+          'tudo bem com você?\nTudo bem? Aqui é o Adriano Abrantes, da Conx. 🏡\n\n' +
+          'Você já conhece as possibilidades do Minha Casa Minha Vida para comprar seu apartamento?\n\n' +
+          'Podemos avaliar seu perfil e as opções disponíveis.\n\n' +
+          'Quer conhecer as possibilidades para você?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 14,
+        titulo: '📍 O bairro certo faz diferença',
+        mensagem:
+          'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário em SP.\n\n' +
+          'Além do apartamento, escolher uma boa localização pode transformar sua rotina.\n\n' +
+          'Posso te ajudar a encontrar opções próximas do que você precisa.\n\n' +
+          'Qual bairro ou região é prioridade para você?\n\n' +
+          'Se preferir não receber mensagens, digite SAIR.'
+      },
+      {
+        id: 15,
+        titulo: '💬 Me conta seu plano para o apê próprio',
+        mensagem:
+          'Olá! Adriano Abrantes aqui, da Conx. 😊\n\n' +
+          'Quero entender o que você procura para indicar opções mais adequadas, sem perder seu tempo.\n\n' +
+          'Seu objetivo é sair do aluguel, conquistar o primeiro imóvel ou investir?\n\n' +
+          'Me conta que eu te ajudo!\n\n' +
+          'Para sair da lista, digite SAIR.'
+      },
+      {
+        id: 16,
+        titulo: '🏠 Uma oportunidade que combina com você',
+        mensagem:
+          'tudo bem com você?\nTudo bem? Sou o Adriano Abrantes, consultor da Conx.\n\n' +
+          'Existem apartamentos com diferentes valores, localizações e condições de compra em SP.\n\n' +
+          'Vamos encontrar opções que combinem com seu momento?\n\n' +
+          'Você pretende comprar agora ou está se planejando?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 17,
+        titulo: '🔎 Ainda está pesquisando apartamentos?',
+        mensagem:
+          'tudo bem com você?\nAdriano Abrantes aqui, da Conx. 😊\n\n' +
+          'Passando para saber se você ainda está pesquisando apartamentos ou se seus planos mudaram.\n\n' +
+          'Se ainda estiver procurando, posso apresentar opções na planta e prontas para morar.\n\n' +
+          'O que faz mais sentido para você hoje?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 18,
+        titulo: '🚇 Mais praticidade no seu dia a dia',
+        mensagem:
+          'tudo bem com você?\nSou o Adriano Abrantes, consultor imobiliário.\n\n' +
+          'Já pensou em morar em um lugar que facilite seu caminho para o trabalho e outros compromissos?\n\n' +
+          'Tenho opções em diferentes regiões de São Paulo.\n\n' +
+          'Qual estação ou região seria ideal para você?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 19,
+        titulo: '💰 Vamos conversar sobre seu orçamento?',
+        mensagem:
+          'Olá! Tudo bem? Aqui é o Adriano Abrantes, da Conx. 😊\n\n' +
+          'Comprar um apartamento começa com um bom planejamento.\n' +
+          'Posso ajudar você a conhecer opções compatíveis com sua renda e as condições disponíveis.\n\n' +
+          'Você já tem uma faixa de valor em mente ou quer descobrir suas possibilidades?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 20,
+        titulo: '🌟 Seu projeto de conquistar um apê continua?',
+        mensagem:
+          'tudo bem com você?\nAdriano Abrantes aqui, consultor imobiliário da Conx. 🏡\n\n' +
+          'Às vezes, basta conhecer novas opções para voltar a planejar a compra do seu apê.\n\n' +
+          'Queria saber: esse projeto ainda está nos seus planos?\n\n' +
+          'Se estiver, me diga a região que você procura e vamos conversar!\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
       }
-    ]);
+    ]
+  );
 
   mensagensPadrao = this.mensagensPadraoList.asReadonly();
 
