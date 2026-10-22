@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Angular Material
@@ -34,11 +34,10 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
   ],
   templateUrl: './ajustes.html',
   styleUrl: './ajustes.scss',
-  providers: [provideNgxMask(), // Configura o provedor da máscara
-  ],
+  providers: [provideNgxMask()],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AjustesComponent {
+export class AjustesComponent implements OnInit {
   config = inject(PropertyService);
 
   // Variáveis vinculadas ao formulário
@@ -69,32 +68,81 @@ export class AjustesComponent {
     { name: 'Negro', hex: '#000000' }
   ]);
 
+  private readonly STORAGE_THEME_KEY = 'app_theme_settings';
+
+  ngOnInit(): void {
+    this.carregarConfiguracoesLocalStorage();
+  }
+
   /**
-   * Aplica a cor tema alterando a variável CSS global
+   * Aplica a cor tema alterando a variável CSS global e salvando no LocalStorage
    * @param hex Código hexadecimal da cor
    */
   setThemeColor(hex: string): void {
     this.currentPrimary.set(hex);
     document.documentElement.style.setProperty('--primary-color', hex);
+    document.documentElement.style.setProperty('--mat-sys-on-primary', `#000000`);
+    this.salvarConfiguracoesLocalStorage();
   }
 
   /**
-   * Alterna modo dark no body da aplicação
+   * Alterna modo dark no body da aplicação e salva no LocalStorage
    */
   toggleDark(): void {
     this.isDarkMode.update(v => !v);
     document.body.classList.toggle('dark-theme', this.isDarkMode());
+    this.salvarConfiguracoesLocalStorage();
   }
 
   /**
-   * Restaura as configurações para os valores de fábrica
+   * Restaura as configurações para os valores de fábrica e limpa o LocalStorage de temas
    */
   resetSettings(): void {
-    this.setThemeColor('#3f51b5');
+    this.setThemeColor('#026d14');
     this.isDarkMode.set(false);
     this.density.set('comfortable');
     document.body.classList.remove('dark-theme');
+    localStorage.removeItem(this.STORAGE_THEME_KEY);
   }
+
+  private salvarConfiguracoesLocalStorage(): void {
+    const estadoTema = {
+      primaryColor: this.currentPrimary(),
+      isDarkMode: this.isDarkMode(),
+      density: this.density()
+    };
+    try {
+      localStorage.setItem(this.STORAGE_THEME_KEY, JSON.stringify(estadoTema));
+    } catch (e) {
+      console.error('Erro ao salvar tema no LocalStorage:', e);
+    }
+  }
+
+  private carregarConfiguracoesLocalStorage(): void {
+    const dadosSalvos = localStorage.getItem(this.STORAGE_THEME_KEY);
+    if (!dadosSalvos) return;
+
+    try {
+      const estado = JSON.parse(dadosSalvos);
+      
+      if (estado.primaryColor) {
+        this.currentPrimary.set(estado.primaryColor);
+        document.documentElement.style.setProperty('--primary-color', estado.primaryColor);
+      }
+      
+      if (estado.isDarkMode !== undefined) {
+        this.isDarkMode.set(estado.isDarkMode);
+        document.body.classList.toggle('dark-theme', estado.isDarkMode);
+      }
+
+      if (estado.density) {
+        this.density.set(estado.density);
+      }
+    } catch (e) {
+      console.error('Erro ao carregar tema do LocalStorage:', e);
+    }
+  }
+
   save() {
     this.config.updateSettings({
       siteTitle: this.tempTitle,
