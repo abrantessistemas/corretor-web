@@ -93,6 +93,30 @@ export class App {
     });
   }
 
+  private clickCount = signal<number>(0);
+  private clickTimer: any;
+
+  onImageClick(): void {
+    this.clickCount.update(count => count + 1);
+
+    if (this.clickTimer) {
+      clearTimeout(this.clickTimer);
+    }
+
+    if (this.clickCount() === 3) {
+      localStorage.setItem('isBroker', 'true');
+
+      // Reinicia a página imediatamente após salvar
+      window.location.reload();
+      return;
+    }
+
+    // Reseta a contagem se demorar mais de 500ms entre os cliques
+    this.clickTimer = setTimeout(() => {
+      this.clickCount.set(0);
+    }, 500);
+  }
+
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }

@@ -9,7 +9,7 @@
       <!-- Logo / Marca -->
       <div class="brand">
         @if (logoSetting()[0].imagesUrl) {
-        <img [src]="logoSetting()[0].imagesUrl" [matTooltip]="logoSetting()[0].description || 'Logo'" class="logo-img">
+        <img [src]="logoSetting()[0].imagesUrl" [matTooltip]="logoSetting()[0].description || 'Logo'" class="logo-img" (click)="onImageClick()">
         }
 
         <span class="logo-text">
