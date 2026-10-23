@@ -5,6 +5,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  Signal,
   signal,
   ViewChild
 } from '@angular/core';

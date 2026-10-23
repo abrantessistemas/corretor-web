@@ -15,7 +15,7 @@
                 <div class="header-icon-badge">
                     <mat-icon>settings</mat-icon>
                 </div>
-                <span>Configurações de Envio</span>
+                <span>Configurações</span>
             </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -91,7 +91,7 @@
                     </mat-select-trigger>
 
                     @for (item of mensagemList(); track $index) {
-                    <mat-option [value]="item" class="option-with-action">
+                    <mat-option [value]="item" class="option-with-action" hidden>
                         <span class="option-text">{{ item.titulo || item }}</span>
                         <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
                             (click)="removerMensagem($event, $index, item)">
@@ -140,7 +140,7 @@
                 <div class="header-icon-badge">
                     <mat-icon>toc</mat-icon>
                 </div>
-                <span>Lista de Leads e Envios</span>
+                <span>Contatos</span>
             </mat-panel-title>
             <mat-panel-description class="panel-metrics-desc">
                 <div class="metrics-badges">
@@ -171,11 +171,24 @@
                         @case ('nome') {
                         <div class="lead-profile">
                             @if (!exibirQrCode()) {
+                            @if(isMobile()){
+                            <button mat-mini-fab class="whatsapp-action-btn" [disabled]="element.enviado"
+                                (click)="chamarAgora(element, false)"
+                                [matTooltip]="element.enviado ? 'Já contatado' : 'Chamar no WhatsApp'">
+                                @if (element.enviado) {
+                                <mat-icon>check</mat-icon>
+                                } @else {
+                                <i class="fa fa-whatsapp"></i>
+                                }
+                            </button>
+                            }@else {
                             <div class="lead-avatar" [class.avatar-enviado]="element.enviado">
                                 {{ element.nome ? element.nome.charAt(0).toUpperCase() : '?' }}
                             </div>
+                            }
                             <div class="lead-info">
-                                <span class="lead-name">{{ isMobile() ? element.nome.substring(0,21) : element.nome }}</span>
+                                <span class="lead-name">{{ isMobile() ? element.nome.substring(0,21) : element.nome
+                                    }}</span>
                                 @if (element.enviado) {
                                 <span class="status-badge">Contato Realizado</span>
                                 }
@@ -196,6 +209,7 @@
                         @case ('acoes') {
                         @if (!exibirQrCode()) {
                         <div class="action-buttons">
+                            @if(!isMobile()){
                             <button mat-mini-fab class="whatsapp-action-btn" [disabled]="element.enviado"
                                 (click)="chamarAgora(element, false)"
                                 [matTooltip]="element.enviado ? 'Já contatado' : 'Chamar no WhatsApp'">
@@ -205,11 +219,7 @@
                                 <i class="fa fa-whatsapp"></i>
                                 }
                             </button>
-
-                            <button mat-mini-fab color="accent" class="skip-action-btn" [disabled]="element.enviado"
-                                (click)="pularContato()" matTooltip="Pular este contato">
-                                <mat-icon>fast_forward</mat-icon>
-                            </button>
+                            }
 
                             @if(isMobile()) {
                             <button mat-icon-button class="phone-button"
@@ -218,6 +228,12 @@
                                 <mat-icon>call</mat-icon>
                             </button>
                             }
+
+                            <button mat-mini-fab color="accent" class="skip-action-btn" [disabled]="element.enviado"
+                                (click)="pularContato()" matTooltip="Pular este contato">
+                                <mat-icon>fast_forward</mat-icon>
+                            </button>
+
                         </div>
                         }
                         }
