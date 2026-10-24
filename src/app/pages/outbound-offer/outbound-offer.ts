@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -5,14 +6,13 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  Signal,
   signal,
   ViewChild
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,11 +22,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Subject, merge } from 'rxjs';
-import { takeUntil, debounceTime } from 'rxjs/operators';
+import { merge, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { PropertyService } from '../../services/property';
 
 export interface Lead {
@@ -565,17 +564,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.mensagemList.update(list => [...list, texto]);
     this.salvarMensagens();
     this.salvarEstadoLocalStorage();
-  }
-
-  removerMensagem(event: Event, index: number, itemRemovido: string): void {
-    event.stopPropagation();
-    this.mensagemList.update(list => list.filter((_, i) => i !== index));
-    this.salvarMensagens();
-
-    if (this.mensagens.value === itemRemovido) {
-      this.mensagens.setValue('', { emitEvent: false });
-      this.mensagem.setValue('', { emitEvent: false });
-    }
   }
 
   onMensagemSelecionada(mensagemSelecionada: any): void {

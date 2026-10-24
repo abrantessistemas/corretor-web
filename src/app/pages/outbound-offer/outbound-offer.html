@@ -13,7 +13,15 @@
         <mat-expansion-panel-header>
             <mat-panel-title class="panel-title-custom">
                 <div class="header-icon-badge">
-                    <mat-icon>settings</mat-icon>
+                    <mat-icon>
+                        @if (iniciado() && !pausado()) {
+                        play_arrow
+                        } @else if (iniciado() && pausado()) {
+                        pause
+                        } @else {
+                        stop
+                        }
+                    </mat-icon>
                 </div>
                 <span>Configurações</span>
             </mat-panel-title>
@@ -93,10 +101,6 @@
                     @for (item of mensagemList(); track $index) {
                     <mat-option [value]="item" class="option-with-action" hidden>
                         <span class="option-text">{{ item.titulo || item }}</span>
-                        <button mat-icon-button type="button" class="btn-excluir" matTooltip="Excluir mensagem"
-                            (click)="removerMensagem($event, $index, item)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
                     </mat-option>
                     }
                 </mat-select>
