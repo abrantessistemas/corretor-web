@@ -109,6 +109,8 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   readonly mensagens = new FormControl<any>('', { nonNullable: true });
   readonly colunaNome = new FormControl<number>(1, { nonNullable: true });
   readonly colunaContato = new FormControl<number>(2, { nonNullable: true });
+  readonly nomeMensagem = new FormControl<string>('', { nonNullable: true });
+
   readonly periodo = new FormControl<string>('Bom dia', { nonNullable: true });
 
   private paginacaoSalva: EstadoPaginacao = { pageIndex: 0, pageSize: 5 };
@@ -151,6 +153,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       this.intervalo.valueChanges,
       this.colunaNome.valueChanges,
       this.colunaContato.valueChanges,
+      this.nomeMensagem.valueChanges,
       this.periodo.valueChanges
     );
 
@@ -321,6 +324,10 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       periodoAtual = 'Boa noite';
     }
 
+    if (this.nomeMensagem.value != null) {
+      mensagemAtual = mensagemAtual.replace('Adriano Abrantes', this.nomeMensagem.value);
+    }
+
     const textoFormatado = `${periodoAtual} ${lead.nome} ${mensagemAtual}`.trim();
     const whatsappUrl = `https://wa.me/${lead.telefone}?text=${encodeURIComponent(textoFormatado)}`;
 
@@ -409,18 +416,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  avancarTodos(): void {
-    this.stop();
-    this.dataSource.data.forEach(l => {
-      if (!l.enviado && this.limparTelefone(l.telefone).length > 0) {
-        l.enviado = true;
-      }
-    });
-    this.dataSource.data = [...this.dataSource.data];
-    this.tando.set(this.dataSource.data.filter(l => l.enviado).length);
-    this.salvarEstadoLocalStorage();
-  }
-
   pularContato(): void {
     const proximoLead = this.dataSource.data.find(l => !l.enviado && this.limparTelefone(l.telefone).length > 0);
     if (proximoLead) {
@@ -485,6 +480,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       mensagem: this.mensagem.value,
       intervalo: this.intervalo.value,
       colunaNome: this.colunaNome.value,
+      nomeMensagem: this.nomeMensagem.value,
       colunaContato: this.colunaContato.value,
       mensagemList: this.mensagemList(),
       periodo: this.periodo.value,
@@ -514,6 +510,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       if (estado.mensagem) this.mensagem.setValue(estado.mensagem, { emitEvent: false });
       if (estado.intervalo) this.intervalo.setValue(estado.intervalo, { emitEvent: false });
       if (estado.colunaNome !== undefined) this.colunaNome.setValue(estado.colunaNome, { emitEvent: false });
+      if (estado.nomeMensagem !== undefined) this.nomeMensagem.setValue(estado.nomeMensagem, { emitEvent: false });
       if (estado.colunaContato !== undefined) this.colunaContato.setValue(estado.colunaContato, { emitEvent: false });
       if (estado.periodo !== undefined) this.periodo.setValue(estado.periodo, { emitEvent: false });
       if (estado.mensagemList) this.mensagemList.set(estado.mensagemList);

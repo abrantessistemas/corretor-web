@@ -46,6 +46,11 @@
                     <mat-label>Coluna Contato (Índice)</mat-label>
                     <input matInput type="number" [formControl]="colunaContato" min="2" />
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-field">
+                    <mat-label>Nome na mensagem</mat-label>
+                    <input matInput type="text" [formControl]="nomeMensagem" />
+                </mat-form-field>
             </div>
 
             @if(!isMobile()){
@@ -56,33 +61,34 @@
                 </mat-form-field>
 
                 <div class="player-controls">
-                    <button mat-mini-fab class="player-btn-rewind" (click)="voltarTodos()" matTooltip="Voltar Todos">
+                    <button [disabled]="dataSource.data.length === 0" mat-mini-fab class="player-btn-rewind"
+                        (click)="voltarTodos()" matTooltip="Voltar Todos">
                         <mat-icon>fast_rewind</mat-icon>
                     </button>
-                    <button mat-mini-fab class="player-btn-prev" (click)="voltarUm()" matTooltip="Voltar 1 em 1">
+                    <button [disabled]="dataSource.data.length === 0" mat-mini-fab class="player-btn-prev"
+                        (click)="voltarUm()" matTooltip="Voltar contato anterior">
                         <mat-icon>skip_previous</mat-icon>
                     </button>
-                    <button mat-mini-fab class="player-btn-play" (click)="play()" [disabled]="iniciado() && !pausado()"
+                    <button [disabled]="dataSource.data.length === 0" mat-mini-fab class="player-btn-play"
+                        (click)="play()" [disabled]="dataSource.data.length === 0 || iniciado() && !pausado()"
                         matTooltip="Play">
                         <mat-icon>play_arrow</mat-icon>
                     </button>
-                    <button mat-mini-fab class="player-btn-skip" (click)="pularContato()"
-                        matTooltip="Pular este contato">
-                        <mat-icon>u_turn_right</mat-icon>
-                    </button>
-                    <button mat-mini-fab class="player-btn-pause" (click)="pause()"
-                        [disabled]="!iniciado() || pausado()" matTooltip="Pause">
-                        <mat-icon>pause</mat-icon>
-                    </button>
-                    <button mat-mini-fab class="player-btn-stop" (click)="stop()" [disabled]="!iniciado()"
-                        matTooltip="Stop">
+                    <button mat-mini-fab class="player-btn-stop" (click)="stop()"
+                        [disabled]="dataSource.data.length === 0 || !iniciado() " matTooltip="Stop">
                         <mat-icon>stop</mat-icon>
                     </button>
-                    <button mat-mini-fab class="player-btn-next" (click)="avancarUm()" matTooltip="Avançar 1 em 1">
-                        <mat-icon>skip_next</mat-icon>
+                    <button mat-mini-fab class="player-btn-pause" (click)="pause()"
+                        [disabled]="dataSource.data.length === 0 || !iniciado() || pausado()" matTooltip="Pause">
+                        <mat-icon>pause</mat-icon>
                     </button>
-                    <button mat-mini-fab class="player-btn-forward" (click)="avancarTodos()" matTooltip="Avançar Todos">
-                        <mat-icon>fast_forward</mat-icon>
+                    <button [disabled]="dataSource.data.length === 0" mat-mini-fab class="player-btn-skip"
+                        (click)="pularContato()" matTooltip="Pular próximo contato">
+                        <mat-icon>u_turn_right</mat-icon>
+                    </button>
+                    <button [disabled]="dataSource.data.length === 0" mat-mini-fab class="player-btn-next"
+                        (click)="avancarUm()" matTooltip="Avançar próximo contato">
+                        <mat-icon>skip_next</mat-icon>
                     </button>
                 </div>
             </div>
@@ -235,7 +241,7 @@
 
                             <button mat-mini-fab color="accent" class="skip-action-btn" [disabled]="element.enviado"
                                 (click)="pularContato()" matTooltip="Pular este contato">
-                                <mat-icon>fast_forward</mat-icon>
+                                <mat-icon>skip_next</mat-icon>
                             </button>
 
                         </div>
