@@ -36,15 +36,12 @@ export class Home {
 
   ngOnInit(): void {
     if (!localStorage.getItem('visited')) {
-      this.openWelcomeDialog();
+      // this.openWelcomeDialog();
     }
     this.menuItems.set(this.propertyService.menuItens());
     this.menuItems.update(items =>
       items.map(item => {
-        if (item.path === '/payment' || item.path === '/oferta') {
-          return { ...item, enable: true };
-        }
-        return item;
+        return { ...item, enable: true };
       })
     );
   }
