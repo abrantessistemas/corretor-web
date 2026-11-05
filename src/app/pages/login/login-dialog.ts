@@ -226,10 +226,10 @@ export class LoginDialogComponent {
 
     localStorage.setItem(
       `user_${userClean}`,
-      JSON.stringify({ 
-        usuario: userClean, 
-        token: tokenHash, 
-        createdAt: new Date().toISOString() 
+      JSON.stringify({
+        usuario: userClean,
+        token: tokenHash,
+        createdAt: new Date().toISOString()
       })
     );
 
@@ -239,7 +239,10 @@ export class LoginDialogComponent {
 
   private async autenticar(user: string, pass: string): Promise<boolean> {
     const data = new Date();
-    const somaData = data.getDate() + (data.getMonth() + 1) + data.getFullYear();
+    const ano1 = data.getFullYear().toString().substring(0,2);
+    const ano2 = data.getFullYear().toString().substring(2, 4);
+
+    const somaData = data.getDate() + (data.getMonth() + 1) + Number(ano1) + Number(ano2);
 
     const saved = localStorage.getItem(`user_${user}`);
     if (saved) {
@@ -256,6 +259,6 @@ export class LoginDialogComponent {
       return false;
     }
 
-    return user === 'admin' && pass === 'admin' + somaData;
+    return user === 'admin' && pass === 'admin@' + somaData;
   }
 }
