@@ -268,7 +268,9 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
           id: leadId.toString(),
           nome,
           telefone,
-          enviado: false
+          enviado: false,
+          ligacoesCount: 0,
+          ligacaoRealizada: false
         });
         leadId++;
       }
@@ -327,7 +329,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       periodoAtual = 'Boa noite';
     }
 
-    if (this.nomeMensagem.value != null || this.nomeMensagem.value != '') {
+    if (this.nomeMensagem.value != null && this.nomeMensagem.value !== '') {
       mensagemAtual = mensagemAtual.replace('Adriano Abrantes', this.nomeMensagem.value);
     }
 
@@ -341,20 +343,21 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.salvarEstadoLocalStorage();
   }
 
-  ligarAgora(lead: any): void {
+  ligarAgora(lead: Lead): void {
     if (!lead.telefone) return;
 
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
 
-    // Inicializa a contagem caso não exista e incrementa apenas nesta linha
+    // Incrementa de forma isolada apenas no lead clicado
     lead.ligacoesCount = (lead.ligacoesCount || 0) + 1;
     lead.ligacaoRealizada = true;
+    this.ligacao.set(this.ligacao() + 1);
 
+    // Força atualização da tabela para refletir o badge de forma independente
+    this.dataSource.data = [...this.dataSource.data];
     this.salvarEstadoLocalStorage();
   }
-
-  // --- CONTROLES DE AUTOMAÇÃO (PLAYER AUTO PLAY CORRIGIDO) ---
 
   async play(): Promise<void> {
     const tempoSegundos = Number(this.intervalo.value) || 0;
@@ -415,7 +418,6 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.salvarEstadoLocalStorage();
   }
 
-  // Corrigido: Avança o contato executando o envio do WhatsApp real
   avancarUm(): void {
     const proximoLead = this.dataSource.data.find(l => !l.enviado && this.limparTelefone(l.telefone).length > 0);
     if (proximoLead) {
@@ -426,15 +428,12 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   pularContato(): void {
     const proximoLead = this.dataSource.data.find(l => !l.enviado && this.limparTelefone(l.telefone).length > 0);
     if (proximoLead) {
-
       proximoLead.enviado = true;
       this.dataSource.data = [...this.dataSource.data];
       this.tando.set(this.tando() + 1);
       this.salvarEstadoLocalStorage();
     }
   }
-
-  // --- OTIMIZAÇÃO E GERADOR DE QR CODE ---
 
   async toggleQrCode() {
     this.exibirQrCode.update(v => !v);
@@ -474,12 +473,13 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private salvarEstadoLocalStorage(): void {
-    const leadsSanitizados = this.dataSource.data.map(({ id, nome, telefone, enviado, ligacaoRealizada }) => ({
+    const leadsSanitizados = this.dataSource.data.map(({ id, nome, telefone, enviado, ligacaoRealizada, ligacoesCount }) => ({
       id,
       nome,
       telefone,
       enviado,
-      ligacaoRealizada
+      ligacaoRealizada,
+      ligacoesCount: ligacoesCount || 0
     }));
 
     const estado = {

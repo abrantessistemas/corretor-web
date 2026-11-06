@@ -15,6 +15,7 @@
                 <div class="header-icon-badge">
                     <mat-icon>settings</mat-icon>
                 </div>
+                @if(!isMobile()) {
                 <span>Configurações</span>
                 <mat-icon class="iconSetting">
                     @if (iniciado() && !pausado()) {
@@ -25,6 +26,16 @@
                     stop_circle
                     }
                 </mat-icon>
+                }
+                <mat-panel-description class="panel-metrics-desc">
+                    <div class="metrics-badges">
+                        @if(isMobile() && ultimoContato().length > 0){
+                        <span class="badge-item"><mat-icon inline>phone</mat-icon> {{ ligacao() }}</span>
+                        }
+                        <span class="badge-item"><mat-icon inline>message</mat-icon> {{ tando() }}</span>
+                        <span class="badge-item total-badge">Total: {{ de() }}</span>
+                    </div>
+                </mat-panel-description>
             </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -151,17 +162,8 @@
                 <div class="header-icon-badge">
                     <mat-icon>toc</mat-icon>
                 </div>
-                <span>Contatos</span>
+                @if(!isMobile()) {<span>Contatos</span>}
             </mat-panel-title>
-            <mat-panel-description class="panel-metrics-desc">
-                <div class="metrics-badges">
-                    @if(isMobile() && ultimoContato().length > 0){
-                    <span class="badge-item"><mat-icon inline>phone</mat-icon> {{ ligacao() }}</span>
-                    }
-                    <span class="badge-item"><mat-icon inline>message</mat-icon> {{ tando() }}</span>
-                    <span class="badge-item total-badge">Total: {{ de() }}</span>
-                </div>
-            </mat-panel-description>
         </mat-expansion-panel-header>
 
         <div class="table-responsive-wrapper">
@@ -234,9 +236,8 @@
 
                             @if(isMobile()) {
                             <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
-                                (click)="ligarAgora(element)" [matBadge]="element.ligacoesCount || 0"
-                                [matBadgeHidden]="!element.ligacoesCount || element.ligacoesCount === 0"
-                                matBadgeColor="accent" matBadgeOverlap="true" matTooltip="Ligar para o contato">
+                                (click)="ligarAgora(element)" [matBadge]="element.ligacoesCount"
+                                matTooltip="Ligar para o contato">
                                 <mat-icon>call</mat-icon>
                             </button>
                             }

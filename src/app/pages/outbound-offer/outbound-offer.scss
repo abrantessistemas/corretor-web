@@ -64,8 +64,7 @@
       align-items: center;
       justify-content: center;
     }
-
-    .iconSetting {
+    .iconSetting{
       color: var(--primary-color, #0f172a);
       font-size: 1.6rem;
     }
@@ -85,12 +84,11 @@
         color: #334155;
         padding: 6px 12px;
         border-radius: 20px;
-        font-size: 0.85rem;
+        font-size: 0.90rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        color: var(--primary-color, #0f172a);
 
         &.total-badge {
           background: rgba(var(--primary-color-rgb, 15, 23, 42), 0.1);
