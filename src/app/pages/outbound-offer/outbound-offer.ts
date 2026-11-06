@@ -16,6 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -36,6 +37,7 @@ export interface Lead {
   qrCode?: string;
   enviado?: boolean;
   ligacaoRealizada?: boolean;
+  ligacoesCount?: number;
 }
 
 export interface ColumnConfig {
@@ -64,7 +66,8 @@ interface EstadoPaginacao {
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatBadgeModule
   ],
   templateUrl: './outbound-offer.html',
   styleUrl: './outbound-offer.scss',
@@ -324,7 +327,7 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
       periodoAtual = 'Boa noite';
     }
 
-    if (this.nomeMensagem.value != null) {
+    if (this.nomeMensagem.value != null || this.nomeMensagem.value != '') {
       mensagemAtual = mensagemAtual.replace('Adriano Abrantes', this.nomeMensagem.value);
     }
 
@@ -338,12 +341,16 @@ export class OutboundOffer implements OnInit, OnDestroy, AfterViewInit {
     this.salvarEstadoLocalStorage();
   }
 
-  ligarAgora(lead: Lead): void {
+  ligarAgora(lead: any): void {
     if (!lead.telefone) return;
+
     const numeroLimpo = lead.telefone.startsWith('55') ? lead.telefone.substring(2) : lead.telefone;
     window.location.href = `tel:0${numeroLimpo}`;
-    this.ligacao.set(this.ligacao() + 1);
+
+    // Inicializa a contagem caso não exista e incrementa apenas nesta linha
+    lead.ligacoesCount = (lead.ligacoesCount || 0) + 1;
     lead.ligacaoRealizada = true;
+
     this.salvarEstadoLocalStorage();
   }
 

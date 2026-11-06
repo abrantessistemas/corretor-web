@@ -13,17 +13,18 @@
         <mat-expansion-panel-header>
             <mat-panel-title class="panel-title-custom">
                 <div class="header-icon-badge">
-                    <mat-icon>
-                        @if (iniciado() && !pausado()) {
-                        play_arrow
-                        } @else if (iniciado() && pausado()) {
-                        pause
-                        } @else {
-                        stop
-                        }
-                    </mat-icon>
+                    <mat-icon>settings</mat-icon>
                 </div>
                 <span>Configurações</span>
+                <mat-icon class="iconSetting">
+                    @if (iniciado() && !pausado()) {
+                    play_circle
+                    } @else if (iniciado() && pausado()) {
+                    pause_circle
+                    } @else {
+                    stop_circle
+                    }
+                </mat-icon>
             </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -232,9 +233,10 @@
                             }
 
                             @if(isMobile()) {
-                            <button mat-icon-button class="phone-button"
-                                [disabled]="!element.telefone || element.ligacaoRealizada" (click)="ligarAgora(element)"
-                                matTooltip="Ligar para o contato">
+                            <button mat-icon-button class="phone-button" [disabled]="!element.telefone"
+                                (click)="ligarAgora(element)" [matBadge]="element.ligacoesCount || 0"
+                                [matBadgeHidden]="!element.ligacoesCount || element.ligacoesCount === 0"
+                                matBadgeColor="accent" matBadgeOverlap="true" matTooltip="Ligar para o contato">
                                 <mat-icon>call</mat-icon>
                             </button>
                             }

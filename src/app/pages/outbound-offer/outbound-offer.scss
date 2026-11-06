@@ -64,6 +64,11 @@
       align-items: center;
       justify-content: center;
     }
+
+    .iconSetting {
+      color: var(--primary-color, #0f172a);
+      font-size: 1.6rem;
+    }
   }
 
   .panel-metrics-desc {
@@ -85,6 +90,7 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        color: var(--primary-color, #0f172a);
 
         &.total-badge {
           background: rgba(var(--primary-color-rgb, 15, 23, 42), 0.1);
