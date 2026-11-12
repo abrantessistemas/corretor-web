@@ -52,7 +52,7 @@
         <mat-select [ngModel]="selectedMetragem()" (ngModelChange)="selectedMetragem.set($event)" name="metragem">
           <mat-option [value]="null">Todas</mat-option>
           @for (metragem of metragens(); track metragem) {
-          <mat-option [value]="metragem">{{ metragem }} m²</mat-option>  
+          <mat-option [value]="metragem">{{ metragem }} m²</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -156,6 +156,10 @@
           @if (item.specs.balcony) {
           <div class="spec-item" title="Varanda"><mat-icon aria-hidden="true">balcony</mat-icon></div>
           }
+          @if (item.specs.elevator) {
+          <div class="spec-item" title="Área"><mat-icon aria-hidden="true">elevator</mat-icon><span>{{
+              item.specs.elevator }}</span></div>
+          }
           @if (item.specs.parking) {
           <div class="spec-item" title="Vagas"><mat-icon aria-hidden="true">directions_car</mat-icon></div>
           }
@@ -187,10 +191,8 @@
 
   <!-- Rodapé -->
   <footer class="desktop-footer">
-    Copyright © 2026 {{ setting.desenvolvedora.nome }}. Todos os direitos reservados.
-    <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">
-      Desenvolvido por {{ setting.desenvolvedora.nome }}
-    </a>.
+    Copyright © 2026 {{ propertyService.settings().siteTitle }}. Todos os direitos reservados.
+    <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">Desenvolvido por Abrantes Sistemas</a>.
   </footer>
 </div>
 
