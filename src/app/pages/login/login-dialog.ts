@@ -239,7 +239,7 @@ export class LoginDialogComponent {
 
   private async autenticar(user: string, pass: string): Promise<boolean> {
     const data = new Date();
-    const ano1 = data.getFullYear().toString().substring(0,2);
+    const ano1 = data.getFullYear().toString().substring(0, 2);
     const ano2 = data.getFullYear().toString().substring(2, 4);
 
     const somaData = data.getDate() + (data.getMonth() + 1) + Number(ano1) + Number(ano2);

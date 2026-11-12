@@ -79,16 +79,18 @@ export class App {
 
     dialogRef.afterClosed().subscribe((isLoggedSuccess) => {
       if (isLoggedSuccess) {
-        // Ativa as rotas 'Simulador' (/payment) e 'Oferta Ativa' (/oferta)
+        // Ativa as rotas protegidas no menu
         this.menuItems.update(items =>
           items.map(item => {
-            if (item.path === '/payment' || item.path === '/oferta' || item.path === '/home') {
-              this.router.navigate(['/home']);
+            if (item.path === '/home' || item.path === '/oferta' || item.path === '/payment') {
               return { ...item, enable: true };
             }
             return item;
           })
         );
+
+        // Redireciona diretamente para o Simulador após o login
+        this.router.navigate(['/home']);
       }
     });
   }
