@@ -254,7 +254,7 @@ export class LoginDialogComponent {
       }
     }
 
-    if (user === 'user_01' && pass === 'user_01' + somaData) {
+    if (user === 'user_01' && pass === 'user_01@' + somaData) {
       this.isPrimeiroAcesso.set(true);
       return false;
     }
