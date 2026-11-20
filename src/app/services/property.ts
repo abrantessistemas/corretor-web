@@ -1820,182 +1820,243 @@ export class PropertyService {
     [
       {
         id: 1,
-        titulo: 'Condições especiais para seu apê',
-        mensagem: 'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário da Conx.\n\n' +
-          'Tenho opções pelo Minha Casa Minha Vida, que podem ajudar você a conquistar seu apê.\n\n' +
-          'Qual região de SP você prefere?\n\nSe não quiser receber mensagens, digite SAIR.'
+        titulo: '🎉 Condições especiais para o seu apê!',
+        mensagem: 'tudo bem com você? 😄✨\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Chegou a hora de celebrar a conquista do seu novo lar! 🎉 Tenho opções incríveis pelo Minha Casa Minha Vida que cabem no seu bolso.\n\n' +
+          'Qual região de SP faz seu olho brilhar? 📍\n\nSe não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 2,
-        titulo: 'Ainda está procurando seu apê?',
-        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes, da Conx! 😊\n\n' +
-          'Vi seu interesse em apartamento na planta e queria saber: você ainda está procurando ou já encontrou seu apê?\n\n' +
-          'Tenho opções com condições facilitadas de entrada, conforme o empreendimento.\n\nQual região você procura?\n\n' +
+        titulo: '🔑 Ainda está procurando o seu apê?',
+        mensagem: 'tudo bem por aí? 😃🙌\nAqui é o Adriano Abrantes, da Conx!\n\n' +
+          'Vi seu interesse em apartamento na planta e passei para saber: você ainda está na busca ou já pode comemorar a compra? 🎊🏡\n\n' +
+          'Estou com condições super facilitadas de entrada! Qual região você procura? 📍\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 3,
-        titulo: 'Oportunidades para sair do aluguel',
-        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes, consultor da Conx. 🏡\n\n' +
-          'Tenho opções em São Paulo pelo Minha Casa Minha Vida que podem facilitar a compra do seu primeiro apê.\n\n' +
-          'Qual região combina mais com você?\n\nSe preferir não receber mensagens, digite SAIR.'
+        titulo: '🚀 Oportunidades para dar adeus ao aluguel!',
+        mensagem: 'tudo bem com você? 🎉🏠\nAqui é o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Que tal transformar o valor do aluguel no seu próprio patrimônio? 😄 Tenho opções em São Paulo pelo Minha Casa Minha Vida perfeitas para o seu primeiro apê!\n\n' +
+          'Qual região combina mais com o seu estilo? ✨\n\nSe preferir não receber mensagens, digite SAIR.'
       },
       {
         id: 4,
-        titulo: 'Seu apê ainda está nos planos?',
-        mensagem: 'tudo bem com você?😊\nSou o Adriano Abrantes, da Conx.\n\n' +
-          'Comprar seu apê ainda está nos seus planos? Tenho opções na planta que podem se encaixar no seu orçamento.\n\n' +
-          'Em qual região de SP você gostaria de morar?\n\n' +
+        titulo: '✨ O seu apê ainda está nos planos?',
+        mensagem: 'tudo bem com você? 😊🎈\nSou o Adriano Abrantes, da Conx!\n\n' +
+          'A realização do sonho do apê próprio pode estar mais perto do que você imagina! 🎉 Tenho excelentes opções na planta que se encaixam no seu orçamento.\n\n' +
+          'Em qual região de SP você adoraria morar? 🏢\n\n' +
           'Digite SAIR se não quiser receber mensagens.'
       },
       {
         id: 5,
-        titulo: 'Apê para morar ou investir?',
-        mensagem: 'tudo bem com você?\nAdriano Abrantes aqui, consultor imobiliário em SP. 😊\n\n' +
-          'Me conta: você procura um apê para morar ou investir?\n\n' +
-          'Tenho opções para diferentes perfis, inclusive pelo Minha Casa Minha Vida, conforme as regras do programa.\n\n' +
-          'Qual região você prefere?\n\nPara sair da lista, digite SAIR.'
+        titulo: '🏡 Apê para morar ou investir?',
+        mensagem: 'tudo ótimo por aí? 😄🚀\nAdriano Abrantes aqui, consultor imobiliário em SP!\n\n' +
+          'Me conta: qual é a sua próxima grande conquista — um apê para morar ou para investir? 🎊💰\n\n' +
+          'Tenho oportunidades imperdíveis para vários perfis, inclusive pelo Minha Casa Minha Vida!\n\n' +
+          'Qual região você prefere? 📍\n\nPara sair da lista, digite SAIR.'
       },
       {
         id: 6,
-        titulo: 'Vamos encontrar seu novo apê?',
-        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes! 🏡\n\n' +
-          'Tenho opções de apartamentos em várias regiões de SP e posso ajudar você a encontrar uma que combine com seu momento e orçamento.\n\n' +
-          'Qual bairro ou região você tem em mente?\n\n' +
+        titulo: '🎊 Vamos encontrar o seu novo apê?',
+        mensagem: 'tudo bem com você? 🌟🏡\nAqui é o Adriano Abrantes!\n\n' +
+          'Estou com uma seleção especial de apartamentos em várias regiões de SP para você brindar essa nova fase! 🎉✨\n\n' +
+          'Qual bairro ou região você tem em mente? 📍\n\n' +
           'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 7,
-        titulo: 'Novas opções para você',
-        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, da Conx. 😊\n\n' +
-          'Você demonstrou interesse em apartamento e queria saber se ainda está buscando.\n\n' +
-          'Posso te apresentar algumas opções e novidades que façam sentido para você.\n\n' +
-          'Qual região procura? Ou já comprou seu apê?\n\n' +
+        titulo: '🎁 Novidades e opções incríveis para você!',
+        mensagem: 'tudo bem por aí? 😃🎊\nSou o Adriano Abrantes, da Conx!\n\n' +
+          'Lembrei do seu interesse em apartamentos e passei com ótimas notícias! 🚀 Acabaram de surgir opções e condições especiais que têm tudo a ver com você.\n\n' +
+          'Qual região procura? Ou já conquistou as chaves? 🔑\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 8,
-        titulo: 'Pronto para morar ou na planta?',
-        mensagem: 'tudo bem com você?\nTudo bem? Sou o Adriano Abrantes, consultor imobiliário. 🏡\n\n' +
-          'Tenho opções de apartamentos prontos e na planta em São Paulo.\n\n' +
-          'Você prefere se mudar logo ou planejar a compra de um imóvel na planta?\n\n' +
-          'Me diga a região que procuro as opções mais adequadas para você.\n\nDigite SAIR se não quiser receber mensagens.'
+        titulo: '🏢 Pronto para morar ou na planta?',
+        mensagem: 'tudo bem com você? 😄🎉\nSou o Adriano Abrantes, consultor imobiliário!\n\n' +
+          'Seja para pegar as chaves rapidinho ou planejar com calma, tenho opções sensacionais prontas e na planta em São Paulo! 🏡✨\n\n' +
+          'Qual desses momentos combina mais com você hoje? Me conta a região que eu separo as melhores oportunidades! 🙌\n\nDigite SAIR se não quiser receber mensagens.'
       },
       {
         id: 9,
-        titulo: 'Conheça opções pelo Minha Casa Minha Vida',
-        mensagem: 'tudo bem com você?\nAdriano Abrantes aqui. 😊\n\n' +
-          'Posso ajudar você a conhecer apartamentos que se encaixem na sua renda e nos seus planos, inclusive opções pelo Minha Casa Minha Vida.\n\n' +
-          'Qual região de SP você procura?\n\n' +
+        titulo: '🌟 Conquiste seu apê pelo Minha Casa Minha Vida!',
+        mensagem: 'tudo bem com você? 😊🎉\nAdriano Abrantes aqui!\n\n' +
+          'Sabia que dá para unir parcelas que cabem no bolso com a alegria de ter um cantinho só seu? 🏡💖\n\n' +
+          'Posso te mostrar opções incríveis pelo Minha Casa Minha Vida! Qual região de SP você procura? 📍\n\n' +
           'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 10,
-        titulo: 'More perto do metrô',
-        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, consultor imobiliário em SP. 🚇\n\n' +
-          'Que tal procurar um apê que facilite sua rotina e diminua o tempo no trânsito?\n\n' +
-          'Tenho opções em diferentes regiões. Perto de qual estação de metrô você gostaria de morar?\n\n' +
+        titulo: '🚇 More pertinho do metrô e ganhe tempo!',
+        mensagem: 'tudo bem por aí? 😃⚡\nSou o Adriano Abrantes, consultor imobiliário em SP!\n\n' +
+          'Imagina trocar horas no trânsito por mais tempo livre para curtir a vida e a sua casa nova? 🎉🏡\n\n' +
+          'Tenho opções super bem localizadas! Perto de qual estação de metrô você gostaria de morar? 🚆\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 11,
-        titulo: '🏡 Seu próximo capítulo pode começar aqui',
-        mensagem:
-          'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário da Conx.\n\n' +
-          'Já pensou em transformar o sonho do apê próprio em um plano real?\n\n' +
-          'Tenho opções em São Paulo que podemos avaliar de acordo com seu perfil.\n\n' +
-          'Qual região você gostaria de conhecer?\n\n' +
+        titulo: '🏡 Seu próximo capítulo começa aqui!',
+        mensagem: 'tudo bem com você? 😄✨\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Bora tirar o sonho do apê próprio do papel e transformar em motivo de festa? 🥳🔑\n\n' +
+          'Tenho opções em São Paulo que combinam perfeitamente com o seu perfil.\n\n' +
+          'Qual região você gostaria de conhecer primeiro? 📍\n\n' +
           'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 12,
-        titulo: '🔑 Vamos encontrar uma opção para você?',
-        mensagem:
-          'Olá! Adriano aqui, da Conx. 😊\n\n' +
-          'Cada pessoa tem um plano diferente para conquistar seu apê.\n' +
-          'Meu papel é ajudar você a encontrar uma opção que faça sentido para sua renda e seus objetivos.\n\n' +
-          'Você procura em qual região de SP?\n\n' +
+        titulo: '🔑 Vamos encontrar o apê ideal para você?',
+        mensagem: 'Adriano aqui, da Conx! Tudo ótimo por aí? 😃🎉\n\n' +
+          'Cada conquista tem o seu ritmo, e eu estou aqui para ajudar você a encontrar o apartamento perfeito para a sua renda e os seus sonhos! 🌟🏠\n\n' +
+          'Em qual região de SP você se imagina morando? 🏙️\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 13,
-        titulo: '✨ Talvez seu apê esteja mais perto do que imagina',
-        mensagem:
-          'tudo bem com você?\nTudo bem? Aqui é o Adriano Abrantes, da Conx. 🏡\n\n' +
-          'Você já conhece as possibilidades do Minha Casa Minha Vida para comprar seu apartamento?\n\n' +
-          'Podemos avaliar seu perfil e as opções disponíveis.\n\n' +
-          'Quer conhecer as possibilidades para você?\n\n' +
+        titulo: '✨ Seu apê está mais perto do que você imagina!',
+        mensagem: 'tudo bem com você? 🤩🏡\nAqui é o Adriano Abrantes, da Conx!\n\n' +
+          'Já pensou em aproveitar os benefícios do Minha Casa Minha Vida para dar o start na compra do seu apartamento? 🚀🎊\n\n' +
+          'Bora simular e descobrir as melhores opções para o seu perfil? 🙌\n\n' +
           'Digite SAIR se não quiser receber mensagens.'
       },
       {
         id: 14,
-        titulo: '📍 O bairro certo faz diferença',
-        mensagem:
-          'tudo bem com você?😊\nSou o Adriano Abrantes, consultor imobiliário em SP.\n\n' +
-          'Além do apartamento, escolher uma boa localização pode transformar sua rotina.\n\n' +
-          'Posso te ajudar a encontrar opções próximas do que você precisa.\n\n' +
-          'Qual bairro ou região é prioridade para você?\n\n' +
+        titulo: '📍 O bairro certo transforma a sua rotina!',
+        mensagem: 'tudo bem com você? 😄🌈\nSou o Adriano Abrantes, consultor imobiliário em SP!\n\n' +
+          'Além de um apê lindo, morar perto de tudo o que você ama faz toda a diferença no dia a dia! 🏡💖\n\n' +
+          'Qual bairro ou região é prioridade total para você? 🗺️\n\n' +
           'Se preferir não receber mensagens, digite SAIR.'
       },
       {
         id: 15,
-        titulo: '💬 Me conta seu plano para o apê próprio',
-        mensagem:
-          'Olá! Adriano Abrantes aqui, da Conx. 😊\n\n' +
-          'Quero entender o que você procura para indicar opções mais adequadas, sem perder seu tempo.\n\n' +
-          'Seu objetivo é sair do aluguel, conquistar o primeiro imóvel ou investir?\n\n' +
-          'Me conta que eu te ajudo!\n\n' +
+        titulo: '💬 Me conta o seu plano para o apê próprio!',
+        mensagem: 'Adriano Abrantes aqui, da Conx! Tudo bem? 😃✨\n\n' +
+          'Quero ir direto ao ponto para te mostrar apenas oportunidades que façam você vibrar! 🎯🏡\n\n' +
+          'Seu objetivo hoje é sair do aluguel, conquistar o primeiro imóvel ou investir? 🚀\n\n' +
+          'Me conta que eu te ajudo a realizar! 🙌\n\n' +
           'Para sair da lista, digite SAIR.'
       },
       {
         id: 16,
-        titulo: '🏠 Uma oportunidade que combina com você',
-        mensagem:
-          'tudo bem com você?\nTudo bem? Sou o Adriano Abrantes, consultor da Conx.\n\n' +
-          'Existem apartamentos com diferentes valores, localizações e condições de compra em SP.\n\n' +
-          'Vamos encontrar opções que combinem com seu momento?\n\n' +
-          'Você pretende comprar agora ou está se planejando?\n\n' +
+        titulo: '🏠 Uma oportunidade que combina com o seu momento!',
+        mensagem: 'tudo bem com você? 😊🎉\nSou o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Temos apartamentos com valores, plantas e condições super especiais esperando por você em SP! 🏢✨\n\n' +
+          'Você pretende comprar agora ou está se planejando para os próximos meses? 📅🔑\n\n' +
           'Digite SAIR se não quiser receber mensagens.'
       },
       {
         id: 17,
         titulo: '🔎 Ainda está pesquisando apartamentos?',
-        mensagem:
-          'tudo bem com você?\nAdriano Abrantes aqui, da Conx. 😊\n\n' +
-          'Passando para saber se você ainda está pesquisando apartamentos ou se seus planos mudaram.\n\n' +
-          'Se ainda estiver procurando, posso apresentar opções na planta e prontas para morar.\n\n' +
-          'O que faz mais sentido para você hoje?\n\n' +
+        mensagem: 'tudo bem por aí? 😄👋\nAdriano Abrantes aqui, da Conx!\n\n' +
+          'Passando para saber como anda a busca pelo seu novo lar! 🏡💫\n\n' +
+          'Se ainda estiver pesquisando, tenho novidades incríveis tanto na planta quanto prontas para morar.\n\n' +
+          'O que faz mais sentido para você hoje? 🚀\n\n' +
           'Se não quiser receber mensagens, digite SAIR.'
       },
       {
         id: 18,
-        titulo: '🚇 Mais praticidade no seu dia a dia',
-        mensagem:
-          'tudo bem com você?\nSou o Adriano Abrantes, consultor imobiliário.\n\n' +
-          'Já pensou em morar em um lugar que facilite seu caminho para o trabalho e outros compromissos?\n\n' +
-          'Tenho opções em diferentes regiões de São Paulo.\n\n' +
-          'Qual estação ou região seria ideal para você?\n\n' +
+        titulo: '🚇 Mais praticidade e alegria no seu dia a dia!',
+        mensagem: 'tudo bem com você? 😃🌟\nSou o Adriano Abrantes, consultor imobiliário!\n\n' +
+          'Já imaginou morar em um lugar estratégico que facilita o caminho para o trabalho e sobra tempo para curtir a vida? 🥂🏙️\n\n' +
+          'Qual estação de metrô ou região de SP seria o cenário ideal para você? 📍\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
       },
       {
         id: 19,
-        titulo: '💰 Vamos conversar sobre seu orçamento?',
-        mensagem:
-          'Olá! Tudo bem? Aqui é o Adriano Abrantes, da Conx. 😊\n\n' +
-          'Comprar um apartamento começa com um bom planejamento.\n' +
-          'Posso ajudar você a conhecer opções compatíveis com sua renda e as condições disponíveis.\n\n' +
-          'Você já tem uma faixa de valor em mente ou quer descobrir suas possibilidades?\n\n' +
+        titulo: '💰 Vamos planejar a conquista do seu apê?',
+        mensagem: 'tudo bem? Aqui é o Adriano Abrantes, da Conx! 😄🎯\n\n' +
+          'Toda grande conquista começa com um bom planejamento — e eu quero te ajudar a dar esse passo com segurança! 🥳🏡\n\n' +
+          'Você já tem uma faixa de valor em mente ou quer descobrir todo o seu potencial de compra? ✨\n\n' +
           'Digite SAIR se não quiser receber mensagens.'
       },
       {
         id: 20,
-        titulo: '🌟 Seu projeto de conquistar um apê continua?',
-        mensagem:
-          'tudo bem com você?\nAdriano Abrantes aqui, consultor imobiliário da Conx. 🏡\n\n' +
-          'Às vezes, basta conhecer novas opções para voltar a planejar a compra do seu apê.\n\n' +
-          'Queria saber: esse projeto ainda está nos seus planos?\n\n' +
-          'Se estiver, me diga a região que você procura e vamos conversar!\n\n' +
+        titulo: '🌟 O projeto do seu apê continua de pé?',
+        mensagem: 'tudo bem com você? 😊🚀\nAdriano Abrantes aqui, consultor imobiliário da Conx!\n\n' +
+          'Às vezes, tudo o que falta para retomar um sonho é encontrar a oportunidade certa para comemorar! 🎊🔑\n\n' +
+          'Esse projeto ainda está nos seus planos? Se estiver, me diz a região que você procura e vamos conversar! 💬🏡\n\n' +
           'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 21,
+        titulo: '🥂 Bora brindar a conquista do seu apê?',
+        mensagem: 'tudo ótimo por aí? 😄🥂\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Imagina reunir quem você ama para inaugurar o seu próprio apartamento? 🥳🏡 Tenho opções incríveis em São Paulo com condições que tornam esse sonho super possível!\n\n' +
+          'Qual região de SP combina mais com a sua rotina? 📍\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 22,
+        titulo: '🏊‍♂️ Lazer completo no seu novo lar!',
+        mensagem: 'tudo bem com você? 🤩🌴\nAqui é o Adriano Abrantes, da Conx!\n\n' +
+          'Já pensou em morar em um condomínio com piscina, academia e área de festa sem sair de casa? 🎉🏢 Tenho opções sensacionais em SP que cabem no seu planejamento!\n\n' +
+          'Em qual região você gostaria de viver essa experiência? 🗺️\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 23,
+        titulo: '🤝 Dá para somar renda e conquistar seu apê!',
+        mensagem: 'tudo bem por aí? 😃🙌\nSou o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Sabia que dá para somar renda com até 3 pessoas para facilitar a aprovação e conquistar um apê ainda melhor? 🥳🔑\n\n' +
+          'Posso te mostrar opções incríveis pelo Minha Casa Minha Vida! Qual região de SP você procura? 🏙️\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 24,
+        titulo: '💼 Use seu FGTS para dar o start no seu apê!',
+        mensagem: 'tudo bem com você? 🚀💰\nAdriano Abrantes aqui, consultor imobiliário em SP!\n\n' +
+          'Que tal colocar o saldo do seu FGTS para trabalhar a seu favor e abater a entrada do seu apartamento próprio? 🎊🏠\n\n' +
+          'Me conta qual região você prefere que eu separo as melhores oportunidades! 📍\n\n' +
+          'Se preferir não receber mensagens, digite SAIR.'
+      },
+      {
+        id: 25,
+        titulo: '📈 Valorização garantida comprando na planta!',
+        mensagem: 'tudo ótimo com você? 😄✨\nAqui é o Adriano Abrantes, da Conx!\n\n' +
+          'Comprar na planta é uma das formas mais inteligentes de conquistar seu imóvel com entrada parcelada e ver seu patrimônio valorizar até a entrega das chaves! 🥂🔑\n\n' +
+          'Qual bairro ou região de SP está nos seus planos? 🗺️\n\n' +
+          'Para sair da lista, digite SAIR.'
+      },
+      {
+        id: 26,
+        titulo: '🎯 Qual é o tamanho ideal do seu próximo apê?',
+        mensagem: 'tudo bem por aí? 😊🏡\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Seja um studio moderno e prático ou um 2 dormitórios cheio de conforto, tenho novidades incríveis chegando em São Paulo! 🎉🏢\n\n' +
+          'Qual planta e qual região fazem mais sentido para o seu momento hoje? ✨\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 27,
+        titulo: '⚡ Oportunidades fresquinhas acabaram de chegar!',
+        mensagem: 'tudo bem com você? 😃🔥\nAdriano Abrantes aqui, da Conx!\n\n' +
+          'Acabamos de liberar tabelas e condições especiais em empreendimentos super procurados de SP — daquelas oportunidades que dão motivo de sobra para comemorar! 🥳🚀\n\n' +
+          'Qual região você quer priorizar na sua busca? 📍\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 28,
+        titulo: '🛡️ Segurança e tranquilidade para a sua família!',
+        mensagem: 'tudo bem por aí? 😄💖\nSou o Adriano Abrantes, consultor imobiliário em SP!\n\n' +
+          'Nada melhor do que chegar em casa com portaria 24h, estrutura moderna e toda a tranquilidade que você merece! 🏡🌟\n\n' +
+          'Tenho ótimas opções em várias regiões de São Paulo. Onde você gostaria de morar? 🏙️\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 29,
+        titulo: '📅 Que tal virar o ano planejando a mudança?',
+        mensagem: 'tudo bem com você? 🎉🗓️\nAqui é o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Toda grande conquista começa com uma conversa leve e sem compromisso! Bora descobrir o que o seu orçamento já permite conquistar hoje? 🚀🔑\n\n' +
+          'Qual região de SP seria o destino perfeito para o seu novo apê? 📍\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 30,
+        titulo: '💬 Uma pergunta rápida sobre o seu futuro apê!',
+        mensagem: 'tudo ótimo por aí? 😃👋\nSou o Adriano Abrantes, da Conx!\n\n' +
+          'Estou separando as melhores oportunidades de apartamentos em São Paulo e lembrei de você! 🏡✨\n\n' +
+          'Se você pudesse escolher hoje, em qual região de SP pegaria as chaves do seu apê? 🔑🥳\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
       }
     ]
   );
