@@ -2057,6 +2057,86 @@ export class PropertyService {
           'Estou separando as melhores oportunidades de apartamentos em São Paulo e lembrei de você!\n\n' +
           'Se você pudesse escolher hoje, em qual região de SP pegaria as chaves do seu apê?\n\n' +
           'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 31,
+        titulo: '🎉 Entrada parcelada durante as obras!',
+        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Sabia que dá para conquistar seu apê na planta parcelando a entrada direto com a construtora enquanto o prédio sobe? É uma facilidade incrível para organizar seu orçamento sem aperto!\n\n' +
+          'Qual região de SP você gostaria de morar?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 32,
+        titulo: '🏡 Varanda para curtir seus melhores momentos!',
+        mensagem: 'tudo ótimo por aí?\nAqui é o Adriano Abrantes, da Conx!\n\n' +
+          'Imagina tomar seu café da manhã ou receber amigos na varanda do seu próprio apartamento em São Paulo? Tenho opções modernas com plantas super inteligentes esperando por você!\n\n' +
+          'Qual bairro ou região faz mais sentido para a sua rotina?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 33,
+        titulo: '💰 Subsídio do governo pode ajudar na sua compra!',
+        mensagem: 'tudo bem com você?\nAdriano Abrantes aqui, consultor imobiliário em SP!\n\n' +
+          'Dependendo da sua faixa de renda, você pode contar com descontos e taxas reduzidas pelo Minha Casa Minha Vida que deixam a parcela menor que um aluguel!\n\n' +
+          'Quer descobrir quanto você consegue de benefício e ver opções na sua região preferida?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 34,
+        titulo: '🔑 Seu pet também merece um lar novo!',
+        mensagem: 'tudo bem por aí?\nSou o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Procurando um apartamento onde você e seu pet tenham conforto, segurança e até espaço pet no condomínio? Tenho empreendimentos incríveis em várias regiões de SP!\n\n' +
+          'Em qual região você gostaria de morar?\n\n' +
+          'Se preferir não receber mensagens, digite SAIR.'
+      },
+      {
+        id: 35,
+        titulo: '🚀 Que tal sair do planejamento e simular hoje?',
+        mensagem: 'tudo bem com você?\nAqui é o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Às vezes a gente acha que falta muito para comprar um apê, mas uma simulação rápida já mostra que o sonho está totalmente ao alcance!\n\n' +
+          'Qual região de São Paulo você tem interesse em conhecer?\n\n' +
+          'Para sair da lista, digite SAIR.'
+      },
+      {
+        id: 36,
+        titulo: '🏢 Trabalha home office? Olha essa ideia!',
+        mensagem: 'tudo ótimo com você?\nSou o Adriano Abrantes, consultor imobiliário em SP!\n\n' +
+          'Morar em um condomínio com coworking equipado e internet nas áreas comuns transforma a rotina de quem trabalha de casa — e você ainda economiza com deslocamento!\n\n' +
+          'Qual região de SP seria ideal para você?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 37,
+        titulo: '🌟 Últimas unidades com condições de lançamento!',
+        mensagem: 'tudo bem por aí?\nAdriano Abrantes aqui, da Conx!\n\n' +
+          'Quando um empreendimento está na fase de lançamento, você garante os melhores preços e escolhe as melhores plantas antes de todo mundo!\n\n' +
+          'Qual região de São Paulo você quer acompanhar de perto?\n\n' +
+          'Digite SAIR se não quiser receber mensagens.'
+      },
+      {
+        id: 38,
+        titulo: '🎊 Independência tem endereço certo!',
+        mensagem: 'tudo bem com você?\nSou o Adriano Abrantes, consultor da Conx!\n\n' +
+          'Ter um cantinho com a sua cara, decorar cada detalhe do seu jeito e construir seu próprio patrimônio é uma sensação sem igual!\n\n' +
+          'Qual região de SP combina mais com essa nova fase da sua vida?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
+      },
+      {
+        id: 39,
+        titulo: '📍 Perto de parques, mercados e tudo que importa!',
+        mensagem: 'tudo bem por aí?\nAqui é o Adriano Abrantes, consultor imobiliário em SP!\n\n' +
+          'Fazer tudo a pé no fim de semana, ter comércio variado na porta e acesso rápido às principais avenidas muda completamente sua qualidade de vida!\n\n' +
+          'Qual bairro de SP você sonha em morar?\n\n' +
+          'Se não quiser receber mensagens, digite SAIR.'
+      },
+      {
+        id: 40,
+        titulo: '🎁 Posso separar 3 opções sob medida para você?',
+        mensagem: 'tudo ótimo por aí?\nSou o Adriano Abrantes, consultor imobiliário da Conx!\n\n' +
+          'Sem enxurrada de mensagens — me diz apenas a região que você procura e eu seleciono 3 oportunidades que realmente valem a pena conhecer!\n\n' +
+          'Qual região de SP você prefere?\n\n' +
+          'Para não receber mais mensagens, digite SAIR.'
       }
     ]
   );
